@@ -11,7 +11,7 @@ export async function POST(request: Request) {
 
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || "cfktfll8";
     const apiKey = process.env.CLOUDINARY_API_KEY || "649143453458553";
-    const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "unsigned_arjuna";
+    const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "arjuna_preset";
 
     // Convert file to buffer and base64
     const bytes = await file.arrayBuffer();

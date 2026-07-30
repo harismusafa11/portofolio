@@ -14,6 +14,10 @@ import {
   Smartphone,
   Check,
   CheckCheck,
+  Image as ImageIcon,
+  X,
+  Maximize2,
+  Loader2,
 } from "lucide-react";
 import {
   db,
@@ -47,6 +51,8 @@ interface MessageItem {
   senderName: string;
   senderRole: "user" | "admin";
   text: string;
+  imageUrl?: string;
+  type?: "text" | "image";
   isRead?: boolean;
   createdAt: any;
 }
@@ -61,8 +67,39 @@ export default function AdminChatPage() {
   const [fcmToken, setFcmToken] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Admin Image Upload & Lightbox State
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const isFirstLoadRef = useRef(true);
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      alert("Pilih file berupa gambar (JPG, PNG, WebP).");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Ukuran gambar maksimal 5MB.");
+      return;
+    }
+    setSelectedFile(file);
+    setImagePreviewUrl(URL.createObjectURL(file));
+  };
+
+  const clearSelectedImage = () => {
+    setSelectedFile(null);
+    if (imagePreviewUrl) {
+      URL.revokeObjectURL(imagePreviewUrl);
+    }
+    setImagePreviewUrl(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   // 1. Listen for All Active Chat Sessions in Real-Time
   useEffect(() => {
@@ -149,10 +186,17 @@ export default function AdminChatPage() {
     return () => unsubscribe();
   }, [activeSessionId]);
 
-  // Scroll to bottom when messages update
+  // Scroll to bottom helper
+  const scrollToBottom = (behavior: ScrollBehavior = "smooth") => {
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior, block: "end" });
+    }, 60);
+  };
+
+  // Scroll to bottom when messages or active session update
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    scrollToBottom(isFirstLoadRef.current ? "instant" : "smooth");
+  }, [messages, activeSessionId]);
 
   // Request Push Notification Permission
   const handleEnableNotifications = async () => {
@@ -168,13 +212,37 @@ export default function AdminChatPage() {
   // Handle Admin Send Reply
   const handleSendReply = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!replyText.trim() || !activeSessionId || sendingReply) return;
+    if ((!replyText.trim() && !selectedFile) || !activeSessionId || sendingReply) return;
 
     const textToSend = replyText.trim();
+    const currentFile = selectedFile;
+
     setReplyText("");
     setSendingReply(true);
 
     try {
+      let uploadedImageUrl: string | undefined = undefined;
+
+      if (currentFile) {
+        setUploadingImage(true);
+        const formData = new FormData();
+        formData.append("file", currentFile);
+
+        const uploadRes = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const uploadData = await uploadRes.json();
+        if (uploadRes.ok && uploadData.secure_url) {
+          uploadedImageUrl = uploadData.secure_url;
+        } else {
+          console.error("Failed uploading image from admin:", uploadData);
+        }
+      }
+
+      clearSelectedImage();
+
       // Mark all existing user messages in this session as read
       messages.forEach((m) => {
         if (m.senderRole === "user" && !m.isRead) {
@@ -188,7 +256,9 @@ export default function AdminChatPage() {
         senderId: "admin-arjuna",
         senderName: "Haris Musafa (Admin)",
         senderRole: "admin",
-        text: textToSend,
+        text: textToSend || (uploadedImageUrl ? "📷 Kiriman Gambar (Admin)" : ""),
+        imageUrl: uploadedImageUrl || null,
+        type: uploadedImageUrl ? "image" : "text",
         isRead: false,
         createdAt: serverTimestamp(),
       });
@@ -198,7 +268,7 @@ export default function AdminChatPage() {
       await setDoc(
         sessionDocRef,
         {
-          lastMessage: textToSend,
+          lastMessage: uploadedImageUrl ? "📷 Kiriman Gambar (Admin)" : textToSend,
           lastMessageTime: serverTimestamp(),
           unreadByAdmin: false,
         },
@@ -208,6 +278,7 @@ export default function AdminChatPage() {
       console.error("Error sending admin reply:", err);
     } finally {
       setSendingReply(false);
+      setUploadingImage(false);
     }
   };
 
@@ -392,7 +463,27 @@ export default function AdminChatPage() {
                               </span>
                             )}
                           </div>
-                          <div>{msg.text}</div>
+
+                          {/* Image Attachment Rendering */}
+                          {msg.imageUrl && (
+                            <div
+                              onClick={() => setLightboxUrl(msg.imageUrl || null)}
+                              className="mb-2 relative group rounded-xl overflow-hidden cursor-pointer border border-white/10 max-w-xs"
+                            >
+                              <img
+                                src={msg.imageUrl}
+                                alt="Lampiran Chat"
+                                onLoad={() => scrollToBottom("smooth")}
+                                className="w-full max-h-56 object-cover rounded-xl hover:scale-105 transition-transform duration-300"
+                              />
+                              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-semibold gap-1">
+                                <Maximize2 className="w-4 h-4" />
+                                <span>Perbesar</span>
+                              </div>
+                            </div>
+                          )}
+
+                          {msg.text && <div>{msg.text}</div>}
                         </div>
                       </div>
                     );
@@ -401,25 +492,74 @@ export default function AdminChatPage() {
                 <div ref={messagesEndRef} />
               </div>
 
+              {/* Admin Selected Image Preview Bar */}
+              {imagePreviewUrl && (
+                <div className="px-3.5 py-2 mb-2 bg-[#171d2b] border border-white/10 rounded-xl flex items-center justify-between gap-3 shrink-0">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-amber-400/40 shrink-0">
+                      <img src={imagePreviewUrl} alt="Preview Upload Admin" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold text-white truncate font-mono">
+                        {selectedFile?.name || "Gambar balasan"}
+                      </p>
+                      <p className="text-[10px] text-amber-400 font-mono">
+                        {uploadingImage ? "Mengirim..." : "Siap dikirim ke klien"}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={clearSelectedImage}
+                    disabled={uploadingImage}
+                    className="p-1 rounded-lg bg-white/10 hover:bg-rose-500/20 text-gray-300 hover:text-rose-300 transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
+
               {/* Admin Reply Form */}
               <form
                 onSubmit={handleSendReply}
                 className="pt-3 border-t border-white/10 flex items-center gap-2 shrink-0"
               >
                 <input
+                  type="file"
+                  ref={fileInputRef}
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageSelect}
+                />
+
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={sendingReply || uploadingImage}
+                  title="Lampirkan Gambar Balasan"
+                  className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 transition-colors cursor-pointer disabled:opacity-50 shrink-0"
+                >
+                  <ImageIcon className="w-4 h-4 text-amber-400" />
+                </button>
+
+                <input
                   type="text"
                   value={replyText}
                   onChange={(e) => setReplyText(e.target.value)}
-                  placeholder={`Balas pesan ke ${activeSession.displayName}...`}
+                  placeholder={`Balas pesan / lampirkan gambar ke ${activeSession.displayName}...`}
                   className="flex-1 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
                 />
 
                 <button
                   type="submit"
-                  disabled={!replyText.trim() || sendingReply}
+                  disabled={(!replyText.trim() && !selectedFile) || sendingReply || uploadingImage}
                   className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-bold text-xs shadow-lg disabled:opacity-40 cursor-pointer active:scale-95 transition-all flex items-center gap-1.5 shrink-0"
                 >
-                  <Send className="w-3.5 h-3.5" />
+                  {uploadingImage || sendingReply ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <Send className="w-3.5 h-3.5" />
+                  )}
                   <span>Kirim Balasan</span>
                 </button>
               </form>
@@ -427,6 +567,26 @@ export default function AdminChatPage() {
           )}
         </div>
       </div>
+
+      {/* Lightbox Fullscreen Modal */}
+      {lightboxUrl && (
+        <div
+          onClick={() => setLightboxUrl(null)}
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 cursor-zoom-out animate-in fade-in duration-200"
+        >
+          <button
+            onClick={() => setLightboxUrl(null)}
+            className="absolute top-4 right-4 p-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors cursor-pointer"
+          >
+            <X className="w-6 h-6" />
+          </button>
+          <img
+            src={lightboxUrl}
+            alt="Perbesar Gambar Admin Chat"
+            className="max-w-full max-h-[90vh] object-contain rounded-2xl shadow-2xl border border-white/10"
+          />
+        </div>
+      )}
     </div>
   );
 }

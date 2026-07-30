@@ -18,6 +18,11 @@ import {
   Check,
   CheckCheck,
   Cpu,
+  Image as ImageIcon,
+  Paperclip,
+  X,
+  Maximize2,
+  Loader2,
 } from "lucide-react";
 import {
   auth,
@@ -47,6 +52,8 @@ interface MessageItem {
   senderName: string;
   senderRole: "user" | "admin" | "ai";
   text: string;
+  imageUrl?: string;
+  type?: "text" | "image";
   isRead?: boolean;
   createdAt: any;
 }
@@ -105,8 +112,39 @@ export const LiveChatApp: React.FC = () => {
   const [inputText, setInputText] = useState("");
   const [sendingMessage, setSendingMessage] = useState(false);
 
+  // Image Upload & Lightbox State
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const isFirstLoadRef = useRef(true);
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      alert("Pilih file berupa gambar (JPG, PNG, WebP).");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Ukuran gambar maksimal 5MB.");
+      return;
+    }
+    setSelectedFile(file);
+    setImagePreviewUrl(URL.createObjectURL(file));
+  };
+
+  const clearSelectedImage = () => {
+    setSelectedFile(null);
+    if (imagePreviewUrl) {
+      URL.revokeObjectURL(imagePreviewUrl);
+    }
+    setImagePreviewUrl(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   // 1. Listen for Firebase Auth State Changes
   useEffect(() => {
@@ -194,10 +232,17 @@ export const LiveChatApp: React.FC = () => {
     return () => unsubscribe();
   }, [currentUser]);
 
-  // Scroll to bottom when messages update
+  // Scroll to bottom helper
+  const scrollToBottom = (behavior: ScrollBehavior = "smooth") => {
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior, block: "end" });
+    }, 60);
+  };
+
+  // Scroll to bottom when messages or mode change
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    scrollToBottom(isFirstLoadRef.current ? "instant" : "smooth");
+  }, [messages, aiMessages, chatMode]);
 
   // Handle Google Login
   const handleGoogleLogin = async () => {
@@ -296,19 +341,45 @@ export const LiveChatApp: React.FC = () => {
       handleSendAiMessage();
       return;
     }
-    if (!inputText.trim() || !currentUser || sendingMessage) return;
+    if ((!inputText.trim() && !selectedFile) || !currentUser || sendingMessage) return;
 
     const textToSend = inputText.trim();
+    const currentFile = selectedFile;
+
     setInputText("");
     setSendingMessage(true);
 
     try {
+      let uploadedImageUrl: string | undefined = undefined;
+
+      if (currentFile) {
+        setUploadingImage(true);
+        const formData = new FormData();
+        formData.append("file", currentFile);
+
+        const uploadRes = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const uploadData = await uploadRes.json();
+        if (uploadRes.ok && uploadData.secure_url) {
+          uploadedImageUrl = uploadData.secure_url;
+        } else {
+          console.error("Failed uploading image:", uploadData);
+        }
+      }
+
+      clearSelectedImage();
+
       const messagesRef = collection(db, "chat_sessions", currentUser.uid, "messages");
       await addDoc(messagesRef, {
         senderId: currentUser.uid,
         senderName: currentUser.displayName || currentUser.email?.split("@")[0] || "Pengunjung Web",
         senderRole: "user",
-        text: textToSend,
+        text: textToSend || (uploadedImageUrl ? "📷 Kiriman Gambar" : ""),
+        imageUrl: uploadedImageUrl || null,
+        type: uploadedImageUrl ? "image" : "text",
         isRead: false,
         createdAt: serverTimestamp(),
       });
@@ -318,7 +389,7 @@ export const LiveChatApp: React.FC = () => {
       await setDoc(
         sessionDocRef,
         {
-          lastMessage: textToSend,
+          lastMessage: uploadedImageUrl ? "📷 Kiriman Gambar" : textToSend,
           lastMessageTime: serverTimestamp(),
           unreadByAdmin: true,
         },
@@ -328,6 +399,7 @@ export const LiveChatApp: React.FC = () => {
       console.error("Error sending chat message:", err);
     } finally {
       setSendingMessage(false);
+      setUploadingImage(false);
     }
   };
 
@@ -508,7 +580,27 @@ export const LiveChatApp: React.FC = () => {
                         </span>
                       )}
                     </div>
-                    <div className="whitespace-pre-wrap">{msg.text}</div>
+
+                    {/* Image Attachment Rendering */}
+                    {msg.imageUrl && (
+                      <div
+                        onClick={() => setLightboxUrl(msg.imageUrl || null)}
+                        className="mb-2 relative group rounded-xl overflow-hidden cursor-pointer border border-white/10 max-w-xs"
+                      >
+                        <img
+                          src={msg.imageUrl}
+                          alt="Lampiran Chat"
+                          onLoad={() => scrollToBottom("smooth")}
+                          className="w-full max-h-56 object-cover rounded-xl hover:scale-105 transition-transform duration-300"
+                        />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-semibold gap-1">
+                          <Maximize2 className="w-4 h-4" />
+                          <span>Perbesar</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {msg.text && <div className="whitespace-pre-wrap">{msg.text}</div>}
                   </div>
                 </div>
               );
@@ -553,27 +645,105 @@ export const LiveChatApp: React.FC = () => {
         </div>
       )}
 
+      {/* Selected Image Preview Bar */}
+      {imagePreviewUrl && (
+        <div className="px-3.5 py-2 bg-[#171d2b] border-t border-white/10 flex items-center justify-between gap-3 shrink-0">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-sky-400/40 shrink-0">
+              <img src={imagePreviewUrl} alt="Preview Upload" className="w-full h-full object-cover" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-xs font-semibold text-white truncate font-mono">
+                {selectedFile?.name || "Gambar terpilih"}
+              </p>
+              <p className="text-[10px] text-sky-400 font-mono">
+                {uploadingImage ? "Mengirim..." : "Siap dikirim"}
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={clearSelectedImage}
+            disabled={uploadingImage}
+            className="p-1 rounded-lg bg-white/10 hover:bg-rose-500/20 text-gray-300 hover:text-rose-300 transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+
       {/* Input Bar */}
       <form
         onSubmit={handleSendMessage}
         className="p-3 bg-[#121620] flex items-center gap-2 shrink-0 border-t border-white/10"
       >
         <input
+          type="file"
+          ref={fileInputRef}
+          accept="image/*"
+          className="hidden"
+          onChange={handleImageSelect}
+        />
+
+        {chatMode === "admin" && currentUser && (
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={sendingMessage || uploadingImage}
+            title="Lampirkan Gambar"
+            className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 transition-colors cursor-pointer disabled:opacity-50 shrink-0"
+          >
+            <ImageIcon className="w-4 h-4 text-sky-400" />
+          </button>
+        )}
+
+        <input
           type="text"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          placeholder={chatMode === "ai" ? "Tanyakan hal seputar paket / cara order..." : "Tulis pesan konsultasi..."}
+          placeholder={
+            chatMode === "ai"
+              ? "Tanyakan hal seputar paket / cara order..."
+              : "Tulis pesan atau lampirkan foto..."
+          }
           className="flex-1 px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-sky-500 transition-colors"
         />
 
         <button
           type="submit"
-          disabled={!inputText.trim() || (chatMode === "ai" ? aiTyping : sendingMessage)}
-          className="p-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-bold text-xs disabled:opacity-40 cursor-pointer active:scale-95 transition-all shrink-0 shadow-sm"
+          disabled={
+            (!inputText.trim() && !selectedFile) ||
+            (chatMode === "ai" ? aiTyping : sendingMessage || uploadingImage)
+          }
+          className="p-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-bold text-xs disabled:opacity-40 cursor-pointer active:scale-95 transition-all shrink-0 shadow-sm flex items-center justify-center gap-1.5"
         >
-          <Send className="w-4 h-4" />
+          {uploadingImage || sendingMessage ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <Send className="w-4 h-4" />
+          )}
         </button>
       </form>
+
+      {/* Lightbox Fullscreen Modal */}
+      {lightboxUrl && (
+        <div
+          onClick={() => setLightboxUrl(null)}
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 cursor-zoom-out animate-in fade-in duration-200"
+        >
+          <button
+            onClick={() => setLightboxUrl(null)}
+            className="absolute top-4 right-4 p-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors cursor-pointer"
+          >
+            <X className="w-6 h-6" />
+          </button>
+          <img
+            src={lightboxUrl}
+            alt="Perbesar Gambar Chat"
+            className="max-w-full max-h-[90vh] object-contain rounded-2xl shadow-2xl border border-white/10"
+          />
+        </div>
+      )}
     </div>
   );
 };

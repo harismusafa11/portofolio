@@ -27,14 +27,14 @@ export interface ToastItem {
 const DEFAULT_WINDOWS: Record<string, WindowState> = {
   about: {
     id: "about",
-    title: "About_Me.exe - Notepad",
+    title: "Haris Musafa — Developer Profile & Portfolio",
     iconName: "FileText",
     isOpen: false,
     isMinimized: false,
     isMaximized: false,
     zIndex: 10,
-    position: { x: 80, y: 35 },
-    size: { width: 860, height: 620 },
+    position: { x: 70, y: 25 },
+    size: { width: 1020, height: 680 },
   },
   taskmanager: {
     id: "taskmanager",
@@ -104,14 +104,14 @@ const DEFAULT_WINDOWS: Record<string, WindowState> = {
   },
   portfolio: {
     id: "portfolio",
-    title: "Portfolio_Explorer",
+    title: "Portfolio Showcase — Selected Works & Live Demo",
     iconName: "Folder",
     isOpen: false,
     isMinimized: false,
     isMaximized: false,
     zIndex: 6,
-    position: { x: 120, y: 40 },
-    size: { width: 900, height: 600 },
+    position: { x: 90, y: 30 },
+    size: { width: 1020, height: 680 },
   },
   contact: {
     id: "contact",

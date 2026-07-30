@@ -769,7 +769,7 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
                       }}
                       className="text-xs text-gray-400 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-sky-500/20 file:text-sky-300 hover:file:bg-sky-500/30 cursor-pointer"
                     />
-                    {uploadingAsset && <p className="text-[10px] text-sky-400 font-mono mt-1 animate-pulse">Uploading to Cloudinary...</p>}
+                    {uploadingAsset && <p className="text-[10px] text-sky-400 font-mono mt-1 animate-pulse">Memproses & mengunggah berkas...</p>}
                   </div>
                 </div>
               </div>
