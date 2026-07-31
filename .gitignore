@@ -48,3 +48,11 @@ scratch/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# android apk binaries & build outputs (DO NOT COMMIT APKs)
+*.apk
+android-listener/build/
+android-listener/app/build/
+android-listener/.gradle/
+
+
