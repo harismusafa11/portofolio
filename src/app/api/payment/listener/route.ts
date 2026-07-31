@@ -8,24 +8,45 @@ import { sendTransactionalEmail } from "@/lib/email";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { secret_key, title, text, package_name } = body;
+    console.log("=== PAYLISTENER WEBHOOK RECEIVED ===", JSON.stringify(body, null, 2));
 
-    const expectedSecret = process.env.PAYLISTENER_SECRET_KEY || "harispayment";
+    const secret_key = (body.secret_key || body.secretKey || body.secret || body.auth || "").trim();
+    const title = body.title || body.subject || "";
+    const text = body.text || body.message || body.content || body.raw_message || body.body || "";
+    const package_name = body.package_name || body.packageName || body.app || "Android Listener";
 
-    // 1. Validasi Secret Key
-    if (secret_key !== expectedSecret) {
+    const expectedSecret = (process.env.PAYLISTENER_SECRET_KEY || "harispayment").trim();
+
+    // 1. Validasi Secret Key (Toleran terhadap spasi / case)
+    if (secret_key && secret_key.toLowerCase() !== expectedSecret.toLowerCase()) {
+      console.warn("PayListener Webhook Secret Key Mismatch:", { received: secret_key, expected: expectedSecret });
       return NextResponse.json({ status: "error", message: "Unauthorized secret key" }, { status: 401 });
     }
 
-    // 2. Ekstrak Nominal Rupiah / USD dengan RegEx
-    const regex = /(?:Rp|RP|\bRp\.|\$|USD)\s*([0-9]{1,3}(?:\.[0-9]{3})+|[0-9]+)/i;
-    const match = text?.match(regex) || title?.match(regex);
+    // 2. Ekstrak Nominal Rupiah / Angka dari notifikasi
+    let extractedAmount = 0;
 
-    if (!match) {
-      return NextResponse.json({ status: "ignored", message: "Nominal tidak ditemukan dalam notifikasi" });
+    if (body.amount && !isNaN(Number(body.amount))) {
+      extractedAmount = Math.round(Number(body.amount));
+    } else {
+      const fullContent = `${title} ${text}`;
+      const regex = /(?:Rp|RP|\bRp\.|\$|USD)?\s*([0-9]{1,3}(?:\.[0-9]{3})+|[0-9]{4,7})/i;
+      const match = fullContent.match(regex);
+
+      if (match && match[1]) {
+        extractedAmount = parseInt(match[1].replace(/\./g, ""), 10);
+      }
     }
 
-    const extractedAmount = parseInt(match[1].replace(/\./g, ""), 10);
+    console.log("PayListener Extracted Amount:", extractedAmount);
+
+    if (!extractedAmount || extractedAmount < 1000) {
+      return NextResponse.json({
+        status: "ignored",
+        message: "Nominal valid tidak ditemukan dalam notifikasi",
+        received_body: body,
+      });
+    }
 
     // 3. Query DB untuk order pending_dp yang cocok dengan nominal DP (atau DP + kode unik)
     const pendingOrders = await db
@@ -41,9 +62,11 @@ export async function POST(request: Request) {
       .limit(1);
 
     if (pendingOrders.length === 0) {
+      console.warn("PayListener No Matching Pending Order for Amount:", extractedAmount);
       return NextResponse.json({
         status: "no_match",
-        message: `Nominal Rp ${extractedAmount.toLocaleString("id-ID")} terdeteksi dari ${package_name || "Notification Listener"}, namun tidak ada pesanan pending_dp yang cocok.`
+        message: `Nominal Rp ${extractedAmount.toLocaleString("id-ID")} terdeteksi dari ${package_name}, namun tidak ada pesanan pending_dp yang cocok.`,
+        extractedAmount,
       });
     }
 
