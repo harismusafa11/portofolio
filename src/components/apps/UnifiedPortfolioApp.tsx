@@ -18,7 +18,7 @@ import {
   Zap,
   FileCode,
 } from "lucide-react";
-import { GithubLogo, InstagramLogo, LinkedinLogo, WhatsAppLogo } from "@/components/icons/BrandIcons";
+import { GithubLogo, InstagramLogo, WhatsAppLogo } from "@/components/icons/BrandIcons";
 import { useWindowStore } from "@/store/windowStore";
 
 export interface UnifiedPortfolioAppProps {
@@ -138,7 +138,6 @@ export const UnifiedPortfolioApp: React.FC<UnifiedPortfolioAppProps> = memo(func
         socialLinks={[
           { icon: GithubLogo as any, href: "https://github.com/harismusafa11" },
           { icon: InstagramLogo as any, href: "https://instagram.com/haris_musafa_" },
-          { icon: LinkedinLogo as any, href: "https://linkedin.com" },
         ]}
         locationText="Indonesia (UTC+7)"
       />

@@ -85,5 +85,59 @@ export const PORTFOLIO_DATA: PortfolioProject[] = [
     imagePlaceholderColor: "from-emerald-900 to-slate-900",
     demoUrl: "https://www.kicktvstreams.my.id",
     highlights: "Platform Streaming Olahraga Terlengkap dengan Live Chat"
+  },
+  {
+    id: "nova-rental",
+    title: "Nova Rental Mobil — Sistem Booking & Sewa Mobil Online",
+    category: "web",
+    categoryLabel: "Booking System & Web App",
+    description: "Platform rental mobil terpercaya dengan sistem booking online harian/bulanan, opsi lepas kunci & dengan driver profesional.",
+    longDescription: "Nova Rental Mobil adalah platform penyewaan armada kendaraan harian dan bulanan terpercaya di Indonesia. Dilengkapi kalkulator estimasi sewa, pilihan armada (Avanza, Innova Reborn, Xpander, Brio), sistem reservasi instan, serta integrasi layanan driver profesional.",
+    techStack: ["React", "TypeScript", "Vite", "Framer Motion", "Tailwind CSS"],
+    features: [
+      "Sistem Booking Sewa Mobil Online (Harian & Bulanan)",
+      "Pilihan Layanan Lepas Kunci & Driver Profesional",
+      "Katalog Armada Transparan (Avanza, Innova, Xpander, Brio)",
+      "Konfirmasi Reservasi & Interaksi Instant via WhatsApp"
+    ],
+    imagePlaceholderColor: "from-indigo-900 to-slate-900",
+    demoUrl: "https://novarental-sigma.vercel.app/",
+    highlights: "Landing Page & Sistem Booking Rental Mobil Real-Time"
+  },
+  {
+    id: "arena-x-futsal",
+    title: "ARENA X — Sistem Booking Lapangan Futsal 24 Jam",
+    category: "web",
+    categoryLabel: "Sports & Booking System",
+    description: "Landing page & reservasi jadwal lapangan futsal rumput sintetis standar FIFA dengan pencahayaan LED 1000-Lux.",
+    longDescription: "ARENA X adalah platform booking dan landing page interaktif untuk sewa lapangan futsal profesional 24 jam. Menyajikan sistem alokasi jam tanding real-time, pilihan lapangan sintetis & vinyl interlock, serta konfirmasi pemesanan cepat tanpa antre.",
+    techStack: ["React", "TypeScript", "Vite", "Lucide React", "Tailwind CSS"],
+    features: [
+      "Sistem Reservasi Slot Jadwal Lapangan 24 Jam",
+      "Pilihan Lapangan Rumput Sintetis FIFA & Vinyl",
+      "Estimasi Biaya & Fitur Sewa Perlengkapan Tanding",
+      "Visualisasi Fasilitas & Lighting LED 1000-Lux"
+    ],
+    imagePlaceholderColor: "from-emerald-900 to-slate-900",
+    demoUrl: "https://futsal-futsal-landing-3a7b.vercel.app/",
+    highlights: "Sistem Booking Lapangan Futsal Interaktif & Real-Time"
+  },
+  {
+    id: "aura-beauty-clinic",
+    title: "AURA Beauty Clinic — Sistem Booking Perawatan Klinik Kecantikan",
+    category: "web",
+    categoryLabel: "Medical & Service Booking",
+    description: "Platform reservasi dokter spesialis & perawatan klinik kecantikan premium dengan jadwal konsultasi interaktif.",
+    longDescription: "AURA Beauty Clinic adalah website klinik kecantikan premium yang menggabungkan desain editorial mewah dengan sistem booking jadwal dokter. Pasien dapat memilih paket treatment (Laser, Botox, PRP, Stem Cell), memilih slot waktu konsultasi, dan reservasi otomatis.",
+    techStack: ["Next.js", "TypeScript", "GSAP ScrollTrigger", "CSS Modules", "Tailwind CSS"],
+    features: [
+      "Sistem Booking Jadwal Dokter & Waktu Konsultasi",
+      "Katalog Perawatan Kecantikan & Estimasi Harga",
+      "Profil Tim Dokter Spesialis & Jadwal Praktik",
+      "Antarmuka Editorial Luxury dengan Motion Interaktif"
+    ],
+    imagePlaceholderColor: "from-amber-900 to-slate-900",
+    demoUrl: "https://klinik-delta-lemon.vercel.app/",
+    highlights: "Landing Page & Booking System Klinik Kecantikan Premium"
   }
 ];
