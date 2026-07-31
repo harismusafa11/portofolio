@@ -197,10 +197,10 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
 
   // Prices Dictionary
   const PACKAGE_PRICES: Record<string, { name: string; total: number; dp: number; totalSteps: number }> = {
-    basic: { name: "Paket Basic", total: IS_TESTING_PAYMENT_MODE ? 2000 : 500000, dp: IS_TESTING_PAYMENT_MODE ? 1000 : 250000, totalSteps: 5 },
-    advanced: { name: "Paket Advanced", total: IS_TESTING_PAYMENT_MODE ? 2000 : 900000, dp: IS_TESTING_PAYMENT_MODE ? 1000 : 450000, totalSteps: 5 },
-    business: { name: "Paket Business", total: IS_TESTING_PAYMENT_MODE ? 2000 : 1500000, dp: IS_TESTING_PAYMENT_MODE ? 1000 : 750000, totalSteps: 5 },
-    ecommerce: { name: "Paket E-Commerce", total: IS_TESTING_PAYMENT_MODE ? 2000 : 5000000, dp: IS_TESTING_PAYMENT_MODE ? 1000 : 2500000, totalSteps: 5 },
+    basic: { name: "Paket Basic", total: IS_TESTING_PAYMENT_MODE ? 20000 : 500000, dp: IS_TESTING_PAYMENT_MODE ? 10000 : 250000, totalSteps: 5 },
+    advanced: { name: "Paket Advanced", total: IS_TESTING_PAYMENT_MODE ? 20000 : 900000, dp: IS_TESTING_PAYMENT_MODE ? 10000 : 450000, totalSteps: 5 },
+    business: { name: "Paket Business", total: IS_TESTING_PAYMENT_MODE ? 20000 : 1500000, dp: IS_TESTING_PAYMENT_MODE ? 10000 : 750000, totalSteps: 5 },
+    ecommerce: { name: "Paket E-Commerce", total: IS_TESTING_PAYMENT_MODE ? 20000 : 5000000, dp: IS_TESTING_PAYMENT_MODE ? 10000 : 2500000, totalSteps: 5 },
   };
 
   const selectedPkg = PACKAGE_PRICES[packageId] || PACKAGE_PRICES.basic;
@@ -1292,7 +1292,7 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
               {IS_TESTING_PAYMENT_MODE && (
                 <div className="p-2.5 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-200 text-xs font-mono flex items-center gap-2 mb-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping shrink-0" />
-                  <span>🧪 <strong>MODE TESTING AKTIF:</strong> DP di-set Rp 1.000 untuk pengujian Android PayListener.</span>
+                  <span>🧪 <strong>MODE TESTING AKTIF:</strong> DP di-set Rp 10.000 untuk pengujian Android PayListener.</span>
                 </div>
               )}
               <div className="flex items-center justify-between text-xs font-mono">
