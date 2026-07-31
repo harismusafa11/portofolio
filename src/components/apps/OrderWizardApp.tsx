@@ -192,12 +192,15 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
     }
   }, [packageId, businessName, ownerName, email, phone, brandName, businessStory, notes, existingDomain]);
 
+  // MODE UJI COBA PEMBAYARAN (Set to false jika pengujian Android Listener selesai)
+  const IS_TESTING_PAYMENT_MODE = true;
+
   // Prices Dictionary
   const PACKAGE_PRICES: Record<string, { name: string; total: number; dp: number; totalSteps: number }> = {
-    basic: { name: "Paket Basic", total: 500000, dp: 250000, totalSteps: 5 },
-    advanced: { name: "Paket Advanced", total: 900000, dp: 450000, totalSteps: 5 },
-    business: { name: "Paket Business", total: 1500000, dp: 750000, totalSteps: 5 },
-    ecommerce: { name: "Paket E-Commerce", total: 5000000, dp: 2500000, totalSteps: 5 },
+    basic: { name: "Paket Basic", total: IS_TESTING_PAYMENT_MODE ? 2000 : 500000, dp: IS_TESTING_PAYMENT_MODE ? 1000 : 250000, totalSteps: 5 },
+    advanced: { name: "Paket Advanced", total: IS_TESTING_PAYMENT_MODE ? 2000 : 900000, dp: IS_TESTING_PAYMENT_MODE ? 1000 : 450000, totalSteps: 5 },
+    business: { name: "Paket Business", total: IS_TESTING_PAYMENT_MODE ? 2000 : 1500000, dp: IS_TESTING_PAYMENT_MODE ? 1000 : 750000, totalSteps: 5 },
+    ecommerce: { name: "Paket E-Commerce", total: IS_TESTING_PAYMENT_MODE ? 2000 : 5000000, dp: IS_TESTING_PAYMENT_MODE ? 1000 : 2500000, totalSteps: 5 },
   };
 
   const selectedPkg = PACKAGE_PRICES[packageId] || PACKAGE_PRICES.basic;
@@ -1286,13 +1289,19 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
 
             {/* Price Card */}
             <div className="p-4 rounded-2xl bg-gradient-to-r from-sky-900/40 to-blue-900/40 border border-sky-400/30 space-y-2">
+              {IS_TESTING_PAYMENT_MODE && (
+                <div className="p-2.5 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-200 text-xs font-mono flex items-center gap-2 mb-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping shrink-0" />
+                  <span>🧪 <strong>MODE TESTING AKTIF:</strong> DP di-set Rp 1.000 untuk pengujian Android PayListener.</span>
+                </div>
+              )}
               <div className="flex items-center justify-between text-xs font-mono">
                 <span className="text-gray-300">Total Biaya Paket:</span>
                 <span className="text-white font-bold">Rp {selectedPkg.total.toLocaleString("id-ID")}</span>
               </div>
 
               <div className="flex items-center justify-between text-sm font-extrabold pt-2 border-t border-white/10">
-                <span className="text-emerald-400">Uang Muka (DP 50%):</span>
+                <span className="text-emerald-400">Uang Muka (DP Testing):</span>
                 <span className="text-emerald-300">Rp {selectedPkg.dp.toLocaleString("id-ID")}</span>
               </div>
             </div>
