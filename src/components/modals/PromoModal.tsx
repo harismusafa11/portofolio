@@ -7,7 +7,8 @@ import confetti from "canvas-confetti";
 
 export const PromoModal: React.FC = () => {
   const [mounted, setMounted] = useState(false);
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   const [promoData, setPromoData] = useState({
     title: "Voucher Diskon Rp 500.000 + Free Domain .COM!",
@@ -16,7 +17,7 @@ export const PromoModal: React.FC = () => {
     originalPrice: 1999000,
     promoPrice: 1499000,
     slotsRemaining: 2,
-    isActive: true,
+    isActive: false,
   });
 
   useEffect(() => {
@@ -26,14 +27,17 @@ export const PromoModal: React.FC = () => {
       .then((data) => {
         if (data && !data.error) {
           setPromoData(data);
-          if (data.isActive === false) {
-            setIsOpen(false);
-          } else {
+          if (data.isActive !== false) {
             setIsOpen(true);
+          } else {
+            setIsOpen(false);
           }
         }
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => {
+        setHasLoaded(true);
+      });
   }, []);
 
   // Listen for custom trigger events to force open promo modal (e.g. from mobile widget)
@@ -80,7 +84,7 @@ export const PromoModal: React.FC = () => {
     window.open(`https://wa.me/6285693366142?text=${message}`, "_blank");
   };
 
-  if (!mounted || !isOpen || !promoData.isActive) return null;
+  if (!mounted || !hasLoaded || !isOpen || !promoData.isActive) return null;
 
   const discountPercent = Math.round((promoData.discountAmount / promoData.originalPrice) * 100);
 
