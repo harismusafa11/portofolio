@@ -143,3 +143,17 @@ export const visitorLogs = pgTable("visitor_logs", {
   lastPingAt: timestamp("last_ping_at").defaultNow().notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+// 12. Transactions Table for PayListener & AI Studio Webhook Compatibility
+export const transactions = pgTable("transactions", {
+  id: varchar("id", { length: 100 }).primaryKey(),
+  orderId: varchar("order_id", { length: 100 }).notNull(),
+  amountBase: integer("amount_base").notNull(),
+  uniqueCode: integer("unique_code").notNull().default(0),
+  totalAmount: integer("total_amount").notNull(),
+  status: varchar("status", { length: 50 }).notNull().default("PENDING"), // PENDING, PAID, EXPIRED
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  expiredAt: timestamp("expired_at").notNull(),
+  paidAt: timestamp("paid_at"),
+});
+

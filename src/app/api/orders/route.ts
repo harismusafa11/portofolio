@@ -87,6 +87,8 @@ export async function POST(request: Request) {
         ? "Bukti pembayaran DP telah diunggah. Menunggu verifikasi dari Admin."
         : "Pesanan berhasil dibuat. Menunggu pembayaran DP 50%.";
 
+    const finalDp = Number(dpAmount || totalPrice * 0.5);
+
     // 1. Insert Order
     await db.insert(schema.orders).values({
       id: orderId,
@@ -97,14 +99,29 @@ export async function POST(request: Request) {
       packageId,
       packageName: packageName || "Paket Custom",
       totalPrice: Number(totalPrice),
-      dpAmount: Number(dpAmount || totalPrice * 0.5),
+      dpAmount: finalDp,
       paymentMethod: paymentMethod || "manual_transfer",
       status: initialStatus,
       formDataJson: JSON.stringify(formData || {}),
       receiptUrl: receiptUrl || "",
     });
 
-    // 2. Insert Initial Project Log
+    // 2. Insert Transactions Table Record (For AI Studio & PayListener compatibility)
+    try {
+      await db.insert(schema.transactions).values({
+        id: orderId,
+        orderId,
+        amountBase: Math.floor(finalDp),
+        uniqueCode: 0,
+        totalAmount: Math.floor(finalDp),
+        status: "PENDING",
+        expiredAt: new Date(Date.now() + 12 * 60 * 60 * 1000), // 12 Hours Expiry
+      });
+    } catch (txErr) {
+      console.warn("Transactions table insert fallback:", txErr);
+    }
+
+    // 3. Insert Initial Project Log
     await db.insert(schema.projectLogs).values({
       orderId,
       statusTag: initialStatus,

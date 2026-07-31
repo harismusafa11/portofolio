@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
-import { orders, projectLogs } from "@/db/schema";
+import { orders, projectLogs, transactions } from "@/db/schema";
 import { eq, sql, desc } from "drizzle-orm";
 import { sendTelegramAlert } from "@/lib/telegram";
 import { sendTransactionalEmail } from "@/lib/email";
@@ -99,7 +99,7 @@ export async function POST(request: Request) {
       });
     }
 
-    // 4. Update status to dp_verified
+    // 4. Update status in orders and transactions tables
     await db
       .update(orders)
       .set({
@@ -107,6 +107,18 @@ export async function POST(request: Request) {
         updatedAt: new Date(),
       })
       .where(eq(orders.id, targetOrder.id));
+
+    try {
+      await db
+        .update(transactions)
+        .set({
+          status: "PAID",
+          paidAt: new Date(),
+        })
+        .where(eq(transactions.orderId, targetOrder.id));
+    } catch (txUpErr) {
+      console.warn("Transactions table update fallback:", txUpErr);
+    }
 
     // 5. Insert project log
     await db.insert(projectLogs).values({
