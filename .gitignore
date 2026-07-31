@@ -49,13 +49,6 @@ scratch/
 *.tsbuildinfo
 next-env.d.ts
 
-# android & mobile app build outputs
-*.apk
-android-listener/build/
-android-listener/app/build/
-android-listener/.gradle/
-mobile-paylistener/node_modules/
-mobile-paylistener/.expo/
 
 
 
