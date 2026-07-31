@@ -49,10 +49,13 @@ scratch/
 *.tsbuildinfo
 next-env.d.ts
 
-# android apk binaries & build outputs (DO NOT COMMIT APKs)
+# android & mobile app build outputs
 *.apk
 android-listener/build/
 android-listener/app/build/
 android-listener/.gradle/
+mobile-paylistener/node_modules/
+mobile-paylistener/.expo/
+
 
 
