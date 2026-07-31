@@ -1297,35 +1297,20 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
               </div>
             </div>
 
-            {/* Payment Method Selector */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => setPaymentMethod("manual_transfer")}
-                className={`p-3.5 rounded-2xl border text-left text-xs font-bold transition-all cursor-pointer ${
-                  paymentMethod === "manual_transfer"
-                    ? "bg-sky-500/20 border-sky-400 text-white shadow-lg shadow-sky-500/10"
-                    : "bg-white/5 border-white/10 text-gray-400 hover:border-white/20"
-                }`}
-              >
-                <QrCode className="w-5 h-5 text-sky-400 mb-1" />
-                <div className="text-white text-xs font-extrabold">Transfer Bank Jago / QRIS</div>
-                <div className="text-[10px] text-gray-400 font-mono font-normal">Manual &bull; Upload Bukti</div>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setPaymentMethod("paywuz")}
-                className={`p-3.5 rounded-2xl border text-left text-xs font-bold transition-all cursor-pointer ${
-                  paymentMethod === "paywuz"
-                    ? "bg-purple-500/20 border-purple-400 text-white shadow-lg shadow-purple-500/10"
-                    : "bg-white/5 border-white/10 text-gray-400 hover:border-white/20"
-                }`}
-              >
-                <Zap className="w-5 h-5 text-purple-400 mb-1" />
-                <div className="text-white text-xs font-extrabold">Pembayaran Otomatis</div>
-                <div className="text-[10px] text-gray-400 font-mono font-normal">Instant &bull; QRIS &amp; VA</div>
-              </button>
+            {/* Payment Method Header */}
+            <div className="p-3.5 rounded-2xl bg-sky-500/15 border border-sky-400/30 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-xl bg-sky-500/20 text-sky-400 border border-sky-400/30">
+                  <QrCode className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-xs font-extrabold text-white">Metode Pembayaran DP 50%: Transfer Bank Jago / QRIS</div>
+                  <div className="text-[10px] text-sky-300 font-mono">Transfer Manual &bull; Upload Struk Bukti &bull; Konfirmasi Instan WA</div>
+                </div>
+              </div>
+              <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shrink-0">
+                AKTIF
+              </span>
             </div>
 
             {/* Manual Bank Details with Unique Code */}
