@@ -259,15 +259,15 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
     }
   }, [packageId, businessName, ownerName, email, phone, brandName, businessStory, notes, existingDomain]);
 
-  // MODE UJI COBA PEMBAYARAN (Set to false untuk produksi harga paket asli)
-  const IS_TESTING_PAYMENT_MODE = false;
+  // MODE UJI COBA PEMBAYARAN (Aktif untuk pengujian HP server baru)
+  const IS_TESTING_PAYMENT_MODE = true;
 
   // Prices Dictionary
   const PACKAGE_PRICES: Record<string, { name: string; total: number; dp: number; totalSteps: number }> = {
-    basic: { name: "Paket Basic", total: 500000, dp: 250000, totalSteps: 5 },
-    advanced: { name: "Paket Advanced", total: 900000, dp: 450000, totalSteps: 5 },
-    business: { name: "Paket Business", total: 1500000, dp: 750000, totalSteps: 5 },
-    ecommerce: { name: "Paket E-Commerce", total: 5000000, dp: 2500000, totalSteps: 5 },
+    basic: { name: "Paket Basic", total: IS_TESTING_PAYMENT_MODE ? 20000 : 500000, dp: IS_TESTING_PAYMENT_MODE ? 10000 : 250000, totalSteps: 5 },
+    advanced: { name: "Paket Advanced", total: IS_TESTING_PAYMENT_MODE ? 20000 : 900000, dp: IS_TESTING_PAYMENT_MODE ? 10000 : 450000, totalSteps: 5 },
+    business: { name: "Paket Business", total: IS_TESTING_PAYMENT_MODE ? 20000 : 1500000, dp: IS_TESTING_PAYMENT_MODE ? 10000 : 750000, totalSteps: 5 },
+    ecommerce: { name: "Paket E-Commerce", total: IS_TESTING_PAYMENT_MODE ? 20000 : 5000000, dp: IS_TESTING_PAYMENT_MODE ? 10000 : 2500000, totalSteps: 5 },
   };
 
   const selectedPkg = PACKAGE_PRICES[packageId] || PACKAGE_PRICES.basic;
