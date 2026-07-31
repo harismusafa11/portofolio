@@ -194,7 +194,7 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
           const data = await res.json();
           if (data.order?.status === "dp_verified" || data.order?.status === "paid" || data.order?.status === "completed") {
             setPaymentVerified(true);
-            addToast("Pembayaran DP Terverifikasi 🚀", "Pembayaran DP 50% telah berhasil diterima & terverifikasi otomatis via PayListener Webhook!");
+            addToast("Pembayaran DP Terverifikasi 🚀", "Pembayaran DP 50% telah berhasil diterima & dikonfirmasi oleh sistem.");
           }
         }
       } catch {
@@ -1348,8 +1348,8 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
                     <div className="flex items-center gap-3">
                       <CheckCircle2 className="w-8 h-8 text-emerald-400 shrink-0" />
                       <div>
-                        <h4 className="text-base font-extrabold text-white">✅ PEMBAYARAN DP 50% TERVERIFIKASI OTOMATIS!</h4>
-                        <p className="text-xs text-emerald-300 font-mono mt-0.5">Notifikasi transfer telah dikonfirmasi via PayListener Webhook.</p>
+                        <h4 className="text-base font-extrabold text-white">✅ PEMBAYARAN DP 50% TERKONFIRMASI</h4>
+                        <p className="text-xs text-emerald-300 font-mono mt-0.5">Pembayaran Anda telah berhasil diverifikasi secara otomatis oleh sistem.</p>
                       </div>
                     </div>
                     <button
@@ -1368,12 +1368,12 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
-                        <span className="text-xs font-bold text-amber-300 font-mono">⏳ Menunggu Transfer m-Banking / QRIS...</span>
+                        <span className="text-xs font-bold text-amber-300 font-mono">⏳ Menunggu Konfirmasi Transfer...</span>
                       </div>
-                      <span className="text-[10px] font-mono text-gray-400 bg-white/5 px-2 py-0.5 rounded-full border border-white/10">Auto-Check 3s</span>
+                      <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20 font-bold">Verifikasi Otomatis</span>
                     </div>
                     <p className="text-[11px] text-gray-300 leading-relaxed font-sans">
-                      Sistem sedang memantau notifikasi transfer masuk secara real-time via Android PayListener Webhook. Begitu Anda melakukan transfer dengan nominal tepat di bawah, status akan berubah <strong>otomatis secara real-time tanpa perlu mengklik apapun</strong>!
+                      Sistem kami memproses konfirmasi pembayaran secara otomatis 24/7. Setelah Anda menyelesaikan transfer dengan nominal tepat di bawah, status transaksi Anda akan langsung terkonfirmasi secara instan.
                     </p>
                     <button
                       type="button"
@@ -1382,7 +1382,7 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
                       className="w-full py-2.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 font-bold text-xs border border-sky-500/30 flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-95 disabled:opacity-50"
                     >
                       {isCheckingStatus ? <RefreshCw className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
-                      <span>🔄 Cek Status Pembayaran Realtime</span>
+                      <span>🔄 Cek Status Pembayaran</span>
                     </button>
                   </div>
                 )}
