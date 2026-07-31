@@ -5,6 +5,41 @@ import { eq } from "drizzle-orm";
 import { sendTelegramAlert } from "@/lib/telegram";
 import { sendTransactionalEmail } from "@/lib/email";
 
+const PAYWUZ_PRODUCTION_PACKAGES: Record<string, { va: string; qris: string }> = {
+  basic: {
+    va: "https://paywuz.id/pay/9eee7503-a163-4e3d-871e-a55bba9b9a8e",
+    qris: "https://paywuz.id/pay/f9cb2809-4a2d-4771-bc41-b00226c017f5",
+  },
+  advanced: {
+    va: "https://paywuz.id/pay/46fa39c1-ec01-4796-9622-a5c8fcb53e7a",
+    qris: "https://paywuz.id/pay/317379dc-f8c8-4a31-b863-88797c8c50c0",
+  },
+  business: {
+    va: "https://paywuz.id/pay/c10d0d4f-65ac-43ce-bcc4-af72e8a1209d",
+    qris: "https://paywuz.id/pay/792e0b44-1d7b-454f-ab1c-1eebf20049b2",
+  },
+  ecommerce: {
+    va: "https://paywuz.id/pay/be138288-4869-4ebd-86cb-608a45dc2e33",
+    qris: "https://paywuz.id/pay/2f2643d4-a55c-4cb7-9011-08de0eb9af9a",
+  },
+};
+
+function getPaywuzPackageLinks(packageName?: string, amount?: number) {
+  const nameLower = (packageName || "").toLowerCase();
+  const numAmount = Number(amount || 0);
+
+  if (nameLower.includes("e-commerce") || nameLower.includes("ecommerce") || numAmount >= 2000000) {
+    return PAYWUZ_PRODUCTION_PACKAGES.ecommerce;
+  }
+  if (nameLower.includes("business") || nameLower.includes("bisnis") || numAmount >= 700000) {
+    return PAYWUZ_PRODUCTION_PACKAGES.business;
+  }
+  if (nameLower.includes("advanced") || numAmount >= 400000) {
+    return PAYWUZ_PRODUCTION_PACKAGES.advanced;
+  }
+  return PAYWUZ_PRODUCTION_PACKAGES.basic;
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -84,20 +119,21 @@ export async function POST(req: Request) {
       }
     }
 
-    // Fallback QRIS & VA data generation if external API response is pending key activation
-    if (!qrisUrl) {
-      qrisUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=00020101021226670016ID.CO.PAYWUZ.WWW011893600914396559731252045812530336054${amount}5802ID5914ARJUNA DEV WEB6007JAKARTA61051211062070703A016304FC2B`;
-    }
-
-    const livePaywuzUrl = process.env.PAYWUZ_PAYMENT_URL || "https://paywuz.id/pay/563d267b-052d-49c3-9756-0d60f4b0f4b3";
+    // Determine production package links for VA and QRIS
+    const pkgLinks = getPaywuzPackageLinks(packageName, Number(amount));
+    const targetVaUrl = paymentLinkUrl || pkgLinks.va;
+    const targetQrisPaywuzUrl = qrisUrl || pkgLinks.qris;
+    const targetQrisQrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(targetQrisPaywuzUrl)}`;
 
     const paymentDetails = {
       paywuzTrxId,
       amount,
       currency: "IDR",
       merchantName: "Arjuna Dev Web Studio",
-      paymentLinkUrl: paymentLinkUrl || livePaywuzUrl,
-      qrisUrl,
+      paymentLinkUrl: targetVaUrl,
+      vaPaywuzUrl: targetVaUrl,
+      qrisPaywuzUrl: targetQrisPaywuzUrl,
+      qrisUrl: targetQrisQrCodeUrl,
       virtualAccounts: {
         bca: `88012${Math.floor(10000000 + Math.random() * 90000000)}`,
         mandiri: `89022${Math.floor(10000000 + Math.random() * 90000000)}`,

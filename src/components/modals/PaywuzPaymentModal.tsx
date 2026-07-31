@@ -49,6 +49,8 @@ export const PaywuzPaymentModal: React.FC<PaywuzModalProps> = ({
   const [paymentData, setPaymentData] = useState<{
     paywuzTrxId: string;
     paymentLinkUrl?: string;
+    vaPaywuzUrl?: string;
+    qrisPaywuzUrl?: string;
     qrisUrl: string;
     virtualAccounts: { bca: string; mandiri: string; bri: string; bank_jago: string };
   } | null>(null);
@@ -58,13 +60,13 @@ export const PaywuzPaymentModal: React.FC<PaywuzModalProps> = ({
       fetch("/api/payment/paywuz", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderId, amount, customerName: clientName, customerEmail: clientEmail }),
+        body: JSON.stringify({ orderId, amount, customerName: clientName, customerEmail: clientEmail, packageName }),
       })
         .then((res) => res.json())
         .then((resData) => { if (resData.data) setPaymentData(resData.data); })
         .catch((err) => console.error("Error init payment:", err));
     }
-  }, [isOpen, orderId, amount, clientName, clientEmail]);
+  }, [isOpen, orderId, amount, clientName, clientEmail, packageName]);
 
   useEffect(() => {
     if (!isOpen || paymentSuccess) return;
@@ -237,11 +239,16 @@ export const PaywuzPaymentModal: React.FC<PaywuzModalProps> = ({
             </div>
 
             <a
-              href={paymentData?.paymentLinkUrl || "https://paywuz.id/pay/563d267b-052d-49c3-9756-0d60f4b0f4b3"}
+              href={
+                activeTab === "qris"
+                  ? (paymentData?.qrisPaywuzUrl || paymentData?.paymentLinkUrl || "https://paywuz.id")
+                  : (paymentData?.vaPaywuzUrl || paymentData?.paymentLinkUrl || "https://paywuz.id")
+              }
               target="_blank" rel="noopener noreferrer"
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-purple-500/20 transition-all border border-white/15 active:scale-95 cursor-pointer"
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-purple-500/20 transition-all border border-white/15 active:scale-95 cursor-pointer text-center"
             >
-              <ExternalLink className="w-4 h-4" /><span>Bayar Sekarang</span>
+              <ExternalLink className="w-4 h-4" />
+              <span>{activeTab === "qris" ? "Bayar via QRIS Paywuz" : "Bayar via VA Paywuz"}</span>
             </a>
             <p className="text-[9px] text-center text-gray-500 font-mono -mt-2">QRIS / Bank Transfer / E-Wallet</p>
 
@@ -269,13 +276,19 @@ export const PaywuzPaymentModal: React.FC<PaywuzModalProps> = ({
             {activeTab === "qris" && (
               <div className="flex flex-col items-center gap-4 sm:gap-5">
                 <div className="flex flex-col items-center gap-2">
-                  <div className="p-3 bg-white rounded-2xl shadow-xl border-2 border-purple-500/30">
+                  <a
+                    href={paymentData?.qrisPaywuzUrl || paymentData?.paymentLinkUrl || "https://paywuz.id"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-3 bg-white rounded-2xl shadow-xl border-2 border-purple-500/30 hover:scale-105 transition-transform block cursor-pointer"
+                    title="Klik untuk membuka Halaman Pembayaran QRIS Paywuz"
+                  >
                     {paymentData?.qrisUrl
-                      ? <img src={paymentData.qrisUrl} alt="QRIS" className="w-36 h-36 sm:w-44 sm:h-44 object-contain" />
+                      ? <img src={paymentData.qrisUrl} alt="QRIS Paywuz" className="w-36 h-36 sm:w-44 sm:h-44 object-contain" />
                       : <div className="w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center"><RefreshCw className="w-7 h-7 animate-spin text-purple-400" /></div>
                     }
-                  </div>
-                  <p className="text-[10px] font-mono text-gray-400">Scan QR dengan kamera HP Anda</p>
+                  </a>
+                  <p className="text-[10px] font-mono text-gray-400">Scan QR atau klik untuk buka Paywuz</p>
                 </div>
 
                 <div className="w-full">
