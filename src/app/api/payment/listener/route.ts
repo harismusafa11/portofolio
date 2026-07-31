@@ -54,7 +54,7 @@ export async function POST(request: Request) {
 
     console.log("PayListener Extracted Amount:", extractedAmount);
 
-    // 3. Search matching pending_dp order in DB
+    // 3. Search matching pending_dp order in DB based on exact package DP amount
     let targetOrder = null;
 
     if (extractedAmount > 0) {
@@ -64,7 +64,8 @@ export async function POST(request: Request) {
         .where(
           sql`${orders.status} = 'pending_dp' AND (
             ${orders.dpAmount} = ${extractedAmount} OR 
-            ABS(${orders.dpAmount} - ${extractedAmount}) <= 1500
+            ABS(${orders.dpAmount} - ${extractedAmount}) <= 500 OR
+            ${orders.totalPrice} = ${extractedAmount}
           )`
         )
         .orderBy(desc(orders.createdAt))
@@ -72,21 +73,6 @@ export async function POST(request: Request) {
 
       if (pendingOrders.length > 0) {
         targetOrder = pendingOrders[0];
-      }
-    }
-
-    // Fallback: If amount extracted didn't match exact range, pick the latest pending_dp order if extractedAmount >= 9000
-    if (!targetOrder && extractedAmount >= 9000) {
-      const latestPending = await db
-        .select()
-        .from(orders)
-        .where(eq(orders.status, "pending_dp"))
-        .orderBy(desc(orders.createdAt))
-        .limit(1);
-
-      if (latestPending.length > 0) {
-        targetOrder = latestPending[0];
-        console.log("Fallback matched latest pending order:", targetOrder.id);
       }
     }
 
@@ -124,17 +110,17 @@ export async function POST(request: Request) {
     await db.insert(projectLogs).values({
       orderId: targetOrder.id,
       statusTag: "dp_verified",
-      logText: `Pembayaran DP 50% Rp ${(extractedAmount || targetOrder.dpAmount).toLocaleString("id-ID")} terverifikasi otomatis via PayListener Android (${package_name}).`,
+      logText: `Pembayaran DP 50% Rp ${(extractedAmount || targetOrder.dpAmount).toLocaleString("id-ID")} terverifikasi otomatis via Sistem Pembayaran Real-Time.`,
     });
 
     // 6. Trigger Telegram Alert
-    const teleMsg = `<b>✅ PEMBAYARAN DP VERIFIED (ANDROID LISTENER)! — ARJUNA DEV</b>
+    const teleMsg = `<b>✅ PEMBAYARAN DP TERVERIFIKASI OTOMATIS — ARJUNA DEV</b>
 ━━━━━━━━━━━━━━━━━━━━━━━
 <b>Order ID:</b> <code>${targetOrder.id}</code>
 <b>Klien:</b> ${targetOrder.userName} (${targetOrder.userEmail})
 <b>Paket:</b> ${targetOrder.packageName}
 <b>Nominal Terverifikasi:</b> Rp ${(extractedAmount || targetOrder.dpAmount).toLocaleString("id-ID")}
-<b>Aplikasi Notifikasi:</b> ${package_name}
+<b>Metode:</b> Bank Transfer / QRIS (Instant Verification)
 <b>Waktu:</b> ${new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" })} WIB
 
 👉 <b>Cek Admin Panel:</b> https://arjunadev.com/secure-portal-admin/orders`;

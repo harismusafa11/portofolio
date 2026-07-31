@@ -1,0 +1,8 @@
+com.arjunadev.paylistener.app-pngs-0 H:\portofolio\android-payment-listener\app\build\generated\res\pngs\debug
+com.arjunadev.paylistener.app-updated_navigation_xml-1 H:\portofolio\android-payment-listener\app\build\generated\updated_navigation_xml\debug
+com.arjunadev.paylistener.app-packageDebugResources-2 H:\portofolio\android-payment-listener\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.arjunadev.paylistener.app-packageDebugResources-3 H:\portofolio\android-payment-listener\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.arjunadev.paylistener.app-debug-4 H:\portofolio\android-payment-listener\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.arjunadev.paylistener.app-debug-5 H:\portofolio\android-payment-listener\app\src\debug\res
+com.arjunadev.paylistener.app-main-6 H:\portofolio\android-payment-listener\app\src\main\res
+gradleHome-0 C:\Users\Haris\.gradle

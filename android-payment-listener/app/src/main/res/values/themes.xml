@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.ArjunaPayListener" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize dark theme colors -->
+        <item name="colorPrimary">@color/primary_amber</item>
+        <item name="colorOnPrimary">@color/bg_dark</item>
+        <item name="android:statusBarColor">@color/bg_dark</item>
+        <item name="android:windowBackground">@color/bg_dark</item>
+    </style>
+
+    <style name="Theme.ArjunaPayListener" parent="Base.Theme.ArjunaPayListener" />
+</resources>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Arjuna AutoPay</string>
+    <string name="title_dashboard">Arjuna AutoPay System</string>
+    <string name="subtitle_dashboard">Real-Time Instant Payment Verification Engine</string>
+    <string name="lbl_webhook_url">URL Server Endpoint</string>
+    <string name="hint_webhook_url">https://arjunadev.com/api/payment/listener</string>
+    <string name="lbl_secret_key">Kunci Keamanan API</string>
+    <string name="hint_secret_key">harispayment</string>
+    <string name="btn_save_config">Simpan Pengaturan</string>
+    <string name="btn_test_webhook">Uji Koneksi Server</string>
+    <string name="btn_grant_permission">Aktifkan Layanan Otomatis</string>
+    <string name="lbl_status_service">Status Sistem Verifikasi</string>
+    <string name="lbl_logs">Log Aktivitas Pembayaran Real-Time</string>
+    <string name="btn_clear_logs">Bersihkan Log</string>
+</resources>
