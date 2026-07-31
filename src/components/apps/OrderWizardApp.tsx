@@ -1466,9 +1466,19 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
                     <span className="text-white font-bold">Rp {selectedPkg.total.toLocaleString("id-ID")}</span>
                   </div>
 
+                  <div className="flex items-center justify-between text-xs font-mono pt-1">
+                    <span className="text-gray-300">Uang Muka (DP 50%):</span>
+                    <span className="text-white font-bold">Rp {selectedPkg.dp.toLocaleString("id-ID")}</span>
+                  </div>
+
+                  <div className="flex items-center justify-between text-xs font-mono pt-1">
+                    <span className="text-amber-400 font-bold">Kode Unik Verifikasi:</span>
+                    <span className="text-amber-400 font-mono font-bold">+{uniqueCode}</span>
+                  </div>
+
                   <div className="flex items-center justify-between text-sm font-extrabold pt-2 border-t border-white/10">
-                    <span className="text-emerald-400">Uang Muka (DP 50%):</span>
-                    <span className="text-emerald-300">Rp {selectedPkg.dp.toLocaleString("id-ID")}</span>
+                    <span className="text-emerald-400">Total Transfer DP:</span>
+                    <span className="text-emerald-300 font-mono font-black">Rp {(selectedPkg.dp + uniqueCode).toLocaleString("id-ID")}</span>
                   </div>
                 </div>
 
