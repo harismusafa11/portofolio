@@ -165,10 +165,77 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
   const [timeline, setTimeline] = useState("2 minggu");
 
   // 14. Payment & Verification State
-  const [paymentMethod, setPaymentMethod] = useState<"manual_transfer" | "paywuz">("manual_transfer");
-  const [manualPaymentStep, setManualPaymentStep] = useState<1 | 2>(1);
+  const paymentMethod = "manual_transfer";
   const [receiptUrl, setReceiptUrl] = useState("");
   const [uploadingReceipt, setUploadingReceipt] = useState(false);
+
+  // 15. 12-Hour Countdown & Real-time Webhook Polling State
+  const [paymentTimeLeft, setPaymentTimeLeft] = useState(12 * 60 * 60); // 43,200 seconds
+  const [paymentVerified, setPaymentVerified] = useState(false);
+  const [isCheckingStatus, setIsCheckingStatus] = useState(false);
+
+  // 12-Hour Timer Effect
+  useEffect(() => {
+    if (!createdOrderId || paymentVerified) return;
+    const timer = setInterval(() => {
+      setPaymentTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [createdOrderId, paymentVerified]);
+
+  // Real-time Webhook Auto-polling (Every 3 Seconds)
+  useEffect(() => {
+    if (!createdOrderId || paymentVerified) return;
+
+    const checkStatus = async () => {
+      try {
+        const res = await fetch(`/api/orders/${createdOrderId}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.order?.status === "dp_verified" || data.order?.status === "paid" || data.order?.status === "completed") {
+            setPaymentVerified(true);
+            addToast("Pembayaran DP Terverifikasi 🚀", "Pembayaran DP 50% telah berhasil diterima & terverifikasi otomatis via PayListener Webhook!");
+          }
+        }
+      } catch {
+        // silent catch
+      }
+    };
+
+    checkStatus();
+    const interval = setInterval(checkStatus, 3000);
+    return () => clearInterval(interval);
+  }, [createdOrderId, paymentVerified]);
+
+  // Format 12 Hours Timer HH:MM:SS
+  const formatTimer12H = (seconds: number) => {
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${String(hrs).padStart(2, "0")}:${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+  };
+
+  // Manual Check Payment Status Button Handler
+  const handleManualCheckStatus = async () => {
+    if (!createdOrderId) return;
+    setIsCheckingStatus(true);
+    try {
+      const res = await fetch(`/api/orders/${createdOrderId}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.order?.status === "dp_verified" || data.order?.status === "paid" || data.order?.status === "completed") {
+          setPaymentVerified(true);
+          addToast("Pembayaran DP Terverifikasi 🚀", "Pembayaran DP 50% telah berhasil diterima & terverifikasi!");
+        } else {
+          addToast("Menunggu Pembayaran ⏳", "Belum ada notifikasi transfer masuk yang terdeteksi untuk nominal ini.");
+        }
+      }
+    } catch {
+      addToast("Gagal Cek Status", "Terjadi kesalahan jaringan.");
+    } finally {
+      setIsCheckingStatus(false);
+    }
+  };
 
   // Auto-save form draft to localStorage on input changes
   useEffect(() => {
@@ -314,24 +381,7 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
       const finalOrderId = data.orderId || data.order?.id;
       if (data.success && finalOrderId) {
         setCreatedOrderId(finalOrderId);
-
-        if (paymentMethod === "paywuz") {
-          // Direct user immediately to Payment Gateway Modal (No WhatsApp redirect yet)
-          setIsPaywuzModalOpen(true);
-        } else {
-          // For manual transfer, open WhatsApp with transfer info and open project tracker
-          const waNumber = "6285693366142";
-          const formattedTotal = selectedPkg.total.toLocaleString("id-ID");
-          const formattedDp = (selectedPkg.dp + uniqueCode).toLocaleString("id-ID");
-
-          const waMsg = `Halo Haris Musafa (Arjuna Dev),\n\nSaya telah melakukan Pembayaran DP 50% via Transfer Bank Jago & Mengunggah Bukti Pembayaran.\n\n*Detail Pesanan:*\n- *ID Order:* ${finalOrderId}\n- *Nama Bisnis:* ${businessName || "-"}\n- *Pemilik:* ${ownerName}\n- *Paket:* ${selectedPkg.name}\n- *Total Biaya:* Rp ${formattedTotal}\n- *Nominal DP (+Kode Unik):* Rp ${formattedDp}\n${receiptUrl ? `- *Bukti Transfer:* ${receiptUrl}\n` : ""}\n*Status Pembayaran:* ⏳ Menunggu Verifikasi Admin.\n\nMohon segera dikonfirmasi agar pengerjaan proyek bisa dimulai. Terima kasih!`;
-
-          const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMsg)}`;
-          window.open(waUrl, "_blank");
-
-          openWindow("project_tracker");
-          focusWindow("project_tracker");
-        }
+        addToast("Tagihan DP Unik Diterbitkan 🚀", "Silakan transfer nominal persis di bawah sebelum 12 jam.");
       }
     } catch (err) {
       console.error("Submit order error:", err);
@@ -1267,260 +1317,195 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
         {/* STEP 5: 14. REVIEW & PEMBAYARAN DP 50% */}
         {currentStep === maxSteps && (
           <div className="space-y-4 max-w-xl mx-auto animate-in fade-in duration-200">
-            <div className="pb-2 border-b border-white/10">
-              <h3 className="text-sm font-extrabold text-white flex items-center gap-2">
-                <CreditCard className="w-4 h-4 text-emerald-400" />
-                14. Review Ringkasan Data &amp; Pembayaran DP 50%
-              </h3>
-              <p className="text-[11px] text-gray-400">Tinjau seluruh data order Anda sebelum dikirim ke Dashboard Proyek.</p>
-            </div>
-
-            {/* Summary Review Card */}
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2 text-xs font-mono">
-              <div className="text-sky-300 font-bold border-b border-white/10 pb-1">Ringkasan Data Order:</div>
-              <div>&bull; Nama Bisnis: <span className="text-white font-bold">{businessName || "-"}</span></div>
-              <div>&bull; Pemilik / Email: <span className="text-white">{ownerName} ({email})</span></div>
-              <div>&bull; Paket Dipilih: <span className="text-emerald-400 font-bold">{selectedPkg.name}</span></div>
-              <div>&bull; Halaman: <span className="text-gray-300">{neededPages.join(", ")}</span></div>
-              <div>&bull; Fitur: <span className="text-gray-300">{neededFeatures.join(", ")}</span></div>
-              <div>&bull; Asset Upload: <span className="text-gray-300">{uploadedAssets.length} File Terupload</span></div>
-              <div>&bull; Target Timeline: <span className="text-amber-300 font-bold">{timeline}</span></div>
-            </div>
-
-            {/* Price Card */}
-            <div className="p-4 rounded-2xl bg-gradient-to-r from-sky-900/40 to-blue-900/40 border border-sky-400/30 space-y-2">
-              {IS_TESTING_PAYMENT_MODE && (
-                <div className="p-2.5 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-200 text-xs font-mono flex items-center gap-2 mb-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping shrink-0" />
-                  <span>🧪 <strong>MODE TESTING AKTIF:</strong> DP di-set Rp 10.000 untuk pengujian Android PayListener.</span>
-                </div>
-              )}
-              <div className="flex items-center justify-between text-xs font-mono">
-                <span className="text-gray-300">Total Biaya Paket:</span>
-                <span className="text-white font-bold">Rp {selectedPkg.total.toLocaleString("id-ID")}</span>
-              </div>
-
-              <div className="flex items-center justify-between text-sm font-extrabold pt-2 border-t border-white/10">
-                <span className="text-emerald-400">Uang Muka (DP Testing):</span>
-                <span className="text-emerald-300">Rp {selectedPkg.dp.toLocaleString("id-ID")}</span>
-              </div>
-            </div>
-
-            {/* Payment Method Header */}
-            <div className="p-3.5 rounded-2xl bg-sky-500/15 border border-sky-400/30 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-xl bg-sky-500/20 text-sky-400 border border-sky-400/30">
-                  <QrCode className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="text-xs font-extrabold text-white">Metode Pembayaran DP 50%: Transfer Bank Jago / QRIS</div>
-                  <div className="text-[10px] text-sky-300 font-mono">Transfer Manual &bull; Upload Struk Bukti &bull; Konfirmasi Instan WA</div>
-                </div>
-              </div>
-              <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shrink-0">
-                AKTIF
-              </span>
-            </div>
-
-            {/* Manual Bank Details with Unique Code */}
-            {paymentMethod === "manual_transfer" && (
-              <div className="space-y-4">
-                {/* Sub-step indicator bar for manual bank transfer */}
-                <div className="flex items-center justify-between p-2.5 rounded-xl bg-sky-500/10 border border-sky-500/20 text-xs">
-                  <div className="flex items-center gap-2 font-mono font-bold">
-                    <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${manualPaymentStep === 1 ? "bg-sky-500 text-white" : "bg-emerald-500 text-white"}`}>
-                      {manualPaymentStep === 1 ? "1" : "✓"}
-                    </span>
-                    <span className={manualPaymentStep === 1 ? "text-sky-300" : "text-gray-400"}>1. Transfer Dulu</span>
-                    <ChevronRight className="w-3.5 h-3.5 text-gray-500" />
-                    <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${manualPaymentStep === 2 ? "bg-sky-500 text-white" : "bg-white/10 text-gray-400"}`}>
-                      2
-                    </span>
-                    <span className={manualPaymentStep === 2 ? "text-sky-300" : "text-gray-400"}>2. Upload Bukti &amp; Selesai</span>
+            {/* If Order is Created: Show Live Payment Waiting & Auto-verification Screen */}
+            {createdOrderId ? (
+              <div className="space-y-4 animate-in fade-in duration-300">
+                {/* Header & 12h Countdown Timer Bar */}
+                <div className="p-4 rounded-2xl bg-gradient-to-r from-[#141b2d] to-[#0f1420] border border-amber-500/30 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xl">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center shrink-0">
+                      <Clock className="w-5 h-5 animate-pulse" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-mono text-amber-400 uppercase tracking-wider font-bold">Batas Waktu Pembayaran (12 Jam)</p>
+                      <p className="text-xl sm:text-2xl font-mono font-black text-amber-300 leading-none mt-0.5">{formatTimer12H(paymentTimeLeft)}</p>
+                    </div>
                   </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setIsInvoiceOpen(true)}
+                    className="px-3.5 py-2 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 font-mono text-xs font-bold border border-sky-500/30 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
+                  >
+                    <FileText className="w-4 h-4 text-sky-400" />
+                    <span>Invoice PDF</span>
+                  </button>
                 </div>
 
-                {/* HALAMAN 1: TAMPILAN PEMBAYARAN REKENING & NOMINAL */}
-                {manualPaymentStep === 1 && (
-                  <div className="p-4 sm:p-5 rounded-2xl bg-[#141b2d] border border-sky-500/30 space-y-4 shadow-xl animate-in fade-in duration-200">
-                    {/* Top Row: Bank Info */}
-                    <div className="flex flex-col sm:flex-row items-start justify-between gap-3 pb-3 border-b border-white/10">
-                      <div className="space-y-1.5 flex-1 w-full">
-                        <div className="text-sky-300 font-bold text-xs flex items-center justify-between sm:justify-start gap-2">
-                          <span className="font-mono text-sm text-sky-200 font-bold">Bank Tujuan: Bank Jago</span>
-                          <span className="px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300 text-[10px] font-mono border border-sky-500/30">Manual Transfer</span>
-                        </div>
-
-                        <div className="flex items-center justify-between sm:justify-start gap-2 pt-1 flex-wrap">
-                          <span className="text-white font-extrabold text-base sm:text-lg tracking-wider font-mono select-all">103965597312</span>
-                          <button
-                            type="button"
-                            onClick={() => copyToClipboard("103965597312", "rekening")}
-                            className="px-3 py-1.5 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 text-xs font-mono font-bold transition-all cursor-pointer border border-sky-400/30 active:scale-95 shrink-0 flex items-center gap-1.5"
-                          >
-                            <Copy className="w-3.5 h-3.5" />
-                            <span>{copiedKey === "rekening" ? "Tersalin!" : "Salin Rekening"}</span>
-                          </button>
-                        </div>
-
-                        <div className="text-gray-300 text-xs font-mono">A.N: <strong className="text-white">Haris Musafa</strong></div>
-                      </div>
-
-                      {/* Unique Code Box */}
-                      <div className="w-full sm:w-auto p-3 rounded-xl bg-amber-500/10 border border-amber-400/30 flex sm:flex-col justify-between sm:justify-center items-center text-left sm:text-right shrink-0">
-                        <div className="text-[11px] font-mono text-amber-300">Kode Unik Transfer</div>
-                        <div className="text-base sm:text-lg font-mono font-black text-amber-400">+{uniqueCode}</div>
-                      </div>
-                    </div>
-
-                    {/* Total Amount Box with 1-Click Copy */}
-                    <div className="p-4 rounded-xl bg-gradient-to-r from-emerald-950/40 via-emerald-900/30 to-teal-950/40 border border-emerald-400/40 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shadow-lg">
+                {/* Real-time Status Badge Container */}
+                {paymentVerified ? (
+                  <div className="p-5 rounded-2xl bg-gradient-to-r from-emerald-950/70 to-teal-900/70 border-2 border-emerald-400 space-y-3 shadow-2xl animate-in zoom-in-95 duration-300">
+                    <div className="flex items-center gap-3">
+                      <CheckCircle2 className="w-8 h-8 text-emerald-400 shrink-0" />
                       <div>
-                        <div className="text-xs font-mono text-emerald-300 font-bold uppercase tracking-wider">Total Yang Harus Ditransfer:</div>
-                        <div className="text-xl sm:text-2xl font-mono font-black text-emerald-300 mt-0.5">
-                          Rp {(selectedPkg.dp + uniqueCode).toLocaleString("id-ID")}
-                        </div>
-                        <div className="text-[10px] text-gray-400 font-mono mt-0.5">DP 50% Rp {selectedPkg.dp.toLocaleString("id-ID")} + Kode Unik +{uniqueCode}</div>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => copyToClipboard((selectedPkg.dp + uniqueCode).toString(), "total_dp")}
-                        className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer border border-emerald-400/30 active:scale-95 shrink-0"
-                      >
-                        <Copy className="w-3.5 h-3.5" />
-                        <span>{copiedKey === "total_dp" ? "Nominal Tersalin!" : "Salin Nominal Tepat"}</span>
-                      </button>
-                    </div>
-
-                    {/* Warning Callout Box */}
-                    <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-400/30 flex items-start gap-2.5 text-xs text-amber-200 font-sans leading-relaxed">
-                      <AlertCircle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                      <div>
-                        <span className="font-extrabold text-amber-300">INSTRUKSI:</span> Silakan buka m-banking atau ATM Anda, lalu transfer sejumlah <strong className="text-amber-300 font-mono underline decoration-amber-400/50">Rp {(selectedPkg.dp + uniqueCode).toLocaleString("id-ID")}</strong> ke rekening Bank Jago di atas. Setelah selesai transfer, klik tombol di bawah.
+                        <h4 className="text-base font-extrabold text-white">✅ PEMBAYARAN DP 50% TERVERIFIKASI OTOMATIS!</h4>
+                        <p className="text-xs text-emerald-300 font-mono mt-0.5">Notifikasi transfer telah dikonfirmasi via PayListener Webhook.</p>
                       </div>
                     </div>
-
-                    {/* Action Button: Konfirmasi Sudah Transfer */}
                     <button
                       type="button"
-                      onClick={() => setManualPaymentStep(2)}
-                      className="w-full py-3.5 rounded-xl bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white font-black text-xs flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-sky-500/20 transition-all border border-white/20 active:scale-95"
+                      onClick={() => {
+                        openWindow("project_tracker");
+                        focusWindow("project_tracker");
+                      }}
+                      className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-black text-xs flex items-center justify-center gap-2 shadow-xl shadow-emerald-500/25 transition-all cursor-pointer border border-white/20 active:scale-95"
                     >
-                      <span>Saya Sudah Transfer / Lanjut Upload Bukti ➔</span>
+                      <span>🚀 Buka Dashboard Proyek Anda ➔</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="p-4 rounded-2xl bg-sky-500/10 border border-sky-500/30 space-y-3 shadow-lg">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
+                        <span className="text-xs font-bold text-amber-300 font-mono">⏳ Menunggu Transfer m-Banking / QRIS...</span>
+                      </div>
+                      <span className="text-[10px] font-mono text-gray-400 bg-white/5 px-2 py-0.5 rounded-full border border-white/10">Auto-Check 3s</span>
+                    </div>
+                    <p className="text-[11px] text-gray-300 leading-relaxed font-sans">
+                      Sistem sedang memantau notifikasi transfer masuk secara real-time via Android PayListener Webhook. Begitu Anda melakukan transfer dengan nominal tepat di bawah, status akan berubah <strong>otomatis secara real-time tanpa perlu mengklik apapun</strong>!
+                    </p>
+                    <button
+                      type="button"
+                      onClick={handleManualCheckStatus}
+                      disabled={isCheckingStatus}
+                      className="w-full py-2.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 font-bold text-xs border border-sky-500/30 flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-95 disabled:opacity-50"
+                    >
+                      {isCheckingStatus ? <RefreshCw className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
+                      <span>🔄 Cek Status Pembayaran Realtime</span>
                     </button>
                   </div>
                 )}
 
-                {/* HALAMAN 2: UPLOAD BUKTI PEMBAYARAN */}
-                {manualPaymentStep === 2 && (
-                  <div className="p-4 sm:p-5 rounded-2xl bg-[#141b2d] border border-sky-500/30 space-y-4 shadow-xl animate-in fade-in duration-200">
-                    <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                      <div>
-                        <h4 className="text-sm font-extrabold text-white flex items-center gap-2">
-                          <Upload className="w-4 h-4 text-emerald-400" />
-                          Unggah Struk Bukti Transfer
-                        </h4>
-                        <p className="text-[11px] text-gray-400 font-mono mt-0.5">
-                          Nominal Transfer: Rp {(selectedPkg.dp + uniqueCode).toLocaleString("id-ID")} (Bank Jago)
-                        </p>
+                {/* Bank Account & Exact Amount Box */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-[#141b2d] border border-sky-500/30 space-y-4 shadow-xl">
+                  <div className="flex flex-col sm:flex-row items-start justify-between gap-3 pb-3 border-b border-white/10">
+                    <div className="space-y-1 flex-1">
+                      <div className="text-sky-300 font-bold text-xs font-mono">Bank Tujuan: Bank Jago</div>
+                      <div className="flex items-center gap-2 pt-1">
+                        <span className="text-white font-extrabold text-lg font-mono tracking-wider select-all">103965597312</span>
+                        <button
+                          type="button"
+                          onClick={() => copyToClipboard("103965597312", "rekening")}
+                          className="px-2.5 py-1 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 text-[11px] font-mono font-bold border border-sky-400/30 transition-all cursor-pointer"
+                        >
+                          {copiedKey === "rekening" ? "Tersalin!" : "Salin Rekening"}
+                        </button>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => setManualPaymentStep(1)}
-                        className="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-sky-300 text-[10px] font-mono border border-white/10 transition-all cursor-pointer"
-                      >
-                        &larr; Lihat Rekening
-                      </button>
+                      <div className="text-gray-300 text-xs font-mono">A.N: <strong className="text-white">Haris Musafa</strong></div>
                     </div>
 
-                    {/* Upload Struk Area */}
-                    <div className="space-y-3">
-                      <label className="block text-xs font-mono text-gray-200 font-bold">
-                        Upload Foto Struk / Screenshot Bukti Transfer <span className="text-emerald-400">*</span>
-                      </label>
-
-                      {receiptUrl ? (
-                        <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-400/40 flex items-center justify-between gap-3">
-                          <div className="flex items-center gap-3 min-w-0">
-                            <img src={receiptUrl} alt="Bukti Transfer" className="w-14 h-14 object-cover rounded-xl border border-emerald-400/30 shrink-0" />
-                            <div className="min-w-0">
-                              <div className="text-xs font-extrabold text-emerald-300 flex items-center gap-1.5">
-                                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                                <span>Bukti Transfer Ter-upload!</span>
-                              </div>
-                              <p className="text-[10px] text-gray-400 font-mono truncate mt-0.5">{receiptUrl}</p>
-                            </div>
-                          </div>
-                          <label className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 text-[10px] font-mono font-bold cursor-pointer transition-all shrink-0">
-                            Ganti Foto
-                            <input
-                              type="file"
-                              accept="image/*"
-                              className="hidden"
-                              onChange={(e) => {
-                                const f = e.target.files?.[0];
-                                if (f) handleFileUpload(f, "Bukti Transfer DP", setReceiptUrl);
-                              }}
-                            />
-                          </label>
-                        </div>
-                      ) : (
-                        <div className="p-5 rounded-2xl bg-white/5 border-2 border-dashed border-sky-500/30 hover:border-sky-400 text-center space-y-3 transition-colors">
-                          <Upload className="w-8 h-8 text-sky-400 mx-auto" />
-                          <div>
-                            <p className="text-xs font-bold text-white">Pilih Foto Struk atau Drop File di Sini</p>
-                            <p className="text-[10px] text-gray-400 font-mono mt-1">Mendukung format JPG, PNG, atau Mobile Banking Screenshot</p>
-                          </div>
-                          <label className="inline-block px-4 py-2 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 font-bold text-xs border border-sky-400/30 cursor-pointer transition-all active:scale-95">
-                            <span>Browse File Struk</span>
-                            <input
-                              type="file"
-                              accept="image/*"
-                              className="hidden"
-                              onChange={(e) => {
-                                const f = e.target.files?.[0];
-                                if (f) handleFileUpload(f, "Bukti Transfer DP", setReceiptUrl);
-                              }}
-                            />
-                          </label>
-                        </div>
-                      )}
-
-                      {uploadingReceipt && (
-                        <div className="p-2.5 rounded-xl bg-sky-500/10 border border-sky-500/20 text-xs text-sky-300 font-mono flex items-center justify-center gap-2">
-                          <RefreshCw className="w-4 h-4 animate-spin text-sky-400" />
-                          <span>Mengunggah foto bukti transfer ke server...</span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Download Invoice Button & Agreement */}
-                    <div className="pt-3 border-t border-white/10 space-y-3">
-                      <button
-                        type="button"
-                        onClick={() => setIsInvoiceOpen(true)}
-                        className="w-full p-3 rounded-xl bg-gradient-to-r from-sky-600/30 via-blue-600/30 to-indigo-600/30 hover:bg-sky-600/40 border border-sky-500/40 text-sky-200 font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-lg active:scale-95"
-                      >
-                        <FileText className="w-4 h-4 text-sky-400" />
-                        <span>📄 Lihat &amp; Download Kwitansi / Invoice Resmi PDF</span>
-                      </button>
-
-                      <label className="flex items-start gap-2 text-xs text-gray-300 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={isAgreementAccepted}
-                          onChange={(e) => setIsAgreementAccepted(e.target.checked)}
-                          className="w-4 h-4 rounded text-sky-500 bg-white/10 border-white/20 mt-0.5"
-                        />
-                        <span className="leading-snug text-[11px]">
-                          Saya menyetujui Syarat &amp; Ketentuan Layanan Arjuna Dev, <strong className="text-emerald-400">Garansi 90 Hari Bug-Free</strong>, dan Garansi Pengerjaan Tepat Waktu.
-                        </span>
-                      </label>
+                    <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-400/30 text-right">
+                      <div className="text-[10px] font-mono text-amber-300">Kode Unik Transfer</div>
+                      <div className="text-base font-mono font-black text-amber-400">+{uniqueCode}</div>
                     </div>
                   </div>
-                )}
+
+                  <div className="p-4 rounded-xl bg-gradient-to-r from-emerald-950/40 via-emerald-900/30 to-teal-950/40 border border-emerald-400/40 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shadow-lg">
+                    <div>
+                      <div className="text-xs font-mono text-emerald-300 font-bold uppercase tracking-wider">Total Yang Harus Ditransfer:</div>
+                      <div className="text-xl sm:text-2xl font-mono font-black text-emerald-300 mt-0.5">
+                        Rp {(selectedPkg.dp + uniqueCode).toLocaleString("id-ID")}
+                      </div>
+                      <div className="text-[10px] text-gray-400 font-mono mt-0.5">Transfer sesuai nominal persis di atas agar terdeteksi otomatis.</div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard((selectedPkg.dp + uniqueCode).toString(), "total_dp")}
+                      className="px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 font-bold text-xs border border-emerald-400/30 flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-95 shrink-0"
+                    >
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>{copiedKey === "total_dp" ? "Nominal Tersalin!" : "Salin Nominal Tepat"}</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              /* Review & Submit Form Before Payment */
+              <div className="space-y-4">
+                <div className="pb-2 border-b border-white/10">
+                  <h3 className="text-sm font-extrabold text-white flex items-center gap-2">
+                    <CreditCard className="w-4 h-4 text-emerald-400" />
+                    14. Review Ringkasan Data &amp; Pembayaran DP 50%
+                  </h3>
+                  <p className="text-[11px] text-gray-400">Tinjau seluruh data order Anda sebelum dikirim ke Dashboard Proyek.</p>
+                </div>
+
+                {/* Summary Review Card */}
+                <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2 text-xs font-mono">
+                  <div className="text-sky-300 font-bold border-b border-white/10 pb-1">Ringkasan Data Order:</div>
+                  <div>&bull; Nama Bisnis: <span className="text-white font-bold">{businessName || "-"}</span></div>
+                  <div>&bull; Pemilik / Email: <span className="text-white">{ownerName} ({email})</span></div>
+                  <div>&bull; Paket Dipilih: <span className="text-emerald-400 font-bold">{selectedPkg.name}</span></div>
+                  <div>&bull; Halaman: <span className="text-gray-300">{neededPages.join(", ")}</span></div>
+                  <div>&bull; Fitur: <span className="text-gray-300">{neededFeatures.join(", ")}</span></div>
+                  <div>&bull; Asset Upload: <span className="text-gray-300">{uploadedAssets.length} File Terupload</span></div>
+                  <div>&bull; Target Timeline: <span className="text-amber-300 font-bold">{timeline}</span></div>
+                </div>
+
+                {/* Price Card */}
+                <div className="p-4 rounded-2xl bg-gradient-to-r from-sky-900/40 to-blue-900/40 border border-sky-400/30 space-y-2">
+                  {IS_TESTING_PAYMENT_MODE && (
+                    <div className="p-2.5 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-200 text-xs font-mono flex items-center gap-2 mb-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping shrink-0" />
+                      <span>🧪 <strong>MODE TESTING AKTIF:</strong> DP di-set Rp 10.000 untuk pengujian Android PayListener.</span>
+                    </div>
+                  )}
+                  <div className="flex items-center justify-between text-xs font-mono">
+                    <span className="text-gray-300">Total Biaya Paket:</span>
+                    <span className="text-white font-bold">Rp {selectedPkg.total.toLocaleString("id-ID")}</span>
+                  </div>
+
+                  <div className="flex items-center justify-between text-sm font-extrabold pt-2 border-t border-white/10">
+                    <span className="text-emerald-400">Uang Muka (DP Testing):</span>
+                    <span className="text-emerald-300">Rp {selectedPkg.dp.toLocaleString("id-ID")}</span>
+                  </div>
+                </div>
+
+                {/* Terms Agreement Checkbox */}
+                <div className="pt-2">
+                  <label className="flex items-start gap-2 text-xs text-gray-300 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={isAgreementAccepted}
+                      onChange={(e) => setIsAgreementAccepted(e.target.checked)}
+                      className="w-4 h-4 rounded text-sky-500 bg-white/10 border-white/20 mt-0.5"
+                    />
+                    <span className="leading-snug text-[11px]">
+                      Saya menyetujui Syarat &amp; Ketentuan Layanan Arjuna Dev, <strong className="text-emerald-400">Garansi 90 Hari Bug-Free</strong>, dan Garansi Pengerjaan Tepat Waktu.
+                    </span>
+                  </label>
+                </div>
               </div>
             )}
+
+            {/* HIDDEN MANUAL UPLOAD RECEIPT CODE - PRESERVED FOR FUTURE OFFICIAL PAYMENT GATEWAYS */}
+            {/*
+            {manualPaymentStep === 2 && (
+              <div className="p-4 sm:p-5 rounded-2xl bg-[#141b2d] border border-sky-500/30 space-y-4 shadow-xl">
+                <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                  <h4 className="text-sm font-extrabold text-white flex items-center gap-2">
+                    <Upload className="w-4 h-4 text-emerald-400" />
+                    Unggah Struk Bukti Transfer
+                  </h4>
+                </div>
+                <input type="file" accept="image/*" onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) handleFileUpload(f, "Bukti Transfer DP", setReceiptUrl);
+                }} />
+              </div>
+            )}
+            */}
           </div>
         )}
       </div>
@@ -1545,13 +1530,7 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
       <div className="p-3.5 sm:p-4 bg-[#141924] border-t border-white/10 flex items-center justify-between gap-3 shrink-0">
         {currentStep > 1 ? (
           <button
-            onClick={() => {
-              if (paymentMethod === "manual_transfer" && manualPaymentStep === 2) {
-                setManualPaymentStep(1);
-              } else {
-                setCurrentStep(currentStep - 1);
-              }
-            }}
+            onClick={() => setCurrentStep(currentStep - 1)}
             className="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-gray-300 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-all border border-white/10 shrink-0"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -1569,20 +1548,23 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
             <span>Lanjut</span>
             <ChevronRight className="w-4 h-4" />
           </button>
-        ) : paymentMethod === "manual_transfer" && manualPaymentStep === 1 ? (
-          <button
-            onClick={() => setManualPaymentStep(2)}
-            className="flex-1 sm:flex-initial px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-black text-xs flex items-center justify-center gap-2 cursor-pointer shadow-xl shadow-sky-500/25 transition-all border border-white/20 active:scale-95 text-center leading-snug"
-          >
-            <span>Saya Sudah Transfer ➔</span>
-          </button>
-        ) : (
+        ) : !createdOrderId ? (
           <button
             onClick={handleSubmitOrder}
             disabled={submitting || !isAgreementAccepted}
             className="flex-1 sm:flex-initial px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-black text-xs flex items-center justify-center gap-2 cursor-pointer shadow-xl shadow-emerald-500/25 transition-all border border-white/20 active:scale-95 disabled:opacity-50 text-center leading-snug"
           >
-            {submitting ? "Memproses Order..." : "Kirim Bukti & Selesaikan Order ➔"}
+            {submitting ? "Memproses Order..." : "Selesaikan Order & Buat Tagihan DP ➔"}
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              openWindow("project_tracker");
+              focusWindow("project_tracker");
+            }}
+            className="flex-1 sm:flex-initial px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-black text-xs flex items-center justify-center gap-2 cursor-pointer shadow-xl shadow-sky-500/25 transition-all border border-white/20 active:scale-95 text-center leading-snug"
+          >
+            <span>Dashboard Proyek ➔</span>
           </button>
         )}
       </div>
