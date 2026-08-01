@@ -60,6 +60,7 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
   const [createdOrderId, setCreatedOrderId] = useState("");
   const [uniqueCode, setUniqueCode] = useState(0);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [showValidationErrors, setShowValidationErrors] = useState(false);
 
   useEffect(() => {
     if (storePackageId) {
@@ -285,6 +286,47 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
     return () => unsub();
   }, []);
 
+  // Validation Logic For Required Fields Per Step
+  const validateStep = (stepToValidate: number): { valid: boolean; message?: string } => {
+    if (stepToValidate === 1) {
+      if (!packageId) {
+        return { valid: false, message: "Silakan pilih salah satu paket layanan website terlebih dahulu." };
+      }
+    }
+
+    if (stepToValidate === 2) {
+      if (!businessName.trim()) {
+        return { valid: false, message: "Nama Bisnis / Perusahaan wajib diisi." };
+      }
+      if (!ownerName.trim()) {
+        return { valid: false, message: "Nama Pemilik / Penanggung Jawab wajib diisi." };
+      }
+      if (!email.trim() || !email.includes("@")) {
+        return { valid: false, message: "Email Resmi wajib diisi dengan format email yang valid (contoh: email@domain.com)." };
+      }
+      if (!phone.trim() || phone.trim().length < 8) {
+        return { valid: false, message: "Nomor WhatsApp Direct wajib diisi (minimal 8 digit)." };
+      }
+    }
+
+    return { valid: true };
+  };
+
+  const handleProceedStep = (targetStep: number) => {
+    // Validate all previous steps up to targetStep - 1
+    for (let checkStep = 1; checkStep < targetStep; checkStep++) {
+      const res = validateStep(checkStep);
+      if (!res.valid) {
+        setShowValidationErrors(true);
+        addToast("Form Belum Lengkap ⚠️", res.message || "Mohon lengkapi field yang wajib diisi terlebih dahulu.");
+        setCurrentStep(checkStep);
+        return;
+      }
+    }
+    setShowValidationErrors(false);
+    setCurrentStep(targetStep);
+  };
+
   // Cloudinary File Upload Helper
   const handleFileUpload = async (
     file: File,
@@ -318,6 +360,18 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
   // Submit Order
   const handleSubmitOrder = async () => {
     if (!currentUser) return;
+
+    // Validate all steps before submitting
+    for (let checkStep = 1; checkStep <= 4; checkStep++) {
+      const res = validateStep(checkStep);
+      if (!res.valid) {
+        setShowValidationErrors(true);
+        addToast("Form Belum Lengkap ⚠️", res.message || "Mohon lengkapi field wajib terlebih dahulu.");
+        setCurrentStep(checkStep);
+        return;
+      }
+    }
+
     setSubmitting(true);
 
     const finalDpAmount = selectedPkg.dp + (paymentMethod === "manual_transfer" ? uniqueCode : 0);
@@ -476,9 +530,7 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
             return (
               <div
                 key={s.num}
-                onClick={() => {
-                  if (s.num <= currentStep) setCurrentStep(s.num);
-                }}
+                onClick={() => handleProceedStep(s.num)}
                 className={`p-1.5 sm:p-2 rounded-xl border text-center transition-all cursor-pointer select-none ${
                   isActive
                     ? "bg-sky-500/20 border-sky-400 text-white shadow-md shadow-sky-500/10 font-bold"
@@ -677,7 +729,7 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
 
               <button
                 type="button"
-                onClick={() => setCurrentStep(2)}
+                onClick={() => handleProceedStep(2)}
                 className="px-3.5 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-extrabold text-xs shadow-md transition-all active:scale-95 cursor-pointer shrink-0"
               >
                 Lanjutkan Isi Data Bisnis &rarr;
@@ -710,8 +762,15 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
                     value={businessName}
                     onChange={(e) => setBusinessName(e.target.value)}
                     placeholder="Contoh: Kopi Nusantara / PT Maju Jaya"
-                    className="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-sky-500"
+                    className={`w-full px-3 py-2.5 rounded-xl bg-white/5 border text-xs text-white placeholder-gray-500 focus:outline-none transition-all ${
+                      showValidationErrors && !businessName.trim()
+                        ? "border-rose-500 bg-rose-500/10 focus:border-rose-400"
+                        : "border-white/10 focus:border-sky-500"
+                    }`}
                   />
+                  {showValidationErrors && !businessName.trim() && (
+                    <p className="text-[10px] text-rose-400 font-mono mt-1 font-bold">⚠️ Nama Bisnis wajib diisi!</p>
+                  )}
                 </div>
 
                 <div>
@@ -724,8 +783,15 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
                     value={ownerName}
                     onChange={(e) => setOwnerName(e.target.value)}
                     placeholder="Nama Lengkap Anda"
-                    className="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-sky-500"
+                    className={`w-full px-3 py-2.5 rounded-xl bg-white/5 border text-xs text-white placeholder-gray-500 focus:outline-none transition-all ${
+                      showValidationErrors && !ownerName.trim()
+                        ? "border-rose-500 bg-rose-500/10 focus:border-rose-400"
+                        : "border-white/10 focus:border-sky-500"
+                    }`}
                   />
+                  {showValidationErrors && !ownerName.trim() && (
+                    <p className="text-[10px] text-rose-400 font-mono mt-1 font-bold">⚠️ Nama Pemilik wajib diisi!</p>
+                  )}
                 </div>
               </div>
 
@@ -740,8 +806,15 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="email@bisnisanda.com"
-                    className="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-sky-500"
+                    className={`w-full px-3 py-2.5 rounded-xl bg-white/5 border text-xs text-white placeholder-gray-500 focus:outline-none transition-all ${
+                      showValidationErrors && (!email.trim() || !email.includes("@"))
+                        ? "border-rose-500 bg-rose-500/10 focus:border-rose-400"
+                        : "border-white/10 focus:border-sky-500"
+                    }`}
                   />
+                  {showValidationErrors && (!email.trim() || !email.includes("@")) && (
+                    <p className="text-[10px] text-rose-400 font-mono mt-1 font-bold">⚠️ Email resmi wajib diisi (valid)!</p>
+                  )}
                 </div>
 
                 <div>
@@ -754,8 +827,15 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="081234567890"
-                    className="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-sky-500"
+                    className={`w-full px-3 py-2.5 rounded-xl bg-white/5 border text-xs text-white placeholder-gray-500 focus:outline-none transition-all ${
+                      showValidationErrors && (!phone.trim() || phone.trim().length < 8)
+                        ? "border-rose-500 bg-rose-500/10 focus:border-rose-400"
+                        : "border-white/10 focus:border-sky-500"
+                    }`}
                   />
+                  {showValidationErrors && (!phone.trim() || phone.trim().length < 8) && (
+                    <p className="text-[10px] text-rose-400 font-mono mt-1 font-bold">⚠️ Nomor WhatsApp wajib diisi (min 8 digit)!</p>
+                  )}
                 </div>
               </div>
 
@@ -1552,7 +1632,8 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
 
         {currentStep < maxSteps ? (
           <button
-            onClick={() => setCurrentStep(currentStep + 1)}
+            type="button"
+            onClick={() => handleProceedStep(currentStep + 1)}
             className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-extrabold text-xs flex items-center gap-1.5 cursor-pointer shadow-lg shadow-sky-500/20 transition-all border border-white/20 active:scale-95 shrink-0"
           >
             <span>Lanjut</span>
