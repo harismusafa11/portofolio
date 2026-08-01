@@ -338,7 +338,7 @@ export default function AdminChatPage() {
           </div>
 
           {/* Sessions List Scroll Box */}
-          <div className="flex-1 overflow-y-auto my-3 space-y-2 custom-scrollbar">
+          <div className="flex-1 overflow-y-auto touch-pan-y my-3 space-y-2 custom-scrollbar">
             {loadingSessions ? (
               <div className="py-12 text-center text-xs font-mono text-gray-400">
                 Memuat sesi chat Firebase...
@@ -431,7 +431,7 @@ export default function AdminChatPage() {
               </div>
 
               {/* Chat Thread Messages Scroll Canvas */}
-              <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar my-2">
+              <div className="flex-1 overflow-y-auto touch-pan-y min-h-[300px] space-y-3 pr-2 custom-scrollbar my-2">
                 {messages.length === 0 ? (
                   <div className="py-12 text-center text-xs font-mono text-gray-400">
                     Memuat percakapan...

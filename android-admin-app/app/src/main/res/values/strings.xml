@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Arjuna Admin</string>
+    <string name="notification_channel_name">Admin Notifications</string>
+    <string name="notification_channel_desc">Notifications for new chats and incoming orders</string>
+</resources>

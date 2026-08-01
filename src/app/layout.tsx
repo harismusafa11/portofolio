@@ -157,7 +157,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
         />
       </head>
-      <body suppressHydrationWarning className="h-full overflow-hidden font-sans bg-[#0a0a0a] text-gray-100">
+      <body suppressHydrationWarning className="min-h-full font-sans bg-[#0a0a0a] text-gray-100">
         <DomErrorPatch />
         {children}
       </body>

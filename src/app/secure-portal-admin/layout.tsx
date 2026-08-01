@@ -57,7 +57,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const currentNav = NAV_ITEMS.find((item) => item.href === pathname) || NAV_ITEMS[0];
 
   return (
-    <div className="min-h-screen bg-[#0b0e17] text-gray-100 font-sans flex select-none">
+    <div className="min-h-screen bg-[#0b0e17] text-gray-100 font-sans flex">
       {/* Left Navigation Sidebar */}
       <aside
         className={`fixed md:sticky top-0 left-0 z-40 h-screen w-64 bg-[#121622] border-r border-white/10 flex flex-col justify-between transition-transform duration-200 ${

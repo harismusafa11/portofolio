@@ -47,7 +47,12 @@ scratch/
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
+# android build outputs
+android-admin-app/build/
+android-admin-app/.gradle/
+android-admin-app/.kotlin/
+android-admin-app/.idea/
+android-admin-app/app/build/
 
 
 

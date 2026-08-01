@@ -84,6 +84,7 @@ export default function AdminDashboardPage() {
   });
   const [loading, setLoading] = useState(true);
   const [savingPromo, setSavingPromo] = useState(false);
+  const [submittingIndexNow, setSubmittingIndexNow] = useState(false);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   // Fetch initial dashboard data from API
@@ -200,14 +201,42 @@ export default function AdminDashboardPage() {
           </p>
         </div>
 
-        <button
-          onClick={fetchData}
-          disabled={loading}
-          className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-gray-200 transition-all active:scale-95 flex items-center gap-2 shrink-0 border border-white/10 cursor-pointer"
-        >
-          <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin text-sky-400" : ""}`} />
-          <span>Refresh Data</span>
-        </button>
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            onClick={async () => {
+              setSubmittingIndexNow(true);
+              try {
+                const res = await fetch("/api/indexnow", { method: "POST" });
+                const data = await res.json();
+                if (data.success) {
+                  setToastMsg(`🚀 IndexNow Berhasil! ${data.submittedUrlsCount} URL Website terkirim ke Bing, Yandex, & IndexNow Network.`);
+                  setTimeout(() => setToastMsg(null), 5000);
+                } else {
+                  setToastMsg("❌ Gagal mengirim IndexNow.");
+                }
+              } catch {
+                setToastMsg("❌ Gagal terhubung ke IndexNow API.");
+              } finally {
+                setSubmittingIndexNow(false);
+              }
+            }}
+            disabled={submittingIndexNow}
+            className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-xs font-bold text-white shadow-md transition-all active:scale-95 flex items-center gap-2 cursor-pointer border border-sky-400/30"
+            title="Kirim semua URL website ke Google, Bing, Yandex, & IndexNow secara instan"
+          >
+            <Zap className={`w-3.5 h-3.5 ${submittingIndexNow ? "animate-spin text-amber-300" : "text-amber-300"}`} />
+            <span>{submittingIndexNow ? "Mengirim..." : "🚀 IndexNow Push"}</span>
+          </button>
+
+          <button
+            onClick={fetchData}
+            disabled={loading}
+            className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-gray-200 transition-all active:scale-95 flex items-center gap-2 shrink-0 border border-white/10 cursor-pointer"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin text-sky-400" : ""}`} />
+            <span>Refresh Data</span>
+          </button>
+        </div>
       </div>
 
       {/* Real-Time Visitor Analytics Dashboard Section */}
