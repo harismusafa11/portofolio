@@ -18,12 +18,24 @@ export const MainEnvironment: React.FC<MainEnvironmentProps> = ({ initialApp }) 
 
   // Initial App Deep Linking & Popstate URL Sync
   useEffect(() => {
+    const resolveAppId = (rawPath: string): string | null => {
+      const cleanPath = rawPath.replace(/^\//, "").trim().toLowerCase();
+      if (!cleanPath) return null;
+
+      if (["order", "order-wizard", "order_wizard", "orders"].includes(cleanPath)) return "order_wizard";
+      if (["project-tracker", "project_tracker", "projects", "tracker"].includes(cleanPath)) return "project_tracker";
+      if (["about", "services", "portfolio", "blog", "faq", "contact", "terminal", "settings", "taskmanager", "livechat", "paint"].includes(cleanPath)) {
+        return cleanPath;
+      }
+      return null;
+    };
+
     let targetApp = initialApp;
 
     if (!targetApp && typeof window !== "undefined") {
-      const path = window.location.pathname.replace(/^\//, "").toLowerCase();
-      if (path && ["about", "services", "portfolio", "blog", "faq", "contact", "terminal", "settings"].includes(path)) {
-        targetApp = path;
+      const pathResolved = resolveAppId(window.location.pathname);
+      if (pathResolved) {
+        targetApp = pathResolved;
       }
     }
 
@@ -34,10 +46,10 @@ export const MainEnvironment: React.FC<MainEnvironmentProps> = ({ initialApp }) 
 
     const handlePopState = () => {
       if (typeof window !== "undefined") {
-        const path = window.location.pathname.replace(/^\//, "").toLowerCase();
-        if (path && ["about", "services", "portfolio", "blog", "faq", "contact", "terminal", "settings"].includes(path)) {
-          openWindow(path);
-          focusWindow(path);
+        const pathResolved = resolveAppId(window.location.pathname);
+        if (pathResolved) {
+          openWindow(pathResolved);
+          focusWindow(pathResolved);
         }
       }
     };

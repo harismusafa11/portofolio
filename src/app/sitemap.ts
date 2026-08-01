@@ -7,6 +7,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "/services",
     "/portfolio",
+    "/order",
+    "/project-tracker",
     "/blog",
     "/faq",
     "/about",
@@ -18,7 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return routes.map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString().split("T")[0],
-    changeFrequency: route === "" || route === "/blog" || route === "/services" ? "weekly" : "monthly",
-    priority: route === "" ? 1.0 : route === "/services" || route === "/portfolio" ? 0.9 : 0.8,
+    changeFrequency: route === "" || route === "/blog" || route === "/services" || route === "/order" ? "weekly" : "monthly",
+    priority: route === "" ? 1.0 : route === "/services" || route === "/portfolio" || route === "/order" ? 0.9 : 0.8,
   }));
 }

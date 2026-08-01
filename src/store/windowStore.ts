@@ -217,7 +217,11 @@ interface WindowStore {
 const syncUrlSlug = (appId: string | null) => {
   if (typeof window === "undefined") return;
   const currentPath = window.location.pathname;
-  const targetPath = appId ? `/${appId}` : "/";
+  let slug = appId;
+  if (appId === "order_wizard") slug = "order";
+  if (appId === "project_tracker") slug = "project-tracker";
+
+  const targetPath = slug ? `/${slug}` : "/";
   if (currentPath !== targetPath) {
     window.history.pushState(null, "", targetPath);
   }
