@@ -206,6 +206,18 @@ async function main() {
   await db.delete(schema.portfolios);
   await db.insert(schema.portfolios).values([
     {
+      slug: "bintang-pratama-spices",
+      title: "PT Bintang Pratama Spices Indo — Premium Indonesian Spices Exporter & Supplier",
+      category: "web",
+      categoryLabel: "B2B Export & Corporate Platform",
+      description: "Website profil perusahaan dan katalog ekspor rempah Indonesia ke pasar dunia. Menampilkan komoditas Biji Pala ABCD, Cengkeh Lal Pari, Kayu Manis Korintje, & Vanili Planifolia.",
+      clientName: "PT Bintang Pratama Spices Indo",
+      techStackJson: JSON.stringify(["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "Schema.org JSON-LD"]),
+      imageUrl: "https://bintangpratamaspicesindo.com/images/rempah.jpeg",
+      liveUrl: "https://bintangpratamaspicesindo.com",
+      isFeatured: true,
+    },
+    {
       slug: "phototor-studio",
       title: "Phototor Studio — Free Online Photo Editor & PSD Web Tool",
       category: "web",

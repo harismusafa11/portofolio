@@ -15,6 +15,24 @@ export interface PortfolioProject {
 
 export const PORTFOLIO_DATA: PortfolioProject[] = [
   {
+    id: "bintang-pratama-spices",
+    title: "PT Bintang Pratama Spices Indo — Premium Indonesian Spices Exporter & Supplier",
+    category: "web",
+    categoryLabel: "B2B Export & Corporate Platform",
+    description: "Website profil perusahaan dan katalog ekspor rempah Indonesia ke pasar dunia. Menampilkan komoditas Biji Pala ABCD, Cengkeh Lal Pari, Kayu Manis Korintje, & Vanili Planifolia.",
+    longDescription: "PT Bintang Pratama Spices Indo adalah platform digital profil perusahaan & katalog ekspor komoditas rempah-rempah nusantara kelas dunia. Dibangun dengan standar performa ekspor internasional, bilingual switcher (EN/ID), katalog parameter mutu (moisture, eugenol, ASTA clean), kalkulator logistik FCL/CIF, serta panduan sertifikasi fitosanitari & COA.",
+    techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "Schema.org JSON-LD"],
+    features: [
+      "Katalog Spesifikasi Mutu Ekspor (Biji Pala ABCD, Cengkeh Lal Pari, Kayu Manis, Vanili)",
+      "Sistem Bilingual Otomatis (English & Bahasa Indonesia)",
+      "Informasi Standar Sertifikasi Fitosanitari, Fumigasi & COA",
+      "Integrasi Permintaan Inquiry B2B Global via WhatsApp & Email"
+    ],
+    imagePlaceholderColor: "from-amber-900 to-stone-950",
+    demoUrl: "https://bintangpratamaspicesindo.com",
+    highlights: "Platform B2B Ekspor Rempah Indonesia Berstandar Internasional"
+  },
+  {
     id: "phototor-studio",
     title: "Phototor Studio — Free Online Photo Editor & PSD Web Tool",
     category: "web",

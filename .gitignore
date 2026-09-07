@@ -48,12 +48,14 @@ scratch/
 # typescript
 *.tsbuildinfo
 # android build outputs
+**/.gradle/
+**/build/
 android-admin-app/build/
 android-admin-app/.gradle/
 android-admin-app/.kotlin/
 android-admin-app/.idea/
 android-admin-app/app/build/
-
-
-
-
+android-payment-listener/build/
+android-payment-listener/.gradle/
+android-payment-listener/.kotlin/
+android-payment-listener/app/build/
