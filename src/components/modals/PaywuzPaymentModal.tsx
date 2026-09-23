@@ -186,7 +186,7 @@ export const PaywuzPaymentModal: React.FC<PaywuzModalProps> = ({
               <div className="p-2.5 rounded-xl bg-white/4 border border-white/8 space-y-0.5"><div className="text-gray-500">Status DP</div><div className="text-emerald-400 font-bold">LUNAS ✓</div></div>
             </div>
             <a
-              href={`https://wa.me/6285693366142?text=${encodeURIComponent(`Halo Haris Musafa (Arjuna Dev),\nPembayaran DP 50% saya sudah berhasil via Payment Gateway!\n\n📋 ID Order: ${orderId}\n👤 Nama: ${clientName}\n📧 Email: ${clientEmail}\n📦 Paket: ${packageName}\n💰 DP Dibayar: Rp ${amount.toLocaleString("id-ID")}\n\nMohon konfirmasi agar pengerjaan bisa dimulai. Terima kasih!`)}`}
+              href={`https://wa.me/6285733097867?text=${encodeURIComponent(`Halo Haris Musafa (Arjuna Dev),\nPembayaran DP 50% saya sudah berhasil via Payment Gateway!\n\n📋 ID Order: ${orderId}\n👤 Nama: ${clientName}\n📧 Email: ${clientEmail}\n📦 Paket: ${packageName}\n💰 DP Dibayar: Rp ${amount.toLocaleString("id-ID")}\n\nMohon konfirmasi agar pengerjaan bisa dimulai. Terima kasih!`)}`}
               target="_blank" rel="noopener noreferrer" onClick={onPaymentSuccess}
               className="w-full py-3 px-5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-black text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 transition-all border border-white/15 active:scale-95 cursor-pointer"
             >

@@ -174,7 +174,7 @@ export const TerminalApp: React.FC = memo(function TerminalApp() {
             <div className="font-bold text-white text-sm">Access Granted! Root privilege engaged.</div>
             <p className="text-xs">Terima kasih atas minat Anda bekerjasama dengan Haris Musafa (Arjuna Dev)!</p>
             <a
-              href="https://wa.me/6285693366142?text=Halo%20Haris%20Musafa%20(Arjuna%20Dev),%20saya%20tertarik%20bekerjasama%20untuk%20proyek%20saya."
+              href="https://wa.me/6285733097867?text=Halo%20Haris%20Musafa%20(Arjuna%20Dev),%20saya%20tertarik%20bekerjasama%20untuk%20proyek%20saya."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#25D366] text-black font-bold text-xs hover:bg-[#20ba5a] transition-colors"
@@ -246,7 +246,7 @@ export const TerminalApp: React.FC = memo(function TerminalApp() {
       case "contact":
         outputNode = (
           <div className="text-gray-200 space-y-1 my-1">
-            <p className="text-emerald-400 font-bold">WhatsApp Business: 085693366142 (https://wa.me/6285693366142)</p>
+            <p className="text-emerald-400 font-bold">WhatsApp Business: 085733097867 (https://wa.me/6285733097867)</p>
             <p className="text-purple-400 font-bold">Instagram Official: @haris_musafa_ (https://instagram.com/haris_musafa_)</p>
           </div>
         );

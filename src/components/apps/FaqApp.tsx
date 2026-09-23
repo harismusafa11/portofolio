@@ -23,7 +23,7 @@ export const FAQ_DATA: FaqItem[] = [
     id: "kontak-official",
     question: "Berapa nomor WhatsApp & akun Instagram resmi Arjuna Dev?",
     category: "Kontak Resmi",
-    answer: "Anda dapat menghubungi tim resmi Arjuna Dev (Founder: Haris Musafa) melalui:\n• WhatsApp Business: 085693366142 (https://wa.me/6285693366142)\n• Instagram Official: @haris_musafa_ (https://instagram.com/haris_musafa_)\n• Email Consultation: arjunawebdev@gmail.com\nJam Operasional CS: Live AI Assistant 24 Jam Non-Stop & Admin Live Chat (Senin – Sabtu, 08.00 – 22.00 WIB)."
+    answer: "Anda dapat menghubungi tim resmi Arjuna Dev (Founder: Haris Musafa) melalui:\n• WhatsApp Business: 085733097867 (https://wa.me/6285733097867)\n• Instagram Official: @haris_musafa_ (https://instagram.com/haris_musafa_)\n• Email Consultation: arjunawebdev@gmail.com\nJam Operasional CS: Live AI Assistant 24 Jam Non-Stop & Admin Live Chat (Senin – Sabtu, 08.00 – 22.00 WIB)."
   },
   {
     id: "no-rekening-pembayaran",
@@ -105,7 +105,7 @@ export const FaqApp: React.FC = memo(function FaqApp() {
   const handleAskWA = () => {
     confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 } });
     const msg = "Halo Haris Musafa (Arjuna Dev), saya ingin bertanya mengenai pembuatan website untuk bisnis saya.";
-    window.open(`https://wa.me/6285693366142?text=${encodeURIComponent(msg)}`, "_blank");
+    window.open(`https://wa.me/6285733097867?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
   return (

@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Arjuna Dev | Jasa Pembuatan Website & Software Studio",
     description:
-      "Jasa Web Developer Profesional oleh Haris Musafa. Dapatkan estimasi instant, DP 50%, garansi 90 hari, & konsultasi langsung via WA 085693366142.",
+      "Jasa Web Developer Profesional oleh Haris Musafa. Dapatkan estimasi instant, DP 50%, garansi 90 hari, & konsultasi langsung via WA 085733097867.",
     url: "https://arjunadev.com",
     siteName: "Arjuna Dev",
     locale: "id_ID",
@@ -107,12 +107,12 @@ const jsonLdData = {
         "addressRegion": "Jawa Tengah",
         "addressCountry": "ID",
       },
-      "telephone": "+6285693366142",
+      "telephone": "+6285733097867",
       "priceRange": "Rp 1.499.000 - Rp 9.999.000",
       "openingHours": "Mo-Sa 08:00-21:00",
       "sameAs": [
         "https://instagram.com/haris_musafa_",
-        "https://wa.me/6285693366142",
+        "https://wa.me/6285733097867",
       ],
       "offers": [
         {

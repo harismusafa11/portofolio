@@ -110,13 +110,13 @@ export const ContextMenu: React.FC = () => {
       <div className="my-1 border-t border-white/10" />
 
       <a
-        href="https://wa.me/6285693366142?text=Halo%20Haris%20Musafa%20(Arjuna%20Dev),%20saya%20menghubungi%20via%20Website%20Portofolio."
+        href="https://wa.me/6285733097867?text=Halo%20Haris%20Musafa%20(Arjuna%20Dev),%20saya%20menghubungi%20via%20Website%20Portofolio."
         target="_blank"
         rel="noopener noreferrer"
         className="w-full px-2.5 py-1.5 rounded flex items-center gap-2.5 hover:bg-white/10 transition-colors text-left text-emerald-400 font-medium"
       >
         <WhatsAppLogo className="w-4 h-4" />
-        <span>Direct WA Chat (085693366142)</span>
+        <span>Direct WA Chat (085733097867)</span>
       </a>
 
       <button

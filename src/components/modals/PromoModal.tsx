@@ -81,7 +81,7 @@ export const PromoModal: React.FC = () => {
     const message = encodeURIComponent(
       `Halo Haris Musafa (Arjuna Dev), saya ingin mengklaim ${promoData.title}!`
     );
-    window.open(`https://wa.me/6285693366142?text=${message}`, "_blank");
+    window.open(`https://wa.me/6285733097867?text=${message}`, "_blank");
   };
 
   if (!mounted || !hasLoaded || !isOpen || !promoData.isActive) return null;

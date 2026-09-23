@@ -162,7 +162,7 @@ export const StartMenu: React.FC = () => {
           <span className="text-xs font-semibold text-gray-300 block mb-2">Direct Contact Shortcuts</span>
           <div className="grid grid-cols-2 gap-2">
             <a
-              href="https://wa.me/6285693366142?text=Halo%20Haris%20Musafa,%20saya%20tertarik%20bekerja%20sama."
+              href="https://wa.me/6285733097867?text=Halo%20Haris%20Musafa,%20saya%20tertarik%20bekerja%20sama."
               target="_blank"
               rel="noopener noreferrer"
               className="p-2.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 flex items-center gap-3 transition-colors"
@@ -170,7 +170,7 @@ export const StartMenu: React.FC = () => {
               <WhatsAppLogo className="w-5 h-5 shrink-0" />
               <div className="text-left overflow-hidden">
                 <div className="text-xs font-medium text-emerald-300">WhatsApp Official</div>
-                <div className="text-[10px] text-gray-400 truncate">085693366142</div>
+                <div className="text-[10px] text-gray-400 truncate">085733097867</div>
               </div>
             </a>
 

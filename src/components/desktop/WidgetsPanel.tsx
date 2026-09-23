@@ -107,7 +107,7 @@ export const WidgetsPanel: React.FC = () => {
       {/* Bottom CTA */}
       <div className="pt-4 border-t border-white/10">
         <a
-          href="https://wa.me/6285693366142?text=Halo%20Haris%20Musafa,%20saya%20tertarik%20bekerja%20sama."
+          href="https://wa.me/6285733097867?text=Halo%20Haris%20Musafa,%20saya%20tertarik%20bekerja%20sama."
           target="_blank"
           rel="noopener noreferrer"
           className="w-full py-2.5 rounded-xl bg-[#107c41] hover:bg-[#0f6cbd] text-white text-xs font-bold shadow-lg transition-all flex items-center justify-center gap-2 border border-white/10"

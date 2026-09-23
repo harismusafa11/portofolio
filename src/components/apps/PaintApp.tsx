@@ -1238,7 +1238,7 @@ export const PaintApp: React.FC = memo(function PaintApp() {
         {/* WhatsApp Consultation Action Button */}
         {!isFullCanvasMobile && (
           <a
-            href="https://wa.me/6285693366142?text=Halo%20Haris%20Musafa%20(Arjuna%20Dev),%20saya%20telah%20membuat%20sketsa%20ide%20tata%20letak%20proyek%20di%20Paint_Notes%20dan%20ingin%20konsultasi."
+            href="https://wa.me/6285733097867?text=Halo%20Haris%20Musafa%20(Arjuna%20Dev),%20saya%20telah%20membuat%20sketsa%20ide%20tata%20letak%20proyek%20di%20Paint_Notes%20dan%20ingin%20konsultasi."
             target="_blank"
             rel="noopener noreferrer"
             className="absolute bottom-3 right-3 px-3.5 py-2 rounded-xl bg-[#25D366] hover:bg-[#20ba5a] text-black font-extrabold text-xs shadow-lg flex items-center gap-2 transition-all cursor-pointer border border-black/20 z-20"

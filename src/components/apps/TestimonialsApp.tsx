@@ -166,7 +166,7 @@ export const TestimonialsApp: React.FC = memo(function TestimonialsApp() {
               </button>
 
               <a
-                href="https://wa.me/6285693366142?text=Halo%20Haris%20Musafa,%20saya%20tertarik%20bekerja%20sama%20pembuatan%20website."
+                href="https://wa.me/6285733097867?text=Halo%20Haris%20Musafa,%20saya%20tertarik%20bekerja%20sama%20pembuatan%20website."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 rounded-xl bg-[#107c41] hover:bg-[#0f6cbd] text-xs font-semibold text-white shadow transition-all flex items-center gap-2 border border-white/10"

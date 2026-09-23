@@ -1607,7 +1607,7 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
           <span className="text-[11px] truncate">Butuh bantuan mengisi brief atau bingung memilih paket?</span>
         </div>
         <a
-          href="https://wa.me/6285693366142?text=Halo%20Haris%20Musafa,%20saya%20sedang%20mengisi%20Form%20Order%20dan%20butuh%20bantuan."
+          href="https://wa.me/6285733097867?text=Halo%20Haris%20Musafa,%20saya%20sedang%20mengisi%20Form%20Order%20dan%20butuh%20bantuan."
           target="_blank"
           rel="noopener noreferrer"
           className="px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 font-mono text-[10px] font-bold border border-emerald-500/30 shrink-0 flex items-center gap-1 active:scale-95 transition-all cursor-pointer"
@@ -1684,7 +1684,7 @@ export const OrderWizardApp: React.FC<OrderWizardProps> = ({ initialPackageId })
           createdAt: new Date().toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" }),
           userName: ownerName || currentUser?.displayName || "Klien Arjuna Dev",
           userEmail: currentUser?.email || email || "klien@gmail.com",
-          userPhone: phone || "085693366142",
+          userPhone: phone || "085733097867",
           businessName: businessName || "Proyek Bisnis Klien",
           domainRequest: hasDomain ? existingDomain : ".com / .id",
           packageName: selectedPkg.name,

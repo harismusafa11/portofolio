@@ -195,7 +195,7 @@ export const Taskbar: React.FC = memo(function Taskbar() {
 
           {/* Direct WA Quick Contact */}
           <a
-            href="https://wa.me/6285693366142?text=Halo%20Haris%20Musafa,%20saya%20tertarik%20bekerja%20sama."
+            href="https://wa.me/6285733097867?text=Halo%20Haris%20Musafa,%20saya%20tertarik%20bekerja%20sama."
             target="_blank"
             rel="noopener noreferrer"
             className="p-1.5 rounded-md hover:bg-emerald-500/20 text-emerald-400 transition-all flex items-center gap-1.5 text-xs font-medium border border-emerald-500/20 hidden md:flex"

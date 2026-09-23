@@ -207,7 +207,7 @@ export const ServicesApp: React.FC = memo(function ServicesApp() {
             </div>
 
             <a
-              href="https://wa.me/6285693366142?text=Halo%20Arjuna%20Dev,%20saya%20mau%20konsultasi%20paket%20pembuatan%20website%20UMKM."
+              href="https://wa.me/6285733097867?text=Halo%20Arjuna%20Dev,%20saya%20mau%20konsultasi%20paket%20pembuatan%20website%20UMKM."
               target="_blank"
               rel="noopener noreferrer"
               className="px-5 py-3 rounded-xl bg-gradient-to-r from-[#25D366] to-emerald-600 hover:from-[#20bd5a] hover:to-emerald-500 text-white text-xs font-extrabold shadow-lg shadow-emerald-950/50 transition-all flex items-center justify-center gap-2.5 shrink-0 border border-white/20 active:scale-95 w-full md:w-auto group cursor-pointer"

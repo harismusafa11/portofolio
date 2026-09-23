@@ -287,7 +287,7 @@ export const AndroidEnvironment: React.FC<AndroidEnvironmentProps> = ({ onSwitch
               </div>
 
               <a
-                href="https://wa.me/6285693366142"
+                href="https://wa.me/6285733097867"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="col-span-2 p-3.5 rounded-2xl bg-[#25D366] text-white flex items-center justify-center gap-3 shadow"
@@ -463,7 +463,7 @@ export const AndroidEnvironment: React.FC<AndroidEnvironmentProps> = ({ onSwitch
           isLightWallpaper ? "bg-black/10 border-black/10" : "bg-white/10 border-white/20"
         }`}>
           <a
-            href="https://wa.me/6285693366142"
+            href="https://wa.me/6285733097867"
             target="_blank"
             rel="noopener noreferrer"
             className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#25D366] flex items-center justify-center text-white shadow-lg active:scale-90 transition-transform shrink-0 border border-white/20 cursor-pointer"

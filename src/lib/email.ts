@@ -119,7 +119,7 @@ export function getOrderCreatedEmailHtml(data: EmailOrderData): string {
               </table>
 
               <p style="margin: 0; font-size: 12px; color: #64748b; line-height: 1.5; text-align: center;">
-                Butuh bantuan langsung? Balas email ini atau hubungi tim kami via WhatsApp di <a href="https://wa.me/6285693366142" style="color: #34d399; text-decoration: none;">0856-9336-6142</a>.
+                Butuh bantuan langsung? Balas email ini atau hubungi tim kami via WhatsApp di <a href="https://wa.me/6285733097867" style="color: #34d399; text-decoration: none;">0857-3309-7867</a>.
               </p>
             </td>
           </tr>

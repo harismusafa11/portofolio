@@ -224,7 +224,7 @@ export const BlogApp: React.FC = memo(function BlogApp() {
   const handleConsult = (articleTitle: string) => {
     confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 } });
     const msg = `Halo Haris Musafa (Arjuna Dev), saya membaca artikel "${articleTitle}" di blog dan berminat konsultasi website untuk bisnis saya.`;
-    window.open(`https://wa.me/6285693366142?text=${encodeURIComponent(msg)}`, "_blank");
+    window.open(`https://wa.me/6285733097867?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
   return (

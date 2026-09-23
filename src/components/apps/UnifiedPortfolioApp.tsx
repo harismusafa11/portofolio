@@ -288,7 +288,7 @@ export const UnifiedPortfolioApp: React.FC<UnifiedPortfolioAppProps> = memo(func
               Pesan Website Now
             </button>
             <a
-              href="https://wa.me/6285693366142?text=Halo%20Haris%20Musafa,%20saya%20tertarik%20untuk%20diskusi%20proyek%20website"
+              href="https://wa.me/6285733097867?text=Halo%20Haris%20Musafa,%20saya%20tertarik%20untuk%20diskusi%20proyek%20website"
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white font-bold text-sm transition-all flex items-center gap-2"

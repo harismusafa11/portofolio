@@ -12,7 +12,7 @@ export const ContactApp: React.FC = memo(function ContactApp() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const formattedText = `Halo Haris Musafa (Arjuna Dev),\nNama: ${name || "Pengunjung Website"}\nTipe Proyek: ${projectType}\nPesan: ${message || "Saya berminat konsultasi pembuatan proyek."}`;
-    const waUrl = `https://wa.me/6285693366142?text=${encodeURIComponent(formattedText)}`;
+    const waUrl = `https://wa.me/6285733097867?text=${encodeURIComponent(formattedText)}`;
     window.open(waUrl, "_blank");
   };
 
@@ -36,7 +36,7 @@ export const ContactApp: React.FC = memo(function ContactApp() {
         <div className="flex flex-col gap-3">
           {/* Official WhatsApp Direct Card */}
           <a
-            href="https://wa.me/6285693366142?text=Halo%20Haris%20Musafa,%20saya%20tertarik%20bekerja%20sama."
+            href="https://wa.me/6285733097867?text=Halo%20Haris%20Musafa,%20saya%20tertarik%20bekerja%20sama."
             target="_blank"
             rel="noopener noreferrer"
             className="p-4 rounded-xl bg-[#222222] border border-white/10 hover:border-emerald-500/50 transition-all flex items-center gap-4 group shadow-sm"

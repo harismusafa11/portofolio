@@ -59,7 +59,7 @@ export const WaOrderModal: React.FC<WaOrderModalProps> = ({
       notes ? `%0A• *Kebutuhan Khusus*: ${encodeURIComponent(notes)}` : ""
     }%0A%0AMohon informasi langkah pengerjaan dan pembayaran selengkapnya. Terima kasih!`;
 
-    window.open(`https://wa.me/6285693366142?text=${message}`, "_blank");
+    window.open(`https://wa.me/6285733097867?text=${message}`, "_blank");
     onClose();
   };
 

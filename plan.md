@@ -33,7 +33,7 @@ Menciptakan platform portofolio dan pemasaran jasa berbasis web yang unik, inter
 | **Pemilik / Founder** | Haris Musafa |
 | **Spesialisasi** | Web Development (Landing Page, E-Commerce, Custom Web App) & Mobile App Development (iOS/Android) |
 | **Instagram Official** | `@haris_musafa_` (`https://instagram.com/haris_musafa_`) |
-| **WhatsApp Business** | `085693366142` (`https://wa.me/6285693366142`) |
+| **WhatsApp Business** | `085733097867` (`https://wa.me/6285733097867`) |
 | **Tone of Voice** | Profesional, Inovatif, Modern, Technical-savvy, Friendly |
 
 ---
@@ -195,7 +195,7 @@ Aplikasi **`Terminal_CMD.exe`** ditujukan untuk pengunjung teknis (*developer/te
 - `skills` : Menampilkan daftar keahlian (*JavaScript, TypeScript, React, Next.js, Flutter, Node.js, Tailwind, PostgreSQL*).
 - `services` : Menampilkan ringkasan 3 paket web dan aplikasi mobile.
 - `portfolio` : Menampilkan daftar proyek beserta link-nya.
-- `contact` : Menampilkan info kontak WA (`085693366142`) & IG (`@haris_musafa_`).
+- `contact` : Menampilkan info kontak WA (`085733097867`) & IG (`@haris_musafa_`).
 - `clear` : Membersihkan layar terminal.
 - `matrix` : *Easter egg* yang menjalankan animasi hujan kode hijau ala film The Matrix.
 
@@ -256,7 +256,7 @@ Untuk memastikan UX tetap sempurna di layar HP (layar < 768px):
 ### 9.2 Performa & Keamanan
 - **Lazy Loading Components:** Komponen jendela hanya di-render secara *dynamic import* saat jendela dibuka pertama kali untuk menghemat memori.
 - **Sanitized Terminal Inputs:** Input pada Terminal CMD disaring untuk mencegah XSS.
-- **Direct WA Integration:** Menggunakan format URL standar `https://wa.me/6285693366142?text=...` tanpa perantara backend yang memperlambat proses.
+- **Direct WA Integration:** Menggunakan format URL standar `https://wa.me/6285733097867?text=...` tanpa perantara backend yang memperlambat proses.
 
 ---
 
@@ -351,4 +351,4 @@ Berikut adalah struktur data JSON yang dapat langsung dipakai developer untuk me
 
 ---
 
-**Dokumen PRD ini telah lengkap dan siap dieksekusi.** Semua instruksi brand, kontak WhatsApp (`085693366142`), Instagram (`@haris_musafa_`), identitas pemilik (`Haris Musafa`), paket harga, portofolio, serta animasi UI OS Windows telah dispesifikasikan dengan jelas.
+**Dokumen PRD ini telah lengkap dan siap dieksekusi.** Semua instruksi brand, kontak WhatsApp (`085733097867`), Instagram (`@haris_musafa_`), identitas pemilik (`Haris Musafa`), paket harga, portofolio, serta animasi UI OS Windows telah dispesifikasikan dengan jelas.

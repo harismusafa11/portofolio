@@ -93,7 +93,7 @@ export const ToastNotification: React.FC = () => {
               <span>Garansi 90 Hari Bug</span>
             </span>
             <a
-              href="https://wa.me/6285693366142?text=Halo%20Haris%20Musafa,%20saya%20tertarik%20bekerja%20sama%20membuat%20website."
+              href="https://wa.me/6285733097867?text=Halo%20Haris%20Musafa,%20saya%20tertarik%20bekerja%20sama%20membuat%20website."
               target="_blank"
               rel="noopener noreferrer"
               className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold shadow transition-all flex items-center gap-1.5 border border-white/10 active:scale-95 cursor-pointer"
