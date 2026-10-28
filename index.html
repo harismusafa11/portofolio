@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARJUNA WEBDEV — Jasa Pembuatan Website Profesional</title>
+  <meta name="description" content="Portfolio Web Developer — Membangun Website Cepat, Responsive, dan Modern. Solusi lengkap kehadiran digital bisnis Anda.">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ==================== 1. TOP NAVBAR (PERSIS GAMBAR 1) ==================== -->
+  <header id="main-header" class="site-header">
+    <div class="header-bg-angle" aria-hidden="true"></div>
+    <div class="header-inner">
+      
+      <!-- Kiri: Logo Brand -->
+      <a href="#beranda" class="site-logo" aria-label="ARJUNA WEBDEV">
+        <img src="assets/logo.png" alt="ARJUNA WEBDEV Logo" class="logo-symbol">
+        <span class="logo-text">ARJUNA <span class="logo-sub">WEBDEV</span></span>
+      </a>
+
+      <!-- Kanan: Navigation Links on Dark Angled Top Bar -->
+      <nav class="header-nav">
+        <ul class="nav-menu">
+          <li><a href="#beranda" class="nav-item active">Home</a></li>
+          <li><a href="#layanan" class="nav-item">Services</a></li>
+          <li><a href="#portofolio" class="nav-item">Portfolio</a></li>
+          <li><a href="#tentang" class="nav-item">About</a></li>
+          <li>
+            <a href="#kontak" class="nav-btn-contact">
+              <span>Contact</span>
+              <i class="fa-solid fa-angle-down"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button id="mobile-toggle" class="mobile-toggle-btn" aria-label="Buka Menu Navigasi" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+    </div>
+
+    <!-- Mobile Drawer Nav -->
+    <div id="mobile-menu" class="mobile-drawer">
+      <ul class="mobile-nav-links">
+        <li><a href="#beranda" class="mobile-link">Home / Beranda</a></li>
+        <li><a href="#portofolio" class="mobile-link">Portfolio Proyek</a></li>
+        <li><a href="#layanan" class="mobile-link">Paket Layanan</a></li>
+        <li><a href="#tentang" class="mobile-link">Tentang Arjuna</a></li>
+        <li><a href="#kontak" class="mobile-link">Hubungi Kami</a></li>
+      </ul>
+      <div class="mobile-drawer-cta">
+        <a href="#kontak" class="btn btn-blue-pill btn-block">Konsultasi Sekarang</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main>
+
+    <!-- ━━━━━━ HALAMAN 1: HERO / BERANDA (PERSIS GAMBAR 1) ━━━━━━ -->
+    <section id="beranda" class="hero-canvas">
+      
+      <!-- Layer Aksen Geometris Sudut Kiri Bawah (Persis Gambar 1) -->
+      <div class="hero-corner-polygons" aria-hidden="true">
+        <div class="polygon-dark-1"></div>
+        <div class="polygon-dark-2"></div>
+        <div class="circuit-trace-corner"></div>
+      </div>
+
+      <!-- Layer Panel Gelap Cyber Kanan dengan Sudut Miring 56% (Persis Gambar 1) -->
+      <div class="hero-cyber-panel" aria-hidden="true">
+        <div class="cyber-ambient-glow"></div>
+      </div>
+
+      <!-- SVG Sirkuit & Radar HUD Konsentris Menembus Latar Gelap & Terang (Persis Gambar 1) -->
+      <svg class="hero-circuit-overlay" viewBox="0 0 1440 820" fill="none" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <filter id="cyanGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="4" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+          <filter id="laserGlow" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="2.5" result="blur1" />
+            <feGaussianBlur stdDeviation="7" result="blur2" />
+            <feMerge>
+              <feMergeNode in="blur2" />
+              <feMergeNode in="blur1" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+          <radialGradient id="hudCenterGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#00D2FF" stop-opacity="0.45" />
+            <stop offset="40%" stop-color="#1254EB" stop-opacity="0.25" />
+            <stop offset="100%" stop-color="#050C1B" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+
+        <!-- Inti Cahaya Cyber di Belakang Kepala Arjuna -->
+        <circle id="hud-core-glow" cx="1060" cy="380" r="280" fill="url(#hudCenterGlow)" class="hud-core-glow" />
+
+        <!-- Group 1: Outer Rings -->
+        <g id="hud-outer-rings" class="hud-rotate-cw">
+          <circle cx="1060" cy="380" r="480" stroke="#00D2FF" stroke-width="0.8" stroke-dasharray="8 12" opacity="0.22" />
+          <circle cx="1060" cy="380" r="380" stroke="#00D2FF" stroke-width="1" opacity="0.3" />
+          <!-- Efek Cahaya Berjalan 1 pada Cincin r=380 (Aktif Terus Tanpa Perlu Scroll) -->
+          <circle cx="1060" cy="380" r="380" stroke="#00F0FF" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="190 2198" class="hud-beam-orbit-cw-1" filter="url(#laserGlow)" />
+        </g>
+
+        <!-- Group 2: Mid Rings -->
+        <g id="hud-mid-rings" class="hud-rotate-ccw">
+          <circle cx="1060" cy="380" r="290" stroke="#00D2FF" stroke-width="1.2" stroke-dasharray="6 6" opacity="0.4" />
+          <!-- Efek Cahaya Berjalan 2 pada Cincin r=290 (Berlawanan Arah) -->
+          <circle cx="1060" cy="380" r="290" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-dasharray="140 1682" class="hud-beam-orbit-ccw-2" filter="url(#laserGlow)" />
+          <circle cx="1060" cy="380" r="230" stroke="#00F0FF" stroke-width="2.2" filter="url(#cyanGlow)" opacity="0.75" />
+          <!-- Efek Cahaya Berjalan 3 pada Cincin r=230 (Cyan Menyala Terang) -->
+          <circle cx="1060" cy="380" r="230" stroke="#00F0FF" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="130 1315" class="hud-beam-orbit-cw-3" filter="url(#laserGlow)" />
+          <path d="M 1060 150 A 230 230 0 0 1 1290 380" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="10 18" opacity="0.7" />
+        </g>
+
+        <!-- Group 3: Inner Rings & Dials -->
+        <g id="hud-inner-rings" class="hud-rotate-dial">
+          <circle cx="1060" cy="380" r="160" stroke="#165DFF" stroke-width="2" opacity="0.65" />
+          <!-- Efek Cahaya Berjalan 4 pada Cincin Dial r=160 (Cepat) -->
+          <circle cx="1060" cy="380" r="160" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="90 915" class="hud-beam-orbit-ccw-4" filter="url(#laserGlow)" />
+          <circle cx="1060" cy="380" r="100" stroke="#00D2FF" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.5" />
+          <path d="M 1060 220 A 160 160 0 0 1 1220 380" stroke="#00F0FF" stroke-width="3.5" stroke-linecap="round" filter="url(#cyanGlow)" />
+        </g>
+
+        <!-- Aksen Data Tech di Kanan HUD -->
+        <path d="M 1290 380 L 1410 380" stroke="#00D2FF" stroke-width="1.5" opacity="0.7" />
+        <rect x="1340" y="374" width="12" height="12" fill="#00D2FF" opacity="0.8" />
+        <circle cx="1410" cy="380" r="4" fill="#00F0FF" filter="url(#cyanGlow)" class="glowing-node" />
+        <path d="M 1240 280 L 1320 280 L 1350 250 L 1420 250" stroke="#00D2FF" stroke-width="1.2" opacity="0.5" />
+        <circle cx="1420" cy="250" r="3.5" fill="#00D2FF" class="glowing-node" />
+
+        <!-- Sirkuit 1: Garis Stepped Tengah Atas (Persis Gambar 1) -->
+        <path d="M 330 220 L 530 220" stroke="#00D2FF" stroke-width="1.5" stroke-dasharray="6 5" opacity="0.7" />
+        <path d="M 330 220 L 530 220 L 620 155 L 860 155" stroke="#00F0FF" stroke-width="2" class="circuit-laser-flow" filter="url(#cyanGlow)" />
+        <circle cx="530" cy="220" r="4" fill="#00D2FF" class="glowing-node" />
+        <path d="M 530 220 L 620 155" stroke="#00D2FF" stroke-width="1.5" opacity="0.8" />
+        <circle cx="620" cy="155" r="4.5" fill="#1256E8" stroke="#00D2FF" stroke-width="1" />
+        <path d="M 620 155 L 860 155" stroke="#00D2FF" stroke-width="1.5" opacity="0.8" />
+        <circle cx="860" cy="155" r="4" fill="#00F0FF" filter="url(#cyanGlow)" class="glowing-node" />
+        <circle cx="860" cy="155" r="1.5" fill="#FFFFFF" />
+
+        <!-- Sirkuit 2: Garis Stepped Bawah di Bawah Tombol (Persis Gambar 1) -->
+        <path d="M 140 670 L 380 670" stroke="#00D2FF" stroke-width="1.5" opacity="0.75" />
+        <path d="M 140 670 L 380 670 L 450 600 L 640 600" stroke="#00F0FF" stroke-width="2" class="circuit-laser-flow" filter="url(#cyanGlow)" />
+        <circle cx="380" cy="670" r="4" fill="#00D2FF" class="glowing-node" />
+        <path d="M 380 670 L 450 600" stroke="#00D2FF" stroke-width="1.5" opacity="0.8" />
+        <circle cx="450" cy="600" r="4.5" fill="#1256E8" stroke="#00D2FF" stroke-width="1" />
+        <path d="M 450 600 L 640 600" stroke="#00D2FF" stroke-width="1.5" opacity="0.7" />
+        <circle cx="640" cy="600" r="4.5" stroke="#00D2FF" stroke-width="2" fill="none" class="glowing-node" />
+
+        <!-- Sirkuit 3: Jejak Halus Atas Dekat Navbar -->
+        <path d="M 520 70 L 660 70 L 700 100 L 820 100" stroke="#00D2FF" stroke-width="1.2" opacity="0.4" />
+        <circle cx="820" cy="100" r="3" fill="#00D2FF" opacity="0.6" />
+      </svg>
+
+      <div class="hero-container-inner">
+        <!-- Sisi Kiri: Teks & Logo 3D -->
+        <div class="hero-text-block">
+          
+          <!-- Logo 3D ARJUNA WEBDEV Besar (Persis Gambar 1) -->
+          <div class="hero-emblem-wrapper">
+            <img src="assets/logo.png" alt="ARJUNA WEBDEV 3D Emblem" class="hero-emblem-img">
+          </div>
+
+          <!-- Judul Utama (Hitam Tebal Elegan - Persis Gambar 1) -->
+          <h1 class="hero-headline">
+            Jasa Pembuatan <br>
+            Website Profesional
+          </h1>
+
+          <!-- Subjudul (Abu-abu Rapi - Persis Gambar 1) -->
+          <p class="hero-tagline">
+            Portfolio Web Developer — Membangun Website <br>
+            Cepat, Responsive, dan Modern
+          </p>
+
+          <!-- Dua Tombol Aksi (Persis Gambar 1: Biru Kiri, Putih Kanan) -->
+          <div class="hero-actions">
+            <a href="#portofolio" class="btn-blue-pill">Lihat Portofolio</a>
+            <a href="#kontak" class="btn-white-pill">Hubungi Saya</a>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Sisi Kanan: Foto Arjuna Menonjol di Tengah-Kanan & Floating Card (Persis Gambar 1) -->
+      <div class="hero-avatar-showcase">
+        
+        <!-- Foto Profil Arjuna Tanpa Background -->
+        <div class="hero-avatar-wrapper">
+          <img src="assets/profile.png" alt="Arjuna - Web Developer ARJUNA WEBDEV" class="hero-avatar-cutout">
+        </div>
+
+        <!-- Floating Glassmorphism "Portfolio" Card (Persis Gambar 1) -->
+        <div class="floating-portfolio-card">
+          <div class="fp-header">
+            <span class="fp-title">Portfolio</span>
+          </div>
+
+          <div class="fp-tiles">
+            <!-- Tile 1: Website Toko Online -->
+            <div class="fp-tile tile-shop" onclick="openProjectModal(1)" role="button" tabindex="0">
+              <div class="tile-top-visual">
+                <img src="assets/logo.png" alt="Toko Online" class="tile-logo-symbol">
+              </div>
+              <div class="tile-bottom-blue">
+                <span>Website</span>
+                <span class="sub">Toko Online</span>
+              </div>
+            </div>
+
+            <!-- Tile 2: Website Company Profile -->
+            <div class="fp-tile tile-company" onclick="openProjectModal(2)" role="button" tabindex="0">
+              <div class="tile-company-info">
+                <span class="co-title">Website</span>
+                <span class="co-title">Company</span>
+                <span class="co-title">Profile</span>
+                <div class="co-pill-bar"></div>
+              </div>
+              <div class="tile-laptop-icon">
+                <i class="fa-solid fa-laptop"></i>
+              </div>
+            </div>
+
+            <!-- Tile 3: Landing Page SaaS -->
+            <div class="fp-tile tile-saas" onclick="openProjectModal(3)" role="button" tabindex="0">
+              <div class="tile-saas-visual">
+                <div class="saas-mini-window">
+                  <div class="window-bar"></div>
+                  <div class="window-content">
+                    <i class="fa-solid fa-layer-group"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="tile-saas-footer">
+                <span>Landing</span>
+                <span class="sub">Page SaaS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ━━━━━━ BAGIAN KEUNGGULAN & STATISTIK COUNT-UP ━━━━━━ -->
+    <section class="section stats-banner-section">
+      <div class="container">
+        
+        <div class="section-badge-center" data-scroll-item>
+          <span class="badge-text">DEDIKASI & KUALITAS TINGGI</span>
+        </div>
+        <h2 class="section-title-dark text-center" data-scroll-item>
+          Kenapa Memilih <span class="text-gradient-blue">ARJUNA WEBDEV?</span>
+        </h2>
+        <p class="section-sub-dark text-center" data-scroll-item>
+          Komitmen penuh pada kode rapi, tampilan responsif sempurna, dan kepuasan hasil tanpa kompromi.
+        </p>
+
+        <div class="stats-row">
+          <!-- Stat 1 -->
+          <div class="stat-box" data-scroll-item>
+            <div class="stat-num-row">
+              <span class="stat-counter" data-target="15">0</span>
+              <span class="stat-plus">+</span>
+            </div>
+            <h3 class="stat-title">Proyek Selesai</h3>
+            <p class="stat-desc">Website toko online, profil bisnis, dan portal aplikasi yang sukses mengudara.</p>
+          </div>
+
+          <!-- Stat 2 -->
+          <div class="stat-box" data-scroll-item>
+            <div class="stat-num-row">
+              <span class="stat-counter" data-target="100">0</span>
+              <span class="stat-plus">%</span>
+            </div>
+            <h3 class="stat-title">Tampilan Responsif</h3>
+            <p class="stat-desc">Uji kelayakan mulus di HP Android, iPhone, iPad, laptop, hingga layar monitor 4K.</p>
+          </div>
+
+          <!-- Stat 3 -->
+          <div class="stat-box" data-scroll-item>
+            <div class="stat-num-row">
+              <span class="stat-prefix">&lt;</span>
+              <span class="stat-counter" data-target="1">0</span>
+              <span class="stat-plus">.2s</span>
+            </div>
+            <h3 class="stat-title">Kode Bersih & Cepat</h3>
+            <p class="stat-desc">Optimasi struktur aset ringan untuk waktu muat instan tanpa jeda tunggu.</p>
+          </div>
+
+          <!-- Stat 4 -->
+          <div class="stat-box" data-scroll-item>
+            <div class="stat-num-row">
+              <span class="stat-counter" data-target="100">0</span>
+              <span class="stat-plus">%</span>
+            </div>
+            <h3 class="stat-title">Revisi Sampai Sesuai</h3>
+            <p class="stat-desc">Garansi perbaikan desain & fungsi hingga website persis seperti visi dan harapanmu.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ━━━━━━ HALAMAN 2: PORTOFOLIO PROYEK (PERSIS GAMBAR 2) ━━━━━━ -->
+    <section id="portofolio" class="portfolio-showcase-section">
+      
+      <!-- 1. Latar Belakang Gelap Bersatu (Single Unified Canopy & Shelf Path - Persis Gambar 2) -->
+      <div class="portfolio-unified-bg" aria-hidden="true">
+        <svg viewBox="0 0 1440 800" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" class="shelf-svg-shape">
+          <path d="M 0 590 L 0 290 Q 0 260 30 260 L 720 260 C 775 260 805 130 855 65 C 880 35 910 35 955 35 L 1440 35 L 1440 590 Q 1440 610 1410 610 L 30 610 Q 0 610 0 590 Z" fill="#060B18" />
+        </svg>
+
+        <!-- Sparkle Star di Kanan Atas -->
+        <div class="canopy-sparkle">✦</div>
+
+        <!-- Lingkaran Cyber Arc di Belakang Arjuna -->
+        <div class="shelf-cyber-ring"></div>
+
+        <!-- Segitiga Cyber Biru/Cyan di Belakang Arjuna (Persis Gambar 2) -->
+        <div class="shelf-cyber-triangle"></div>
+
+        <!-- Foto Arjuna Berdiri Tegap di Kanan Atas (Tubuh Bagian Bawah Masuk ke Belakang Kartu) -->
+        <img src="assets/profile.png" alt="Arjuna Web Developer" class="shelf-avatar-img">
+      </div>
+
+      <!-- 2. Header Kiri Atas: Judul & Kancing Filter (Persis Gambar 2) -->
+      <div class="portfolio-top-header">
+        <div class="container pf-header-container text-left">
+          
+          <h2 class="portfolio-main-title">Portofolio Proyek</h2>
+          <p class="portfolio-main-sub">
+            Kumpulan hasil kerja pembuatan website dan aplikasi web profesional
+          </p>
+
+          <div class="portfolio-filter-row">
+            <button class="pf-pill-btn active" data-filter="all">All</button>
+            <button class="pf-pill-btn" data-filter="bisnis">Website</button>
+            <button class="pf-pill-btn" data-filter="toko">E-Commerce</button>
+            <button class="pf-pill-btn" data-filter="sistem">App Design</button>
+            <button class="pf-pill-btn" data-filter="landing">UI/UX</button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 3. Deretan 6 Kartu Horisontal di Atas Rak Gelap (Persis Gambar 2) -->
+      <div class="shelf-content-layer">
+        <div class="container pf-cards-container">
+          
+          <div class="shelf-cards-row">
+
+            <!-- Card 1: Website Toko Online (Dark Card) -->
+            <div class="shelf-card card-dark" data-category="toko" onclick="openProjectModal(1)">
+              <button class="shelf-action-btn action-top-right btn-action-dark" onclick="event.stopPropagation(); openProjectModal(1)" aria-label="Detail Toko Online">
+                <i class="fa-solid fa-arrow-down"></i>
+              </button>
+              <div class="shelf-card-screen">
+                <img src="assets/project_ecommerce.jpg" alt="Website Toko Online">
+              </div>
+              <div class="shelf-card-meta">
+                <span class="shelf-card-tag">E-COMMERCE</span>
+                <h3 class="shelf-card-title">Website Toko Online</h3>
+                <p class="shelf-card-desc-line">Katalog produk responsif, sistem keranjang & payment gateway</p>
+                <div class="shelf-card-dots">
+                  <span></span><span></span><span></span><span></span>
+                </div>
+                <button class="shelf-action-btn action-bottom-right btn-action-cyan" onclick="event.stopPropagation(); openProjectModal(1)" aria-label="Detail Toko Online">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 2: Company Profile Arjuna Corp (Light Card) -->
+            <div class="shelf-card card-light" data-category="bisnis" onclick="openProjectModal(2)">
+              <button class="shelf-action-btn action-top-right btn-action-blue" onclick="event.stopPropagation(); openProjectModal(2)" aria-label="Detail Company Profile">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+              <div class="shelf-card-screen">
+                <img src="assets/project_corporate.jpg" alt="Company Profile Arjuna Corp">
+              </div>
+              <div class="shelf-card-meta">
+                <span class="shelf-card-tag">CORPORATE</span>
+                <h3 class="shelf-card-title">Company Profile Arjuna Corp</h3>
+                <p class="shelf-card-desc-line">Website profil korporat prestisius teroptimasi SEO Google</p>
+                <button class="shelf-action-btn action-bottom-right btn-action-blue" onclick="event.stopPropagation(); openProjectModal(2)" aria-label="Detail Company Profile">
+                  <i class="fa-solid fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 3: Landing Page Startup (Light Card) -->
+            <div class="shelf-card card-light" data-category="landing" onclick="openProjectModal(3)">
+              <button class="shelf-action-btn action-top-right btn-action-blue" onclick="event.stopPropagation(); openProjectModal(3)" aria-label="Detail Landing Page">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+              <div class="shelf-card-screen">
+                <img src="assets/project_startup.jpg" alt="Landing Page Startup">
+              </div>
+              <div class="shelf-card-meta">
+                <span class="shelf-card-tag">SAAS PRODUCT</span>
+                <h3 class="shelf-card-title">Landing Page Startup</h3>
+                <p class="shelf-card-desc-line">Halaman pendaratan konversi tinggi untuk startup SaaS</p>
+                <button class="shelf-action-btn action-bottom-right btn-action-cyan" onclick="event.stopPropagation(); openProjectModal(3)" aria-label="Detail Landing Page">
+                  <i class="fa-solid fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 4: Sistem Manajemen Sekolah (Dark Card) -->
+            <div class="shelf-card card-dark" data-category="sistem" onclick="openProjectModal(4)">
+              <div class="shelf-card-screen">
+                <img src="assets/project_school.jpg" alt="Sistem Manajemen Sekolah">
+              </div>
+              <div class="shelf-card-meta">
+                <span class="shelf-card-tag">DASHBOARD</span>
+                <h3 class="shelf-card-title">Sistem Manajemen Sekolah</h3>
+                <p class="shelf-card-desc-line">Portal administrasi akademik terpadu, rapor & PPDB online</p>
+                <button class="shelf-action-btn action-bottom-right btn-action-blue" onclick="event.stopPropagation(); openProjectModal(4)" aria-label="Detail Sistem Sekolah">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 5: Website Travel Agent (Dark Card with 3D Logo) -->
+            <div class="shelf-card card-dark" data-category="bisnis" onclick="openProjectModal(5)">
+              <div class="shelf-card-screen">
+                <div class="card-screen-logo-bg">
+                  <span class="card-logo-label">Portfolio</span>
+                  <img src="assets/logo.png" alt="ARJUNA 3D Logo" class="card-screen-logo">
+                </div>
+              </div>
+              <div class="shelf-card-meta">
+                <span class="shelf-card-tag">TRAVEL AGENT</span>
+                <h3 class="shelf-card-title">Website Travel Agent</h3>
+                <p class="shelf-card-desc-line">Platform agen wisata pemesanan paket & destinasi liburan</p>
+                <button class="shelf-action-btn action-bottom-right btn-action-cyan" onclick="event.stopPropagation(); openProjectModal(5)" aria-label="Detail Website Travel">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 6: UI/UX Mobile App (Light Card) -->
+            <div class="shelf-card card-light" data-category="landing" onclick="openProjectModal(6)">
+              <button class="shelf-action-btn action-top-right btn-action-blue" onclick="event.stopPropagation(); openProjectModal(6)" aria-label="Detail Developer Site">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+              <div class="shelf-card-screen">
+                <img src="assets/project_travel.jpg" alt="ARJUNA WEBDEV Showcase">
+              </div>
+              <div class="shelf-card-meta">
+                <span class="shelf-card-tag">MOBILE APP</span>
+                <h3 class="shelf-card-title">UI/UX Mobile App</h3>
+                <p class="shelf-card-desc-line">Desain antarmuka aplikasi interaktif dengan animasi halus</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 4. Baris Bawah: Kutipan di Kiri & Tombol "Lihat Semua Proyek" di Tengah (Persis Gambar 2) -->
+          <div class="shelf-bottom-bar">
+            <div class="shelf-bottom-quote">
+              <i class="fa-solid fa-shapes quote-icon"></i>
+              <span>The best investment you can make is in yourself.</span>
+            </div>
+            <div class="shelf-bottom-cta">
+              <a href="#kontak" class="btn-blue-pill pf-btn-explore">
+                Lihat Semua Proyek
+              </a>
+            </div>
+            <div class="shelf-bottom-spacer"></div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ━━━━━━ HALAMAN 3: PAKET LAYANAN & HARGA (LIGHT MODERN EDITION) ━━━━━━ -->
+    <section id="layanan" class="section pricing-section light-theme">
+      <!-- Subtle light background mesh -->
+      <div class="pricing-light-mesh" aria-hidden="true"></div>
+
+      <div class="container relative-z">
+        
+        <div class="section-badge-center text-center" data-scroll-item>
+          <span class="badge-text">
+            <i class="fa-solid fa-gem"></i> PILIHAN INVESTASI CERDAS
+          </span>
+          <h2 class="section-title-dark text-center">
+            Paket Pembuatan <span class="text-gradient-blue">Website</span>
+          </h2>
+          <p class="section-sub-dark text-center">
+            Transparan, tanpa biaya tersembunyi, pengerjaan cepat dengan garansi kualitas premium.
+          </p>
+        </div>
+
+        <div class="pricing-cards-grid">
+
+          <!-- 1. Starter Pack (Light Card) -->
+          <div class="pricing-card card-light" data-scroll-item>
+            <div class="card-inner">
+              <div class="pricing-card-header">
+                <div class="tier-badge-pill starter">
+                  <i class="fa-solid fa-bolt"></i> STARTER PACK
+                </div>
+                <h3 class="pricing-plan-title">Landing Page UMKM</h3>
+                <p class="pricing-plan-summary">
+                  Ideal untuk promosi satu produk, portofolio pribadi, atau profil usaha mikro yang ringkas dan padat.
+                </p>
+
+                <div class="pricing-price-wrap">
+                  <span class="pricing-cur">Rp</span>
+                  <span class="pricing-amount">1.200</span>
+                  <div class="pricing-suffix">
+                    <span class="pricing-k">rb</span>
+                    <span class="pricing-period">/ proyek</span>
+                  </div>
+                </div>
+
+                <div class="pricing-chip starter-chip">
+                  <i class="fa-solid fa-circle-check"></i> Bayar 1x • Tanpa Biaya Bulanan
+                </div>
+              </div>
+
+              <div class="pricing-card-divider"></div>
+
+              <ul class="pricing-feature-list">
+                <li>
+                  <span class="feature-icon-bullet blue"><i class="fa-solid fa-check"></i></span>
+                  <span><strong>1 Halaman</strong> Responsif (One Page)</span>
+                </li>
+                <li>
+                  <span class="feature-icon-bullet blue"><i class="fa-solid fa-check"></i></span>
+                  <span>Desain Modern Glassmorphism</span>
+                </li>
+                <li>
+                  <span class="feature-icon-bullet blue"><i class="fa-solid fa-check"></i></span>
+                  <span>Tombol Chat WhatsApp Terintegrasi</span>
+                </li>
+                <li>
+                  <span class="feature-icon-bullet blue"><i class="fa-solid fa-check"></i></span>
+                  <span><strong>Gratis</strong> Domain .com & Hosting 1 Tahun</span>
+                </li>
+                <li>
+                  <span class="feature-icon-bullet blue"><i class="fa-solid fa-check"></i></span>
+                  <span>Waktu Pengerjaan <strong>3–5 Hari</strong> Kerja</span>
+                </li>
+                <li>
+                  <span class="feature-icon-bullet blue"><i class="fa-solid fa-check"></i></span>
+                  <span>Revisi Hingga Puas (Maks 3x)</span>
+                </li>
+                <li class="feature-item-disabled">
+                  <span class="feature-icon-bullet disabled"><i class="fa-solid fa-minus"></i></span>
+                  <span>Panel Admin / CMS Dinamis</span>
+                </li>
+              </ul>
+
+              <div class="pricing-action-wrap">
+                <a href="#kontak" class="pricing-action-btn btn-starter" onclick="selectPricing('Landing Page UMKM')">
+                  <span>Pilih Paket Ini</span>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Pro Bisnis (Highlighted Card) -->
+          <div class="pricing-card card-featured" data-scroll-item>
+            <div class="pricing-popular-ribbon">
+              <i class="fa-solid fa-fire"></i>
+              <span>PALING POPULER & FAVORIT</span>
+              <i class="fa-solid fa-star"></i>
+            </div>
+
+            <div class="card-inner">
+              <div class="pricing-card-header">
+                <div class="tier-badge-pill popular">
+                  <i class="fa-solid fa-crown"></i> PRO BISNIS
+                </div>
+                <h3 class="pricing-plan-title text-cyan">Company Profile & Toko</h3>
+                <p class="pricing-plan-summary text-slate-300">
+                  Pilihan utama perusahaan, agensi, dan toko online yang ingin tampil kredibel dan memenangkan persaingan.
+                </p>
+
+                <div class="pricing-price-wrap popular">
+                  <span class="pricing-cur text-cyan">Rp</span>
+                  <span class="pricing-amount text-white">2.500</span>
+                  <div class="pricing-suffix">
+                    <span class="pricing-k text-cyan">rb</span>
+                    <span class="pricing-period text-slate-300">/ proyek</span>
+                  </div>
+                </div>
+
+                <div class="pricing-chip popular-chip">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i> Pilihan Terbaik • Kualitas Premium
+                </div>
+              </div>
+
+              <div class="pricing-card-divider popular-divider"></div>
+
+              <ul class="pricing-feature-list">
+                <li>
+                  <span class="feature-icon-bullet cyan"><i class="fa-solid fa-check"></i></span>
+                  <span class="text-white">Hingga <strong>5 Halaman</strong> Lengkap Dinamis</span>
+                </li>
+                <li>
+                  <span class="feature-icon-bullet cyan"><i class="fa-solid fa-check"></i></span>
+                  <span class="text-white">Katalog Produk / Portofolio Interaktif</span>
+                </li>
+                <li>
+                  <span class="feature-icon-bullet cyan"><i class="fa-solid fa-check"></i></span>
+                  <span class="text-white">Integrasi Checkout WA / Formulir Email</span>
+                </li>
+                <li>
+                  <span class="feature-icon-bullet cyan"><i class="fa-solid fa-check"></i></span>
+                  <span class="text-white">SEO On-Page Dasar Google Terindeks</span>
+                </li>
+                <li>
+                  <span class="feature-icon-bullet cyan"><i class="fa-solid fa-check"></i></span>
+                  <span class="text-white"><strong>Gratis</strong> Domain & Cloud Hosting Cepat</span>
+                </li>
+                <li>
+                  <span class="feature-icon-bullet cyan"><i class="fa-solid fa-check"></i></span>
+                  <span class="text-white">Pengerjaan <strong>7–10 Hari</strong> Kerja</span>
+                </li>
+                <li>
+                  <span class="feature-icon-bullet cyan"><i class="fa-solid fa-check"></i></span>
+                  <span class="text-white">Garansi Maintenance & Support Prioritas</span>
+                </li>
+              </ul>
+
+              <div class="pricing-action-wrap">
+                <a href="#kontak" class="pricing-action-btn btn-popular" onclick="selectPricing('Company Profile & Toko')">
+                  <span>Pesan Sekarang</span>
+                  <i class="fa-solid fa-bolt"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Custom Web App (Light Card) -->
+          <div class="pricing-card card-light" data-scroll-item>
+            <div class="card-inner">
+              <div class="pricing-card-header">
+                <div class="tier-badge-pill custom">
+                  <i class="fa-solid fa-cubes"></i> CUSTOM ENTERPRISE
+                </div>
+                <h3 class="pricing-plan-title">Custom Web Application</h3>
+                <p class="pricing-plan-summary">
+                  Solusi aplikasi web berbasis database kompleks: portal sekolah, booking tiket, dashboard manajemen, atau SaaS.
+                </p>
+
+                <div class="pricing-price-wrap">
+                  <span class="pricing-cur text-purple">Rp</span>
+                  <span class="pricing-amount">4.800</span>
+                  <div class="pricing-suffix">
+                    <span class="pricing-k text-purple">rb+</span>
+                    <span class="pricing-period">/ proyek</span>
+                  </div>
+                </div>
+
+                <div class="pricing-chip custom-chip">
+                  <i class="fa-solid fa-code-branch"></i> Skalabel • Full Arsitektur Database
+                </div>
+              </div>
+
+              <div class="pricing-card-divider"></div>
+
+              <ul class="pricing-feature-list">
+                <li>
+                  <span class="feature-icon-bullet purple"><i class="fa-solid fa-check"></i></span>
+                  <span><strong>Halaman Tanpa Batas</strong> (Sesuai Kebutuhan)</span>
+                </li>
+                <li>
+                  <span class="feature-icon-bullet purple"><i class="fa-solid fa-check"></i></span>
+                  <span>Panel Admin Khusus Kelola Konten</span>
+                </li>
+                <li>
+                  <span class="feature-icon-bullet purple"><i class="fa-solid fa-check"></i></span>
+                  <span>Integrasi Database & REST API Modern</span>
+                </li>
+                <li>
+                  <span class="feature-icon-bullet purple"><i class="fa-solid fa-check"></i></span>
+                  <span>Sistem Autentikasi User & Keamanan Berlapis</span>
+                </li>
+                <li>
+                  <span class="feature-icon-bullet purple"><i class="fa-solid fa-check"></i></span>
+                  <span>Pelatihan Penggunaan & Manual Book</span>
+                </li>
+                <li>
+                  <span class="feature-icon-bullet purple"><i class="fa-solid fa-check"></i></span>
+                  <span>Garansi Maintenance <strong>3 Bulan</strong> Penuh</span>
+                </li>
+                <li>
+                  <span class="feature-icon-bullet purple"><i class="fa-solid fa-check"></i></span>
+                  <span>Arsitektur Siap Skala Traffic Tinggi</span>
+                </li>
+              </ul>
+
+              <div class="pricing-action-wrap">
+                <a href="#kontak" class="pricing-action-btn btn-custom" onclick="selectPricing('Custom Web Application')">
+                  <span>Konsultasikan Kebutuhan</span>
+                  <i class="fa-solid fa-comments"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Trust Guarantee Strip -->
+        <div class="pricing-trust-banner light-banner">
+          <div class="trust-item">
+            <div class="trust-icon">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div class="trust-text">
+              <strong>Garansi Kepuasan</strong>
+              <span>Revisi terjadwal sampai Anda puas</span>
+            </div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">
+              <i class="fa-solid fa-server"></i>
+            </div>
+            <div class="trust-text">
+              <strong>Domain & Hosting Resmi</strong>
+              <span>Gratis SSL & Cloud Server 1 Tahun</span>
+            </div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <div class="trust-text">
+              <strong>100% Hak Milik Penuh</strong>
+              <span>Seluruh source code & aset jadi milik Anda</span>
+            </div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">
+              <i class="fa-solid fa-headset"></i>
+            </div>
+            <div class="trust-text">
+              <strong>Konsultasi & Support Cepat</strong>
+              <span>Responsif via WhatsApp & Google Meet</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Direct WhatsApp Callout -->
+        <div class="pricing-custom-note light-note">
+          <p>
+            <i class="fa-brands fa-whatsapp text-green"></i> Butuh spesifikasi kustom atau termin pembayaran fleksibel? 
+            <a href="https://wa.me/6281234567890?text=Halo%20Arjuna%20WebDev,%20saya%20ingin%20konsultasi%20paket%20website" target="_blank" rel="noopener noreferrer">
+              Konsultasi Langsung via WhatsApp <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+          </p>
+        </div>
+
+      </div>
+
+        <!-- Alur Pengerjaan 5 Langkah: Yang Saya Kerjakan -->
+        <div class="workflow-box" data-scroll-item>
+          <div class="text-center">
+            <span class="section-tag-pill">PROSES KERJA TRANSPARAN</span>
+            <h3 class="workflow-heading">Yang Saya <span class="text-gradient-blue">Kerjakan</span></h3>
+            <p class="section-sub-dark">Alur sistematis dari ide awal hingga website mengudara dengan hasil maksimal.</p>
+          </div>
+
+          <div class="workflow-steps-line">
+            
+            <div class="wf-step">
+              <div class="wf-circle">
+                <i class="fa-solid fa-comments"></i>
+                <span class="wf-index">1</span>
+              </div>
+              <h4 class="wf-label">Konsultasi</h4>
+              <p class="wf-text">Membahas tujuan bisnis, target audiens, fitur, dan referensi visual yang diinginkan.</p>
+            </div>
+
+            <div class="wf-connector"></div>
+
+            <div class="wf-step">
+              <div class="wf-circle">
+                <i class="fa-solid fa-pen-ruler"></i>
+                <span class="wf-index">2</span>
+              </div>
+              <h4 class="wf-label">Desain UI/UX</h4>
+              <p class="wf-text">Menyusun konsep tata letak, warna, tipografi, dan mockup visual yang disetujui bersama.</p>
+            </div>
+
+            <div class="wf-connector"></div>
+
+            <div class="wf-step">
+              <div class="wf-circle">
+                <i class="fa-solid fa-code"></i>
+                <span class="wf-index">3</span>
+              </div>
+              <h4 class="wf-label">Koding</h4>
+              <p class="wf-text">Pengembangan website dengan kode rapi, loading cepat, aman, dan responsif di semua gadget.</p>
+            </div>
+
+            <div class="wf-connector"></div>
+
+            <div class="wf-step">
+              <div class="wf-circle">
+                <i class="fa-solid fa-rocket"></i>
+                <span class="wf-index">4</span>
+              </div>
+              <h4 class="wf-label">Penyerahan</h4>
+              <p class="wf-text">Peluncuran resmi ke domain & hosting setelah melalui tahap uji fungsi dan kecepatan.</p>
+            </div>
+
+            <div class="wf-connector"></div>
+
+            <div class="wf-step">
+              <div class="wf-circle">
+                <i class="fa-solid fa-headset"></i>
+                <span class="wf-index">5</span>
+              </div>
+              <h4 class="wf-label">Dukungan</h4>
+              <p class="wf-text">Bimbingan pengelolaan konten serta pemeliharaan berkala agar website selalu prima.</p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ━━━━━━ HALAMAN 4: TENTANG SAYA ━━━━━━ -->
+    <section id="tentang" class="about-showcase-section">
+      <!-- Background ambient lighting and bokeh particles -->
+      <div class="about-ambient-glow-left" aria-hidden="true"></div>
+      <div class="about-ambient-glow-right" aria-hidden="true"></div>
+      <div class="about-particle-orb orb-1" aria-hidden="true"></div>
+      <div class="about-particle-orb orb-2" aria-hidden="true"></div>
+      <div class="about-particle-orb orb-3" aria-hidden="true"></div>
+
+      <div class="container">
+        <div class="about-showcase-grid">
+          
+          <!-- ================= SISI KIRI: AVATAR ARJUNA BESAR + CYBER HUD + EMBLEM 'A' ================= -->
+          <div class="about-showcase-visual" data-scroll-item>
+            <div class="about-visual-stage">
+              <!-- SVG Sirkuit Radar HUD & Stylized 'A' Chevron Wings Membingkai Kepala Arjuna -->
+              <svg
+                class="about-emblem-svg"
+                viewBox="0 0 665 646"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <defs>
+                  <!-- Linear Gradient Sayap Kiri Terang -->
+                  <linearGradient id="aboutWingLeftStatic" x1="15%" y1="0%" x2="85%" y2="100%">
+                    <stop offset="0%" stop-color="#38BDF8" />
+                    <stop offset="40%" stop-color="#00A3FF" />
+                    <stop offset="100%" stop-color="#0055D4" />
+                  </linearGradient>
+
+                  <!-- Linear Gradient Sayap Kanan Shading Gelap -->
+                  <linearGradient id="aboutWingRightStatic" x1="15%" y1="0%" x2="85%" y2="100%">
+                    <stop offset="0%" stop-color="#0066FF" />
+                    <stop offset="45%" stop-color="#0B3EAA" />
+                    <stop offset="100%" stop-color="#051B4D" />
+                  </linearGradient>
+
+                  <!-- Glow Filter -->
+                  <filter id="aboutEmblemGlowStatic" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="16" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+
+                  <!-- Glow Filter Node & Bintang -->
+                  <filter id="aboutNodeGlowStatic" x="-60%" y="-60%" width="220%" height="220%">
+                    <feGaussianBlur stdDeviation="4.5" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+
+                <!-- Lingkaran HUD Konsentris Tipis Presisi (Berpusat di Leher 332, 300) -->
+                <circle cx="332" cy="300" r="245" stroke="#00D2FF" stroke-width="1.2" opacity="0.25" />
+                <circle cx="332" cy="300" r="205" stroke="#FFFFFF" stroke-width="1.2" stroke-dasharray="6 8" opacity="0.3" />
+                <circle cx="332" cy="300" r="165" stroke="#00D2FF" stroke-width="1" opacity="0.32" />
+
+                <!-- Busur Cahaya Atas Kanan Emas & Cyan (Jam 11 - Jam 1) -->
+                <path d="M 395 105 A 255 255 0 0 1 520 175" stroke="#FBBF24" stroke-width="2" stroke-linecap="round" opacity="0.85" />
+                <path d="M 410 98 A 268 268 0 0 1 535 175" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" opacity="0.7" />
+
+                <!-- Titik Cahaya Emas di Kiri Atas (Jam 10:30) -->
+                <circle cx="145" cy="105" r="4.5" fill="#FBBF24" filter="url(#aboutNodeGlowStatic)" />
+
+                <!-- Bintang Sparkle 4 Titik (✦) di Kiri Atas Jam 10 -->
+                <line x1="65" y1="155" x2="165" y2="155" stroke="rgba(0, 210, 255, 0.45)" stroke-width="1" />
+                <line x1="115" y1="105" x2="115" y2="205" stroke="rgba(0, 210, 255, 0.45)" stroke-width="1" />
+                <g transform="translate(115, 155)">
+                  <path
+                    d="M 0 -15 Q 0 0 15 0 Q 0 0 0 15 Q 0 0 -15 0 Q 0 0 0 -15 Z"
+                    fill="#38BDF8"
+                    filter="url(#aboutNodeGlowStatic)"
+                  />
+                </g>
+
+                <!-- Node Titik Cahaya Putih di Jam 3 pada Cincin Luar -->
+                <circle cx="577" cy="300" r="5.5" fill="#FFFFFF" filter="url(#aboutNodeGlowStatic)" />
+                <line x1="577" y1="300" x2="665" y2="300" stroke="#00D2FF" stroke-width="1.5" opacity="0.8" />
+
+                <!-- Lambang Chevron 'A' Dua Sayap (Persis Gambar Referensi User) -->
+                <!-- Sayap Kanan (Nuansa Biru Gelap) -->
+                <path
+                  d="M 332 140 C 389 160, 469 205, 519 280 C 569 355, 584 435, 549 500 C 529 525, 489 520, 459 485 C 429 450, 414 410, 399 350 C 385 295, 365 245, 332 205 Z"
+                  fill="url(#aboutWingRightStatic)"
+                  filter="url(#aboutEmblemGlowStatic)"
+                />
+
+                <!-- Sayap Kiri (Nuansa Cyan-Biru Terang 3D Facet) -->
+                <path
+                  d="M 332 140 C 275 160, 195 205, 145 280 C 95 355, 80 435, 115 500 C 135 525, 175 520, 205 485 C 235 450, 250 410, 265 350 C 279 295, 299 245, 332 205 Z"
+                  fill="url(#aboutWingLeftStatic)"
+                  filter="url(#aboutEmblemGlowStatic)"
+                />
+              </svg>
+
+              <!-- Foto Cutout Arjuna (Bust Besar, Berdiri Tegak, Faded Seamlessly di Bawah) -->
+              <img
+                src="assets/profile_about.png"
+                alt="Arjuna - Web Developer Profesional"
+                class="about-avatar-cutout"
+              >
+            </div>
+          </div>
+
+          <!-- ================= SISI KANAN: KONTEN TEKS & KARTU SKILL ================= -->
+          <div class="about-showcase-content" data-scroll-item>
+            <!-- Kategori Kicker Biru Muda -->
+            <div class="about-cyan-kicker">Tentang</div>
+
+            <!-- Judul Utama ARJUNA WEBDEV -->
+            <h1 class="about-main-title">ARJUNA WEBDEV</h1>
+
+            <!-- Sub-headline Deskriptif Profesional -->
+            <h2 class="about-subtitle-headline">
+              Web Developer yang Membantu Bisnis<br />
+              Tampil Kredibel & Profesional di Dunia Digital
+            </h2>
+
+            <!-- Narasi Cerita Singkat Berorientasi Teknologi Modern -->
+            <p class="about-narrative-desc">
+              Fokus mengembangkan website modern berkinerja tinggi, berkecepatan kilat, dan
+              memiliki estetika visual berkelas dunia. Menguasai arsitektur frontend terkini
+              mulai dari HTML5, CSS3, JavaScript, hingga React dan Next.js untuk menghadirkan
+              pengalaman pengguna interaktif yang memperkuat konversi bisnis Anda.
+            </p>
+
+            <!-- Kartu Skill Utama 1: Bilah Progress Segmented Bersinar -->
+            <div class="skills-main-card">
+              <div class="skills-metrics-row">
+                <div class="skill-metric-item">
+                  <div class="metric-top">
+                    <span class="metric-title">Next.js & React</span>
+                    <span class="metric-percentage">92%</span>
+                  </div>
+                  <span class="metric-subtitle">MODERN FRAMEWORK</span>
+                </div>
+
+                <div class="skill-metric-item">
+                  <div class="metric-top">
+                    <span class="metric-title">JavaScript</span>
+                    <span class="metric-percentage">90%</span>
+                  </div>
+                  <span class="metric-subtitle">CORE & ES6+ LOGIC</span>
+                </div>
+
+                <div class="skill-metric-item">
+                  <div class="metric-top">
+                    <span class="metric-title">HTML & CSS</span>
+                    <span class="metric-percentage">95%</span>
+                  </div>
+                  <span class="metric-subtitle">SEMANTIC & UI LAYOUT</span>
+                </div>
+              </div>
+
+              <!-- Bilah Progress Segmented: Cyan/Blue (68%) + White Segment (16%) + Dark Track (16%) -->
+              <div class="skill-bar-segmented-track">
+                <div class="skill-bar-seg-blue"></div>
+                <div class="skill-bar-seg-white"></div>
+                <div class="skill-bar-seg-empty"></div>
+              </div>
+            </div>
+
+            <!-- Baris Kartu Skill 2: 5 Kartu Badge Modern (HTML, CSS, JS, React, Next.js - Tanpa WordPress) -->
+            <div class="skills-badges-grid">
+              <!-- Badge 1: HTML5 -->
+              <div class="skill-badge-card">
+                <span class="badge-primary-text">HTML5</span>
+                <span class="badge-secondary-text">Semantic 95%</span>
+              </div>
+
+              <!-- Badge 2: CSS3 -->
+              <div class="skill-badge-card">
+                <span class="badge-primary-text">CSS3</span>
+                <span class="badge-secondary-text">Modern UI 92%</span>
+              </div>
+
+              <!-- Badge 3: JavaScript -->
+              <div class="skill-badge-card">
+                <span class="badge-primary-text">JS</span>
+                <span class="badge-secondary-text">ES6+ 90%</span>
+              </div>
+
+              <!-- Badge 4: React -->
+              <div class="skill-badge-card">
+                <span class="badge-primary-text">React</span>
+                <span class="badge-secondary-text">Ecosystem 88%</span>
+              </div>
+
+              <!-- Badge 5: Next.js -->
+              <div class="skill-badge-card">
+                <span class="badge-primary-text">Next.js</span>
+                <span class="badge-secondary-text">App Router 92%</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ━━━━━━ BANNER AJAKAN BERTINDAK (CTA) ━━━━━━ -->
+    <section class="section cta-highlight-section">
+      <div class="container">
+        <div class="cta-banner-curved" data-scroll-item>
+          <div class="cta-inner text-center">
+            <span class="cta-eyebrow">SIAP PUNYA WEBSITE IMPIAN?</span>
+            <h2 class="cta-main-heading">Mari Wujudkan Bersama Sekarang!</h2>
+            <p class="cta-paragraph">
+              Konsultasikan konsep websitemu tanpa biaya. Dapatkan rancangan awal dan penawaran terbaik dalam 24 jam.
+            </p>
+            <div class="cta-action-btns">
+              <a href="#kontak" class="btn btn-blue-pill btn-lg">Mulai Proyek Sekarang</a>
+              <a href="https://wa.me/6281234567890?text=Halo%20Arjuna%20Webdev,%20saya%20tertarik%20konsultasi%20website" target="_blank" rel="noopener" class="btn btn-white-pill btn-lg">
+                <i class="fa-brands fa-whatsapp text-green"></i>
+                <span>Chat via WhatsApp</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ━━━━━━ HALAMAN 5: KONTAK & PESAN ━━━━━━ -->
+    <section id="kontak" class="section contact-section">
+      <div class="container">
+        
+        <div class="section-header text-center" data-scroll-item>
+          <span class="section-tag-pill">KOMUNIKASI LANGSUNG</span>
+          <h2 class="section-heading-dark">Hubungi <span class="text-gradient-blue">Saya</span></h2>
+          <p class="section-sub-dark">
+            Diskusikan kebutuhan proyek Anda, ajukan pertanyaan, atau mulai konsultasi teknis hari ini.
+          </p>
+        </div>
+
+        <div class="contact-dual-grid">
+          
+          <!-- Sisi Kiri: Informasi Kontak & Guarantees -->
+          <div class="contact-info-block" data-scroll-item>
+            <div class="section-tag-pill">HUBUNGI SAYA</div>
+            <h2 class="section-heading-dark">Mari Bicara Tentang <span class="text-gradient-blue">Proyek Websitemu</span></h2>
+            <p class="contact-intro-desc">
+              Punya ide bisnis yang siap diluncurkan atau ingin meremajakan website lama agar terlihat lebih modern, berkelas, dan menghasilkan konversi? Hubungi saya untuk konsultasi gratis tanpa komitmen.
+            </p>
+
+            <div class="contact-cards-stack">
+              <a href="https://wa.me/6281234567890?text=Halo%20Arjuna%20Webdev" target="_blank" rel="noopener" class="contact-link-row">
+                <div class="c-icon-wrap"><i class="fa-brands fa-whatsapp"></i></div>
+                <div class="c-info-text">
+                  <small>WhatsApp Resmi</small>
+                  <strong>+62 812-3456-7890</strong>
+                </div>
+                <div class="c-arrow-badge">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </div>
+              </a>
+
+              <a href="mailto:halo@arjunawebdev.com" class="contact-link-row">
+                <div class="c-icon-wrap"><i class="fa-solid fa-envelope"></i></div>
+                <div class="c-info-text">
+                  <small>Email Bisnis</small>
+                  <strong>halo@arjunawebdev.com</strong>
+                </div>
+                <div class="c-arrow-badge">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </div>
+              </a>
+
+              <div class="contact-link-row static">
+                <div class="c-icon-wrap"><i class="fa-solid fa-location-dot"></i></div>
+                <div class="c-info-text">
+                  <small>Lokasi Studio</small>
+                  <strong>Jakarta / Remote Seluruh Indonesia</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Prinsip Pengerjaan Transparan -->
+            <div class="contact-guarantee-card">
+              <div class="guarantee-item">
+                <i class="fa-solid fa-shield-halved"></i>
+                <div>
+                  <strong>Garansi Kerapian Kode</strong>
+                  <small>Kode bersih, terstruktur rapi, dan responsif di semua perangkat.</small>
+                </div>
+              </div>
+              <div class="guarantee-item">
+                <i class="fa-solid fa-comments"></i>
+                <div>
+                  <strong>Komunikasi Langsung</strong>
+                  <small>Berdiskusi langsung dengan developer yang mengerjakan proyek Anda.</small>
+                </div>
+              </div>
+              <div class="guarantee-item">
+                <i class="fa-solid fa-handshake"></i>
+                <div>
+                  <strong>Transparan di Awal</strong>
+                  <small>Ruang lingkup kerja dan perkiraan biaya disepakati sebelum pengerjaan dimulai.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sisi Kanan: Clean Studio Inquiry Form (Anti-Slop) -->
+          <div class="contact-form-block" data-scroll-item>
+            <form id="contactForm" onsubmit="handleFormSubmit(event)" class="studio-inquiry-card">
+              <input type="hidden" id="serviceType" name="serviceType" value="Website Bisnis">
+              <input type="hidden" id="budgetRange" name="budgetRange" value="Rp 3 - 6 Juta">
+
+              <div class="inquiry-header">
+                <span class="inquiry-badge">FORMULIR KONSULTASI</span>
+                <h3 class="inquiry-title">Rencanakan Proyek Website Anda</h3>
+                <p class="inquiry-desc">
+                  Tentukan jenis website dan anggaran yang Anda rencanakan. Pesan akan disiapkan rapi untuk dibuka di WhatsApp.
+                </p>
+              </div>
+
+              <!-- Pilihan Layanan -->
+              <div class="inquiry-group">
+                <label class="inquiry-group-label">Jenis Website atau Layanan</label>
+                <div class="inquiry-pills-wrap">
+                  <button type="button" class="inquiry-pill selected" onclick="selectServicePill(this, 'Website Bisnis')">Website Bisnis</button>
+                  <button type="button" class="inquiry-pill" onclick="selectServicePill(this, 'Landing Page')">Landing Page</button>
+                  <button type="button" class="inquiry-pill" onclick="selectServicePill(this, 'Toko Online / Katalog')">Toko Online / Katalog</button>
+                  <button type="button" class="inquiry-pill" onclick="selectServicePill(this, 'Sistem / Web App')">Sistem / Web App</button>
+                  <button type="button" class="inquiry-pill" onclick="selectServicePill(this, 'Redesign Website')">Redesign Website</button>
+                  <button type="button" class="inquiry-pill" onclick="selectServicePill(this, 'Kustom Khusus')">Kustom Khusus</button>
+                </div>
+              </div>
+
+              <!-- Pilihan Anggaran -->
+              <div class="inquiry-group">
+                <label class="inquiry-group-label">Perkiraan Anggaran</label>
+                <div class="inquiry-pills-wrap">
+                  <button type="button" class="inquiry-pill" onclick="selectBudgetPill(this, '< Rp 3 Juta')">&lt; Rp 3 Juta</button>
+                  <button type="button" class="inquiry-pill selected" onclick="selectBudgetPill(this, 'Rp 3 - 6 Juta')">Rp 3 - 6 Juta</button>
+                  <button type="button" class="inquiry-pill" onclick="selectBudgetPill(this, 'Rp 6 - 12 Juta')">Rp 6 - 12 Juta</button>
+                  <button type="button" class="inquiry-pill" onclick="selectBudgetPill(this, 'Fleksibel')">Fleksibel</button>
+                </div>
+              </div>
+
+              <!-- Data Klien -->
+              <div class="inquiry-grid-2">
+                <div class="inquiry-field">
+                  <label for="clientName">Nama Lengkap <span class="field-req">*</span></label>
+                  <input type="text" id="clientName" name="clientName" placeholder="Nama Anda atau perusahaan" required>
+                </div>
+                <div class="inquiry-field">
+                  <label for="clientWhatsapp">Nomor WhatsApp <span class="field-req">*</span></label>
+                  <input type="tel" id="clientWhatsapp" name="clientWhatsapp" placeholder="08xxxxxxxxxx" required>
+                </div>
+              </div>
+
+              <!-- Catatan / Kebutuhan -->
+              <div class="inquiry-field">
+                <label for="projectNotes">Kebutuhan atau Tautan Referensi (Opsional)</label>
+                <textarea id="projectNotes" name="projectNotes" rows="3" placeholder="Ceritakan tujuan website, fitur utama yang diinginkan, atau tautan situs referensi..."></textarea>
+              </div>
+
+              <!-- Submit Action & Reassurance -->
+              <div class="inquiry-action-wrap">
+                <button type="submit" id="submitBtn" class="btn-inquiry-primary">
+                  <i class="fa-brands fa-whatsapp"></i>
+                  <span>Mulai Konsultasi via WhatsApp</span>
+                </button>
+                <p class="inquiry-reassurance">
+                  <i class="fa-solid fa-shield-halved"></i> Bebas konsultasi tanpa kewajiban komitmen. Data Anda hanya digunakan untuk komunikasi proyek ini.
+                </p>
+              </div>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      
+      <div class="footer-col-brand">
+        <a href="#beranda" class="site-logo">
+          <img src="assets/logo.png" alt="ARJUNA WEBDEV" class="logo-symbol">
+          <span class="logo-text text-white">ARJUNA <span class="logo-sub">WEBDEV</span></span>
+        </a>
+        <p class="footer-tagline">
+          Jasa Pembuatan Website & Portofolio Web Developer Profesional. Membangun website cepat, responsif, dan berkelas dunia untuk menaikkan level bisnismu.
+        </p>
+      </div>
+
+      <div class="footer-col-nav">
+        <h4 class="footer-title">Navigasi Cepat</h4>
+        <ul>
+          <li><a href="#beranda">Home</a></li>
+          <li><a href="#portofolio">Portofolio Proyek</a></li>
+          <li><a href="#layanan">Paket Layanan</a></li>
+          <li><a href="#tentang">Tentang Saya</a></li>
+          <li><a href="#kontak">Hubungi Kami</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col-nav">
+        <h4 class="footer-title">Kategori Proyek</h4>
+        <ul>
+          <li><a href="#portofolio">Website Toko Online</a></li>
+          <li><a href="#portofolio">Company Profile Bisnis</a></li>
+          <li><a href="#portofolio">Landing Page Startup</a></li>
+          <li><a href="#portofolio">Sistem Dashboard Sekolah</a></li>
+          <li><a href="#portofolio">Website Travel Agent</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col-contact">
+        <h4 class="footer-title">Kontak Pengembang</h4>
+        <p><i class="fa-brands fa-whatsapp text-cyan"></i> +62 812-3456-7890</p>
+        <p><i class="fa-solid fa-envelope text-cyan"></i> kontak@arjunawebdev.com</p>
+        <p><i class="fa-solid fa-location-dot text-cyan"></i> Indonesia</p>
+      </div>
+
+    </div>
+
+    <div class="footer-copyright">
+      <div class="container copyright-flex">
+        <p>© 2026 <strong>ARJUNA WEBDEV</strong> — Semua Hak Dilindungi.</p>
+        <a href="#beranda" class="btn-scroll-top" aria-label="Kembali ke puncak">
+          <i class="fa-solid fa-angle-up"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== MODAL DETAIL PROYEK ==================== -->
+  <div id="projectModal" class="modal-overlay" aria-hidden="true">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeProjectModal()" aria-label="Tutup Detail">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="modal-body">
+        <div class="modal-image-box">
+          <img id="modalImg" src="assets/project_ecommerce.jpg" alt="Preview Proyek">
+        </div>
+
+        <div class="modal-info-box">
+          <div class="modal-meta-top">
+            <span id="modalCategory" class="modal-tag">Toko Online</span>
+            <span id="modalYear" class="modal-year-text">Tahun 2026</span>
+          </div>
+
+          <h3 id="modalTitle" class="modal-heading">Website Toko Online</h3>
+          <p id="modalDesc" class="modal-description">
+            Platform e-commerce dengan sistem manajemen produk, checkout otomatis, dan integrasi kurir nasional.
+          </p>
+
+          <div class="modal-feature-group">
+            <h4>Fitur Unggulan:</h4>
+            <ul id="modalFeatures"></ul>
+          </div>
+
+          <div class="modal-tech-group">
+            <h4>Teknologi:</h4>
+            <div id="modalTech" class="modal-tech-pills"></div>
+          </div>
+
+          <div class="modal-bottom-actions">
+            <a href="#kontak" class="btn btn-blue-pill" onclick="closeProjectModal()">Pesan Website Serupa</a>
+            <button class="btn btn-outline-pill" onclick="closeProjectModal()">Tutup</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== FLOATING WHATSAPP BUTTON ==================== -->
+  <a href="https://wa.me/6281234567890?text=Halo%20Arjuna%20Webdev,%20saya%20tertarik%20konsultasi%20website" target="_blank" rel="noopener" class="floating-whatsapp" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div id="toastNotification" class="toast-box" role="alert" aria-live="polite">
+    <div class="toast-check"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="toast-text-wrap">
+      <strong id="toastTitle">Pesan Berhasil Terkirim!</strong>
+      <p id="toastMessage">Terima kasih telah menghubungi ARJUNA WEBDEV. Kami akan segera membalas!</p>
+    </div>
+  </div>
+
+  <!-- ==================== SCRIPTS ==================== -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

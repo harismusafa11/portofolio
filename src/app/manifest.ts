@@ -1,17 +1,23 @@
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Arjuna Dev — Portfolio & Admin OS",
-    short_name: "Arjuna Admin",
-    description: "Portal Admin & Website Jasa Pembuatan Web & App Arjuna Dev",
-    start_url: "/secure-portal-admin",
+    name: "Arjuna Dev — Jasa Pembuatan Website & Software Studio",
+    short_name: "Arjuna Dev",
+    description:
+      "Jasa Pembuatan Website Profesional & Software Studio oleh Haris Musafa. Melayani Landing Page Ultra-Fast, Toko Online, dan Custom Web App.",
+    start_url: "/",
     display: "standalone",
-    background_color: "#0f131c",
-    theme_color: "#141924",
+    background_color: "#0a0a0a",
+    theme_color: "#0a0a0a",
     icons: [
       {
-        src: "/images/logo.png",
+        src: "/icon.png",
+        sizes: "any",
+        type: "image/png",
+      },
+      {
+        src: "/assets/logo.png",
         sizes: "any",
         type: "image/png",
       },

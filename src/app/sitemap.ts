@@ -1,26 +1,43 @@
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
+import { blogsData } from "@/data/blogs";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://arjunadev.com";
+  const currentDate = new Date().toISOString().split("T")[0];
 
-  const routes = [
-    "",
-    "/services",
-    "/portfolio",
-    "/order",
-    "/project-tracker",
-    "/blog",
-    "/faq",
-    "/about",
-    "/contact",
-    "/terminal",
-    "/settings",
+  const coreRoutes: Array<{
+    path: string;
+    priority: number;
+    changeFrequency:
+      | "always"
+      | "hourly"
+      | "daily"
+      | "weekly"
+      | "monthly"
+      | "yearly"
+      | "never";
+  }> = [
+    { path: "", priority: 1.0, changeFrequency: "weekly" },
+    { path: "/portofolio", priority: 0.9, changeFrequency: "weekly" },
+    { path: "/layanan", priority: 0.9, changeFrequency: "weekly" },
+    { path: "/blog", priority: 0.85, changeFrequency: "weekly" },
+    { path: "/tentang", priority: 0.8, changeFrequency: "monthly" },
+    { path: "/kontak", priority: 0.8, changeFrequency: "monthly" },
   ];
 
-  return routes.map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date().toISOString().split("T")[0],
-    changeFrequency: route === "" || route === "/blog" || route === "/services" || route === "/order" ? "weekly" : "monthly",
-    priority: route === "" ? 1.0 : route === "/services" || route === "/portfolio" || route === "/order" ? 0.9 : 0.8,
+  const blogRoutes = blogsData.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: post.isoDate.split("T")[0],
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
   }));
+
+  const coreUrls = coreRoutes.map((r) => ({
+    url: `${baseUrl}${r.path}`,
+    lastModified: currentDate,
+    changeFrequency: r.changeFrequency,
+    priority: r.priority,
+  }));
+
+  return [...coreUrls, ...blogRoutes];
 }

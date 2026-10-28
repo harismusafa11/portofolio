@@ -1,42 +1,24 @@
 {
-  "name": "portofolio",
-  "version": "0.1.0",
-  "private": true,
+  "name": "arjuna-dev-2.0",
+  "version": "1.0.0",
+  "description": "Website resmi untuk **ARJUNA WEBDEV** yang dibangun dengan gaya **Modern Premium Dark Mode & Glassmorphism**, dilengkapi efek **GSAP ScrollTrigger**, **Parallax Hero**, **Filter Portofolio Interaktif**, **Modal Detail Proyek**, **Counter Statistik**, dan **Formulir Kontak**.",
+  "main": "script.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint",
-    "deploy": "vercel --prod"
+    "start": "next start"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
   "dependencies": {
-    "@neondatabase/serverless": "^1.1.0",
-    "@types/nodemailer": "^8.0.1",
-    "bcryptjs": "^3.0.3",
-    "canvas-confetti": "^1.9.4",
-    "class-variance-authority": "^0.7.1",
-    "drizzle-orm": "^0.45.2",
-    "firebase": "^12.16.0",
-    "framer-motion": "^12.42.2",
-    "jose": "^6.2.4",
-    "lucide-react": "^1.26.0",
-    "next": "16.2.11",
-    "nodemailer": "^9.0.3",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "zustand": "^5.0.14"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/bcryptjs": "^2.4.6",
-    "@types/canvas-confetti": "^1.9.0",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "drizzle-kit": "^0.31.10",
-    "eslint": "^9",
-    "eslint-config-next": "16.2.11",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "@types/node": "^26.6.3",
+    "@types/react": "^19.3.0",
+    "gsap": "^3.15.0",
+    "next": "^16.3.8",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "typescript": "^7.0.2"
   }
 }

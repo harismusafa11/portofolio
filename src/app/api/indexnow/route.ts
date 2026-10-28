@@ -5,16 +5,21 @@ const HOST_DOMAIN = "arjunadev.com";
 
 const DEFAULT_URLS = [
   "https://arjunadev.com",
-  "https://arjunadev.com/services",
-  "https://arjunadev.com/portfolio",
-  "https://arjunadev.com/order",
-  "https://arjunadev.com/project-tracker",
+  "https://arjunadev.com/portofolio",
+  "https://arjunadev.com/layanan",
   "https://arjunadev.com/blog",
-  "https://arjunadev.com/faq",
-  "https://arjunadev.com/about",
-  "https://arjunadev.com/contact",
-  "https://arjunadev.com/terminal",
-  "https://arjunadev.com/settings",
+  "https://arjunadev.com/blog/biaya-pembuatan-website-umkm-2026",
+  "https://arjunadev.com/blog/perbedaan-landing-page-dan-website-perusahaan",
+  "https://arjunadev.com/blog/strategi-seo-lokal-google-maps-bisnis",
+  "https://arjunadev.com/blog/kenapa-kecepatan-website-mempengaruhi-penjualan",
+  "https://arjunadev.com/blog/tips-memilih-jasa-pembuatan-website-terpercaya",
+  "https://arjunadev.com/blog/wordpress-vs-custom-website-nextjs-bisnis",
+  "https://arjunadev.com/blog/cara-membuat-website-toko-online-konversi-tinggi",
+  "https://arjunadev.com/blog/tanda-website-perlu-redesign-update-modern",
+  "https://arjunadev.com/blog/anatomi-landing-page-tingkatkan-chat-whatsapp",
+  "https://arjunadev.com/blog/timeline-dan-tahapan-pembuatan-website-profesional",
+  "https://arjunadev.com/tentang",
+  "https://arjunadev.com/kontak",
 ];
 
 const SEARCH_ENGINE_ENDPOINTS = [
@@ -32,7 +37,7 @@ export async function POST(request: Request) {
         customUrls = body.urls;
       }
     } catch {
-      // If no JSON body, fallback to default URLs
+      // Fallback to default URLs if no JSON body
     }
 
     const urlList = customUrls.length > 0 ? customUrls : DEFAULT_URLS;
@@ -70,7 +75,7 @@ export async function POST(request: Request) {
         return {
           endpoint: SEARCH_ENGINE_ENDPOINTS[index],
           status: 500,
-          statusText: res.reason?.message || "Failed to reach endpoint",
+          statusText: (res as PromiseRejectedResult).reason?.message || "Failed to reach endpoint",
           ok: false,
         };
       }

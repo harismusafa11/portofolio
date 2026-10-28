@@ -1,21 +1,15 @@
 # dependencies
 /node_modules
 /.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+.pnp.js
+.yarn/install-state.gz
 
 # testing
 /coverage
 
-# next.js & cloudflare
+# next.js
 /.next/
 /out/
-/.vercel/
-/.cloudflare/
 
 # production
 /build
@@ -24,38 +18,18 @@
 .DS_Store
 *.pem
 
-# debug & logs
+# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
-*.log
 
-# environment secret files (DO NOT COMMIT)
+# local env files
+.env*.local
 .env
-.env*
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
 
-# AI & metadata caches
-graphify-out/
-.agents/
-.gemini/
-scratch/
+# vercel
+.vercel
 
 # typescript
 *.tsbuildinfo
-# android build outputs
-**/.gradle/
-**/build/
-android-admin-app/build/
-android-admin-app/.gradle/
-android-admin-app/.kotlin/
-android-admin-app/.idea/
-android-admin-app/app/build/
-android-payment-listener/build/
-android-payment-listener/.gradle/
-android-payment-listener/.kotlin/
-android-payment-listener/app/build/
+next-env.d.ts

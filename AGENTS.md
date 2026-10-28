@@ -1,18 +1,9 @@
-<!-- BEGIN:anti-ai-slop-rules -->
-# Strict Project Design & Content Rules (Anti-AI Slop Directive)
+<!-- BEGIN:nextjs-agent-rules -->
 
-## 1. Strictly NO Star Icons, Sparkles, or Star Ratings
-- NEVER use star icons (`<Star />`, `lucide-react/Star`, `★`, `⭐`) or sparkles icons (`<Sparkles />`, `lucide-react/Sparkles`, `✨`, `❇️`) anywhere in testimonials, ratings, reviews, payment methods, or UI components.
-- Satisfaction and quality must be represented strictly through clean numerical metrics (e.g., `100% Delivery Score`, `99.8% Client Retention`, `Lighthouse 100/100`).
+# This is NOT the Next.js you know
 
-## 2. Strictly NO AI Slop Generic Names
-- NEVER use cliché AI placeholder names like "Budi Santoso", "John Doe", "Jane Doe", "Alex Rivera", "Siti Rahma", "Ahmad Hidayat", etc.
-- Use authentic, realistic client handles and verified buyer identifiers (e.g., `Rafi Kurnia`, `Faris Syahputra`, `Devi Megawati`, `Rayhan K.`, `Client #2026-X`).
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
 
-## 3. Strictly NO AI Slop Design Clutter
-- NO glowing neon pill badges on every card.
-- NO arbitrary radial background gradient blobs.
-- NO Lucide icons forced before every line of text.
-- NO card-in-card nested border clutter.
-- Maintain 100% ultra-clean, minimal, human-designed editorial UI.
-<!-- END:anti-ai-slop-rules -->
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
